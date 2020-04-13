@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="YGa-uY-8NV">
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Login View Controller-->
+        <scene sceneID="Ic1-It-4vG">
+            <objects>
+                <viewController storyboardIdentifier="OrderListVC" id="H5x-VE-GbC" customClass="LoginViewController" customModule="FlorentiniSVC" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="I1X-NH-jlF">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bNf-Je-zOH">
+                                <rect key="frame" x="0.0" y="44" width="375" height="100"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="florentiniLogoImage" translatesAutoresizingMaskIntoConstraints="NO" id="Tbc-7O-bwg">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="100" id="ZLt-a0-6cV"/>
+                                        </constraints>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Tbc-7O-bwg" firstAttribute="width" secondItem="bNf-Je-zOH" secondAttribute="width" id="tFR-OB-pb5"/>
+                                </constraints>
+                            </stackView>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ze9-We-rv3">
+                                <rect key="frame" x="25" y="194" width="325" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="qz7-yV-wkC"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" textContentType="email"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1lH-m9-FlH">
+                                <rect key="frame" x="25" y="278" width="325" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="79w-Tq-c88">
+                                <rect key="frame" x="169.66666666666666" y="337" width="36" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="4He-9T-gWg"/>
+                                </constraints>
+                                <state key="normal" title="enter"/>
+                                <connections>
+                                    <action selector="loginTapped:" destination="H5x-VE-GbC" eventType="touchUpInside" id="b7B-vG-sIK"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="1lH-m9-FlH" firstAttribute="height" secondItem="ze9-We-rv3" secondAttribute="height" id="1Qg-Vj-cws"/>
+                            <constraint firstItem="ze9-We-rv3" firstAttribute="leading" secondItem="2YG-Yp-ZUc" secondAttribute="leading" constant="25" id="3vc-2z-Z72"/>
+                            <constraint firstItem="79w-Tq-c88" firstAttribute="top" secondItem="1lH-m9-FlH" secondAttribute="bottom" constant="25" id="8AW-OO-ltK"/>
+                            <constraint firstItem="bNf-Je-zOH" firstAttribute="top" secondItem="2YG-Yp-ZUc" secondAttribute="top" id="C9l-RW-4XJ"/>
+                            <constraint firstItem="1lH-m9-FlH" firstAttribute="leading" secondItem="2YG-Yp-ZUc" secondAttribute="leading" constant="25" id="DNt-xr-C5j"/>
+                            <constraint firstItem="2YG-Yp-ZUc" firstAttribute="trailing" secondItem="1lH-m9-FlH" secondAttribute="trailing" constant="25" id="Vzm-RH-L8O"/>
+                            <constraint firstItem="bNf-Je-zOH" firstAttribute="trailing" secondItem="2YG-Yp-ZUc" secondAttribute="trailing" id="biA-sX-P38"/>
+                            <constraint firstItem="79w-Tq-c88" firstAttribute="centerX" secondItem="2YG-Yp-ZUc" secondAttribute="centerX" id="fGM-fr-cLb"/>
+                            <constraint firstItem="1lH-m9-FlH" firstAttribute="top" secondItem="ze9-We-rv3" secondAttribute="bottom" constant="50" id="fcX-FG-O8T"/>
+                            <constraint firstItem="bNf-Je-zOH" firstAttribute="leading" secondItem="2YG-Yp-ZUc" secondAttribute="leading" id="go1-mU-ZW6"/>
+                            <constraint firstItem="2YG-Yp-ZUc" firstAttribute="trailing" secondItem="ze9-We-rv3" secondAttribute="trailing" constant="25" id="oMF-Ig-S1y"/>
+                            <constraint firstItem="ze9-We-rv3" firstAttribute="top" secondItem="bNf-Je-zOH" secondAttribute="bottom" constant="50" id="yk1-CM-6DA"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="2YG-Yp-ZUc"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="dqI-Em-Lba"/>
+                    <connections>
+                        <outlet property="loginTextField" destination="ze9-We-rv3" id="6kT-fz-As9"/>
+                        <outlet property="passwordTextField" destination="1lH-m9-FlH" id="C89-Zu-dJE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="v0G-Pe-ZXZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3976.8000000000002" y="1260.5911330049262"/>
+        </scene>
+        <!--OrderList-->
+        <scene sceneID="dkv-Aw-mgg">
+            <objects>
+                <viewControllerPlaceholder storyboardName="OrderList" id="Izu-Gk-daD" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="qgd-Pm-w7n"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2BQ-A0-Uxn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4515.1999999999998" y="1260.5911330049262"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="8CE-y2-DAq">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="YGa-uY-8NV" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="p4B-Dx-HWu">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="H5x-VE-GbC" kind="relationship" relationship="rootViewController" id="sZJ-n5-8V8"/>
+                        <segue destination="Izu-Gk-daD" kind="show" identifier="login_OrderList" id="gzA-14-5ha"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="n45-7m-3pL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3034.4000000000001" y="1260.5911330049262"/>
+        </scene>
+    </scenes>
+    <color key="tintColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+    <resources>
+        <image name="florentiniLogoImage" width="1280" height="714"/>
+    </resources>
+</document>
