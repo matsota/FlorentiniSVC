@@ -50,16 +50,41 @@
                                             <constraint firstItem="Um7-f0-a2O" firstAttribute="width" secondItem="88a-VN-m7U" secondAttribute="width" multiplier="0.8" id="nBX-cQ-byh"/>
                                         </constraints>
                                     </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Catalog" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H23-Ih-Mj7">
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LpX-36-0MD">
                                         <rect key="frame" x="0.0" y="100" width="347" height="30"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8u0-lB-wgq">
+                                                <rect key="frame" x="0.0" y="0.0" width="69.333333333333329" height="30"/>
+                                                <color key="tintColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <state key="normal" title="+ " image="hryvniasign.circle.fill" catalog="system">
+                                                    <color key="titleColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                </state>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Catalog" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H23-Ih-Mj7">
+                                                <rect key="frame" x="69.333333333333329" y="0.0" width="208.33333333333337" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="5Rn-GG-lF9"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                                <color key="textColor" red="0.81185215710000003" green="0.71545660499999997" blue="0.82354193929999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lce-gd-QxU">
+                                                <rect key="frame" x="277.66666666666669" y="0.0" width="69.333333333333314" height="30"/>
+                                                <color key="tintColor" red="0.81185215710000003" green="0.71545660499999997" blue="0.82354193929999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <state key="normal" title="-" image="hryvniasign.circle" catalog="system">
+                                                    <color key="titleColor" red="0.81185215710000003" green="0.71545660499999997" blue="0.82354193929999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                </state>
+                                            </button>
+                                        </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="5Rn-GG-lF9"/>
+                                            <constraint firstItem="Lce-gd-QxU" firstAttribute="width" secondItem="8u0-lB-wgq" secondAttribute="width" id="jtP-NS-pQU"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                        <color key="textColor" red="0.81185215710000003" green="0.71545660499999997" blue="0.82354193929999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    </stackView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="H23-Ih-Mj7" firstAttribute="width" secondItem="pJ1-dH-0da" secondAttribute="width" multiplier="0.6" id="266-ZJ-PEc"/>
+                                </constraints>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsMultipleSelection="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="d3o-eX-kPe">
                                 <rect key="frame" x="14" y="188" width="347" height="498"/>
@@ -302,7 +327,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rHX-Pi-0NJ">
-                                <rect key="frame" x="0.0" y="44" width="243.66666666666666" height="734"/>
+                                <rect key="frame" x="-375" y="44" width="243.66666666666666" height="734"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="rYM-MT-gvC">
                                         <rect key="frame" x="14" y="44" width="219.33333333333334" height="46"/>
@@ -513,7 +538,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sRA-ff-ill">
-                                <rect key="frame" x="243.66666666666663" y="44" width="131.33333333333337" height="734"/>
+                                <rect key="frame" x="-131.33333333333334" y="44" width="506.33333333333337" height="734"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <action selector="transitionDismissTapped:" destination="ilt-bP-f8l" eventType="touchUpInside" id="ymQ-uR-W0y"/>
@@ -528,13 +553,13 @@
                             <constraint firstItem="7Vu-bp-Ho6" firstAttribute="trailing" secondItem="sRA-ff-ill" secondAttribute="trailing" id="Jz5-zl-4PP"/>
                             <constraint firstItem="pJ1-dH-0da" firstAttribute="leading" secondItem="7Vu-bp-Ho6" secondAttribute="leading" constant="14" id="MIl-gA-eRV"/>
                             <constraint firstItem="rHX-Pi-0NJ" firstAttribute="top" secondItem="7Vu-bp-Ho6" secondAttribute="top" id="NpL-XM-EmM"/>
-                            <constraint firstItem="rHX-Pi-0NJ" firstAttribute="leading" secondItem="7Vu-bp-Ho6" secondAttribute="leading" id="OCu-kH-GD6"/>
+                            <constraint firstItem="rHX-Pi-0NJ" firstAttribute="leading" secondItem="7Vu-bp-Ho6" secondAttribute="leading" constant="-375" id="OCu-kH-GD6"/>
                             <constraint firstItem="d3o-eX-kPe" firstAttribute="leading" secondItem="7Vu-bp-Ho6" secondAttribute="leading" constant="14" id="R0i-e6-deq"/>
                             <constraint firstItem="sRA-ff-ill" firstAttribute="width" relation="greaterThanOrEqual" secondItem="Ect-nP-SxW" secondAttribute="width" multiplier="0.35" id="Wj7-ra-LNB"/>
                             <constraint firstItem="sRA-ff-ill" firstAttribute="bottom" secondItem="7Vu-bp-Ho6" secondAttribute="bottom" id="dEI-0d-cn0"/>
                             <constraint firstItem="N3W-nh-r2U" firstAttribute="top" secondItem="d3o-eX-kPe" secondAttribute="bottom" constant="14" id="eGb-3M-Gqc"/>
                             <constraint firstItem="7Vu-bp-Ho6" firstAttribute="trailing" secondItem="d3o-eX-kPe" secondAttribute="trailing" constant="14" id="gUc-yQ-y7z"/>
-                            <constraint firstItem="pJ1-dH-0da" firstAttribute="trailing" secondItem="7Vu-bp-Ho6" secondAttribute="trailing" constant="-14" id="h9M-sT-OSf"/>
+                            <constraint firstItem="7Vu-bp-Ho6" firstAttribute="trailing" secondItem="pJ1-dH-0da" secondAttribute="trailing" constant="14" id="h9M-sT-OSf"/>
                             <constraint firstItem="7Vu-bp-Ho6" firstAttribute="trailing" secondItem="N3W-nh-r2U" secondAttribute="trailing" id="m2C-vU-JRE"/>
                             <constraint firstItem="d3o-eX-kPe" firstAttribute="top" secondItem="pJ1-dH-0da" secondAttribute="bottom" constant="14" id="oAp-Yl-gN8"/>
                             <constraint firstItem="N3W-nh-r2U" firstAttribute="bottom" secondItem="7Vu-bp-Ho6" secondAttribute="bottom" constant="-14" id="oeo-Av-ZVO"/>
@@ -643,6 +668,8 @@
         <image name="clear" catalog="system" width="128" height="114"/>
         <image name="florentiniLogoImage" width="1280" height="714"/>
         <image name="house" catalog="system" width="128" height="110"/>
+        <image name="hryvniasign.circle" catalog="system" width="128" height="121"/>
+        <image name="hryvniasign.circle.fill" catalog="system" width="128" height="121"/>
         <image name="line.horizontal.3" catalog="system" width="128" height="64"/>
         <image name="message" catalog="system" width="128" height="113"/>
         <image name="person" catalog="system" width="128" height="117"/>
