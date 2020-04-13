@@ -22,7 +22,7 @@ class StoreStaticticViewController: UIViewController {
     
     //MARK: - Transition menu tapped
     @IBAction func transitionMenuTapped(_ sender: UIButton) {
-        slideMethod(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
     }
     
     //MARK: - Transition confirm
@@ -37,7 +37,7 @@ class StoreStaticticViewController: UIViewController {
     
     //MARK: - Transition dismiss
     @IBAction func transitionDismiss(_ sender: UIButton) {
-        slideMethod(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
     }
     
     //MARK: - Quantity of receipt for regular customer. Default = 5
@@ -194,8 +194,8 @@ private extension StoreStaticticViewController {
     
     //MARK: Для ViewDidLoad
     func forViewDidLoad() {
-        transitionViewLeftConstraint.constant = -transitionView.bounds.width
-        
+//        transitionViewLeftConstraint.constant = -UIScreen.main.bounds.width * 0.65
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
         NetworkManager.shared.fetchArchivedOrders(success: { (receipts, additions, deletedData)  in
             //Total Amount
             self.forStatsByTotalAmount(additions: additions)

@@ -29,9 +29,9 @@ class OrderListViewController: UIViewController {
         }
     }
     
-    //MARK: - Transition menu mapped
+    //MARK: - Transition menu tapped
     @IBAction private func transitionMenuTapped(_ sender: UIButton) {
-        slideMethod(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
     }
     
     //MARK: - Transition confirm
@@ -45,8 +45,8 @@ class OrderListViewController: UIViewController {
     }
     
     //MARK: - Transition dismiss
-    @IBAction private func transitionDismissTapped(_ sender: UIButton) {
-        slideMethod(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+    @IBAction private func transitionDismiss(_ sender: UIButton) {
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
     }
     
     //MARK: - Private Implementation
@@ -85,6 +85,7 @@ private extension OrderListViewController {
     //MARK: for ViewDidLoad
     func forViewDidLoad() {
         transitionViewLeftConstraint.constant = -transitionView.bounds.width
+//        slideMethod(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
         
         NetworkManager.shared.downloadMainOrderInfo(success: { (orders) in
             self.order = orders

@@ -9,20 +9,19 @@
 import UIKit
 import UserNotifications
 
-//MARK: Подготовка для подписки
 class Notifications {
     
     static let shared = Notifications()
     
     
-    //MARK: - Запрос на уведомления
-    static func permition() {
+    //MARK: - Permition request
+    static func permitionRequest() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
             print("granted: ", granted)
         }
     }
     
-    //MARK: - Получение новый сообщений
+    //MARK: - New message
     func newMessage(messageFrom: String, messageBody: String, messageSender: String) {
         
         let content = UNMutableNotificationContent(),

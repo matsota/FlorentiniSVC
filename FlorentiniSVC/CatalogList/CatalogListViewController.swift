@@ -23,7 +23,7 @@ class CatalogListViewController: UIViewController {
     
     //MARK: - Transition menu tapped
     @IBAction private func transitionMenuTapped(_ sender: UIButton) {
-        slideMethod(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
     }
     
     //MARK: - Transition confirm
@@ -39,7 +39,7 @@ class CatalogListViewController: UIViewController {
     
     //MARK: - Transition dismiss
     @IBAction private func transitionDismissTapped(_ sender: UIButton) {
-        slideMethod(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
     }
     
     
@@ -90,7 +90,9 @@ private extension CatalogListViewController {
     
     //MARK: for  ViewDidLoad
     func forViewDidLoad() {
-        transitionViewLeftConstraint.constant = -transitionView.frame.width
+//        transitionViewLeftConstraint.constant = -UIScreen.main.bounds.width * 0.65
+        
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
         
         NetworkManager.shared.downloadProducts(success: { productInfo in
             self.productInfo = productInfo

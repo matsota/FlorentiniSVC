@@ -29,7 +29,7 @@ class ChatViewController: UIViewController {
     
     //MARK: - Transition Menu Tapped
     @IBAction private func workerMenuTapped(_ sender: UIButton) {
-        slideMethod(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
     }
     
     //MARK: - Transition confirm
@@ -44,7 +44,7 @@ class ChatViewController: UIViewController {
     
     //MARK: - Transition dismiss
     @IBAction private func transitionDismissTapped(_ sender: UIButton) {
-        slideMethod(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
     }
     
     //MARK: - Private Implementation
@@ -83,8 +83,8 @@ private extension ChatViewController {
     
     //MARK: Для ViewDidLoad
     func forViewDidLoad() {
-        
-        transitionViewLeftConstraint.constant = -transitionView.bounds.width
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+//        transitionViewLeftConstraint.constant = -UIScreen.main.bounds.width * 0.65
         
         NetworkManager.shared.downloadEmployeeInfo(success: { workerInfo in
             self.currentWorkerInfo = workerInfo

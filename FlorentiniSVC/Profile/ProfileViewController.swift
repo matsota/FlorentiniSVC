@@ -23,7 +23,7 @@ class ProfileViewController: UIViewController {
     
     //MARK: - Transition menu tapped
     @IBAction private func transitionMenuTapped(_ sender: UIButton) {
-        slideMethod(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
     }
     
     //MARK: - Transition confirm
@@ -39,7 +39,7 @@ class ProfileViewController: UIViewController {
     
     //MARK: - Transition dismiss
     @IBAction private func transitionMenuDismiss(_ sender: UIButton) {
-        slideMethod(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
     }
     
     //MARK: - New password tapped
@@ -95,7 +95,9 @@ private extension ProfileViewController {
     
     //MARK: Для ViewDidLoad
     func forViewDidLoad() {
-        transitionViewLeftConstraint.constant = -transitionView.bounds.width
+        transitionViewLeftConstraint.constant = -UIScreen.main.bounds.width * 0.65
+        
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
         
         NetworkManager.shared.downloadEmployeeInfo(success: { workerInfo in
             self.currentWorkerInfo = workerInfo

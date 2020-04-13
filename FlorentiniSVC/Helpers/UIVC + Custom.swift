@@ -28,7 +28,7 @@ extension UIViewController {
 extension UIViewController {
     
     //MARK: Hide and Show Transition Menu
-    func slideMethod(for view: UIView, constraint distance: NSLayoutConstraint, dismissBy button: UIButton) {
+    func slideInTransitionMenu(for view: UIView, constraint distance: NSLayoutConstraint, dismissBy button: UIButton) {
         let viewWidth = -view.bounds.width
         button.isUserInteractionEnabled = !button.isUserInteractionEnabled
         
@@ -118,23 +118,23 @@ extension UIViewController {
         switch cases {
         case .homeScreen:
             transitionToHomeStoryboard() {
-                self.slideMethod(for: view, constraint: constraint, dismissBy: button)
+                self.slideInTransitionMenu(for: view, constraint: constraint, dismissBy: button)
             }
         case .catalogScreen:
             transitionToCatalogStoryboard() {
-                self.slideMethod(for: view, constraint: constraint, dismissBy: button)
+                self.slideInTransitionMenu(for: view, constraint: constraint, dismissBy: button)
             }
         case .profile:
             transitionToProfileStoryboard() {
-                self.slideMethod(for: view, constraint: constraint, dismissBy: button)
+                self.slideInTransitionMenu(for: view, constraint: constraint, dismissBy: button)
             }
         case .faqScreen:
             transitionToFAQStoryboard() {
-                self.slideMethod(for: view, constraint: constraint, dismissBy: button)
+                self.slideInTransitionMenu(for: view, constraint: constraint, dismissBy: button)
             }
         case .exit:
             transitionToExit() {
-                self.slideMethod(for: view, constraint: constraint, dismissBy: button)
+                self.slideInTransitionMenu(for: view, constraint: constraint, dismissBy: button)
             }
         }
     }

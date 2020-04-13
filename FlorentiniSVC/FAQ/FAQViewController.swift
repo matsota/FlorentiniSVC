@@ -15,14 +15,14 @@ class FAQViewController: UIViewController {
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        transitionViewLeftConstraint.constant = -transitionView.bounds.width
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+//        transitionViewLeftConstraint.constant = -UIScreen.main.bounds.width * 0.65
         
     }
     
     //MARK: - Transition menu tapped
     @IBAction private func workerMenuTapped(_ sender: UIButton) {
-        slideMethod(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
     }
     
     //MARK: - Transition confirm
@@ -38,7 +38,7 @@ class FAQViewController: UIViewController {
     
     //MARK: Transition dismiss
     @IBAction private func transitionDismissTapped(_ sender: UIButton) {
-        slideMethod(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
     }
     
     
