@@ -31,6 +31,18 @@ extension UIAlertController {
     ///
     //MARK: - Crud
     ///
+    
+    //MARK: - Sign in
+    static func saveSignIn(success: @escaping() -> Void, failure: @escaping() -> Void) -> (UIAlertController) {
+        let alertSignOut = UIAlertController(title: "Внимание", message: "Желаете ли вы сохранить вход в приложение?", preferredStyle: .actionSheet)
+        alertSignOut.addAction(UIAlertAction(title: "Сохранить", style: .default, handler: { _ in
+            success()
+        }))
+        alertSignOut.addAction(UIAlertAction(title: "Не сохранять", style: .default, handler: { _ in
+            failure()
+        }))
+        return (alertSignOut)
+    }
     //MARK: - Send Message Method in Chat of WorkSpace
     static func sendToChat(name: String) -> (UIAlertController) {
         
