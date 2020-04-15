@@ -18,7 +18,7 @@ class PersistenceService {
     }
     
     static var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "FlorentiniModel")
+        let container = NSPersistentContainer(name: "FlorentiniSVC")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo). IN: static var persistentContainer")
@@ -37,6 +37,24 @@ class PersistenceService {
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo). IN: static func saveContext")
             }
+        }
+    }
+    
+    //MARK: - Delete data by entity
+    func deleteEntity(entity: String, success: @escaping() -> Void) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+        fetchRequest.returnsObjectsAsFaults = false
+        
+        do {
+            let results = try PersistenceService.context.fetch(fetchRequest)
+            for managedObject in results {
+                let managedObjectData:NSManagedObject = managedObject as! NSManagedObject
+                PersistenceService.context.delete(managedObjectData)
+                PersistenceService.saveContext()
+            }
+            success()
+        }catch let error as NSError{
+            print("Detele all data in \(entity) error : \(error) \(error.userInfo)")
         }
     }
 }

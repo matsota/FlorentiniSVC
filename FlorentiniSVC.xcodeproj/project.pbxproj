@@ -218,6 +218,7 @@
 		8FC00BAE244328A400C80B45 /* FlorentiniSVC */ = {
 			isa = PBXGroup;
 			children = (
+				8FC11D1F24477C2D00607347 /* CoreData Models */,
 				8FC00BAF244328A400C80B45 /* AppDelegate.swift */,
 				8FC00BB1244328A400C80B45 /* SceneDelegate.swift */,
 				8F98FA3624434213003C8759 /* Notifications.swift */,
@@ -264,6 +265,13 @@
 				8F98FA3E244343C9003C8759 /* NavigationCases.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		8FC11D1F24477C2D00607347 /* CoreData Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "CoreData Models";
 			sourceTree = "<group>";
 		};
 		8FD887ED244752F400A1EF37 /* Transition */ = {
