@@ -43,7 +43,7 @@ class CatalogListViewController: UIViewController {
     }
     
     //MARK: - Minus or Plus to price, depends on category
-    @IBAction func plusPriceToCategory(_ sender: UIButton) {
+    @IBAction func editPricesByCategoryTapped(_ sender: UIButton) {
         guard let title = sender.currentTitle,
             let cases = NavigationCases.MinusPlus(rawValue: title) else {return}
         
@@ -95,6 +95,7 @@ class CatalogListViewController: UIViewController {
     
     //MARK: Button
     @IBOutlet private var allFilterButtonsCollection: [DesignButton]!
+    @IBOutlet private var editPricesByCategoryButton: [UIButton]!
     @IBOutlet private weak var filterButton: DesignButton!
     @IBOutlet private weak var transitionDismissButton: UIButton!
     
@@ -126,6 +127,11 @@ private extension CatalogListViewController {
         
         NetworkManager.shared.fetchEmployeeData(success: { (data) in
             self.employeePosition = data.map({$0.position}).first
+            if self.employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
+                self.editPricesByCategoryButton.forEach { (button) in
+                    button.alpha = 1
+                }
+            }
         }) { error in
             print(error.localizedDescription)
         }

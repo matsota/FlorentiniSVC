@@ -15,6 +15,7 @@ class OrderListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         forViewDidLoad()
+        print(AuthenticationManager.shared.currentUser?.uid as Any)
     }
     
     //MARK: - Prepare for Order Detail
@@ -29,6 +30,7 @@ class OrderListViewController: UIViewController {
     //MARK: - Transition menu tapped
     @IBAction private func transitionMenuTapped(_ sender: UIButton) {
         slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        
     }
     
     //MARK: - Transition confirm
@@ -48,6 +50,7 @@ class OrderListViewController: UIViewController {
     
     //MARK: - Private Implementation
     private var order = [DatabaseManager.Order]()
+    private var employeeData = [DatabaseManager.EmployeeData]()
     private var orderCount = Int()
     
     //MARK: TableView
@@ -87,6 +90,7 @@ private extension OrderListViewController {
             self.orderCount = orders.count
             self.ordersCountLabel.text = "Orders: \(self.orderCount)"
             self.tableView.reloadData()
+            
         }) { error in
             self.present(UIAlertController.classic(title: "Attention", message: error.localizedDescription), animated: true)
         }
@@ -95,6 +99,15 @@ private extension OrderListViewController {
             self.order.insert(newOrder, at: 0)
             self.orderCount += 1
             self.viewDidLoad()
+        }
+        
+        NetworkManager.shared.fetchEmployeeData(success: { (data) in
+            let name = data.map({$0.name})
+            print(name)
+            let position = data.map({$0.position})
+            print(position)
+        }) { error in
+            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание!", message: "Перезагрузите приложение. Критическая ошибка Аунтификации"), animated: true)
         }
     }
     

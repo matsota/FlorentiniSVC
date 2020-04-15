@@ -54,7 +54,7 @@ class ProfileViewController: UIViewController {
     }
     
     //MARK: - Private Implementation
-    private var currentWorkerInfo = [DatabaseManager.EmployeeInfo]()
+    private var currentEmployeeInfo = [DatabaseManager.EmployeeData]()
     
     //MARK: View
     @IBOutlet private weak var passwordView: UIView!
@@ -95,13 +95,13 @@ private extension ProfileViewController {
     
     //MARK: Для ViewDidLoad
     func forViewDidLoad() {
-        NetworkManager.shared.fetchEmployeeData(success: { workerInfo in
-            self.currentWorkerInfo = workerInfo
-            self.currentWorkerInfo.forEach { (workerInfo) in
-                self.nameLabel.text = workerInfo.name
-                self.positionLabel.text = workerInfo.position
+        NetworkManager.shared.fetchEmployeeData(success: { employeeInfo in
+            self.currentEmployeeInfo = employeeInfo
+            self.currentEmployeeInfo.forEach { (employeeInfo) in
+                self.nameLabel.text = employeeInfo.name
+                self.positionLabel.text = employeeInfo.position
                 
-                if workerInfo.position == NavigationCases.EmployeeCases.admin.rawValue && AuthenticationManager.shared.uidAdmin == AuthenticationManager.shared.currentUser?.uid{
+                if employeeInfo.position == NavigationCases.EmployeeCases.admin.rawValue && AuthenticationManager.shared.uidAdmin == AuthenticationManager.shared.currentUser?.uid{
                     self.newProductButton.isHidden = false
                     self.statisticsButton.isHidden = false
                 }

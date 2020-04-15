@@ -14,11 +14,14 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print(AuthenticationManager.shared.currentUser?.uid as Any)
     }
-
+    
     @IBAction private func loginTapped(_ sender: UIButton) {
-        signIn(success: {
+        let email = loginTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        AuthenticationManager.shared.signIn(email: email, password: password, success: { _ in
             let orderListStoryboard = UIStoryboard(name: "OrderList", bundle: Bundle.main)
             guard let destinationVC = orderListStoryboard.instantiateViewController(withIdentifier: NavigationCases.IDVC.OrderListVC.rawValue) as? OrderListViewController else {
                 self.present(UIAlertController.completionDoneTwoSec(title: "Attention", message: "Navigation error"), animated: true)
@@ -28,12 +31,26 @@ class LoginViewController: UIViewController {
         }) { (error) in
             self.present(UIAlertController.classic(title: "Attention", message: error.localizedDescription), animated: true)
         }
+        
+        
+        
+        
+        //        signIn(success: {
+        //            let orderListStoryboard = UIStoryboard(name: "OrderList", bundle: Bundle.main)
+        //            guard let destinationVC = orderListStoryboard.instantiateViewController(withIdentifier: NavigationCases.IDVC.OrderListVC.rawValue) as? OrderListViewController else {
+        //                self.present(UIAlertController.completionDoneTwoSec(title: "Attention", message: "Navigation error"), animated: true)
+        //                return}
+        //
+        //            self.navigationController?.pushViewController(destinationVC, animated: true)
+        //        }) { (error) in
+        //            self.present(UIAlertController.classic(title: "Attention", message: error.localizedDescription), animated: true)
+        //        }
     }
     
     //MARK: - Implementation
     @IBOutlet private weak var loginTextField: UITextField!
     @IBOutlet private weak var passwordTextField: UITextField!
-       
+    
 }
 
 
@@ -55,7 +72,7 @@ private extension LoginViewController {
         let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         
         
-        AuthenticationManager.shared.signIn(email: email, password: password, success: {
+        AuthenticationManager.shared.signIn(email: email, password: password, success: { _ in 
             success()
         }) { error in
             failure(error)

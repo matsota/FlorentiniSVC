@@ -48,7 +48,7 @@ class ChatViewController: UIViewController {
     }
     
     //MARK: - Private Implementation
-    private var currentWorkerInfo = [DatabaseManager.EmployeeInfo]()
+    private var currentWorkerInfo = [DatabaseManager.EmployeeData]()
     private var messagesArray = [DatabaseManager.ChatMessages]()
     
     private var name = String()

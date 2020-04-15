@@ -53,8 +53,8 @@ extension UIViewController {
             let storyboard = UIStoryboard(name: "OrderList", bundle: Bundle.main)
             guard let destination = storyboard.instantiateViewController(withIdentifier: NavigationCases.IDVC.OrderListVC.rawValue) as? OrderListViewController else {
                 self.present(UIAlertController.completionDoneTwoSec(title: "Attention", message: "Navigation error"), animated: true)
-                return}
-            
+                return
+            }
             self.navigationController?.pushViewController(destination, animated: true)
         }
         success()
@@ -66,8 +66,8 @@ extension UIViewController {
             let storyboard = UIStoryboard(name: "CatalogList", bundle: Bundle.main)
             guard let destination = storyboard.instantiateViewController(withIdentifier: NavigationCases.IDVC.CatalogListVC.rawValue) as? CatalogListViewController else {
                 self.present(UIAlertController.completionDoneTwoSec(title: "Attention", message: "Navigation error"), animated: true)
-                return}
-            
+                return
+            }
             self.navigationController?.pushViewController(destination, animated: true)
         }
         success()
@@ -79,8 +79,8 @@ extension UIViewController {
             let storyboard = UIStoryboard(name: "Profile", bundle: Bundle.main)
             guard let destination = storyboard.instantiateViewController(withIdentifier: NavigationCases.IDVC.ProfileVC.rawValue) as? ProfileViewController else {
                 self.present(UIAlertController.completionDoneTwoSec(title: "Attention", message: "Navigation error"), animated: true)
-                return}
-            
+                return
+            }
             self.navigationController?.pushViewController(destination, animated: true)
         }
         success()
@@ -92,19 +92,23 @@ extension UIViewController {
             let storyboard = UIStoryboard(name: "FAQ", bundle: Bundle.main)
             guard let destination = storyboard.instantiateViewController(withIdentifier: NavigationCases.IDVC.FAQVC.rawValue) as? FAQViewController else {
                 self.present(UIAlertController.completionDoneTwoSec(title: "Attention", message: "Navigation error"), animated: true)
-                return}
-            
+                return
+            }
             self.navigationController?.pushViewController(destination, animated: true)
         }
         success()
     }
     
     //MARK: Exit
-    func transitionToExit(success: @escaping() -> Void) {
+    func transitionToExit() {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-            UIApplication.shared.open(URL(string: "https://florentini.space")! as URL, options: [:], completionHandler: nil)
+            let storyboard = UIStoryboard(name: "Login", bundle: Bundle.main)
+            guard let destination = storyboard.instantiateViewController(withIdentifier: NavigationCases.IDVC.LoginVC.rawValue) as? LoginViewController else {
+                self.present(UIAlertController.completionDoneTwoSec(title: "Attention", message: "Navigation error"), animated: true)
+                return
+            }
+            self.navigationController?.pushViewController(destination, animated: true)
         }
-        success()
     }
     
     
@@ -133,9 +137,17 @@ extension UIViewController {
                 self.slideInTransitionMenu(for: view, constraint: constraint, dismissBy: button)
             }
         case .exit:
-            transitionToExit() {
-                self.slideInTransitionMenu(for: view, constraint: constraint, dismissBy: button)
-            }
+            self.present(UIAlertController.signOut {
+                AuthenticationManager.shared.signOut(success: {
+                    self.slideInTransitionMenu(for: view, constraint: constraint, dismissBy: button)
+                    self.present(UIAlertController.completionDoneHalfSec(title: "Удачи!", message: "Выход выполнен"), animated: true)
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+                        self.transitionToExit()
+                    }
+                }) { (error) in
+                    self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка в процессе выхода из профиля"), animated: true)
+                }
+            }, animated: true)
         }
     }
     

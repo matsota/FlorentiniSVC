@@ -7,10 +7,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Transition Menu View Controller-->
         <scene sceneID="r7J-CD-vtJ">
             <objects>
-                <viewController id="jn5-cG-A5B" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TransitionMenuVC" id="jn5-cG-A5B" customClass="TransitionMenuViewController" customModule="FlorentiniSVC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Hot-VR-xB3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -38,6 +38,9 @@
                                                         <state key="normal" title="Главная">
                                                             <color key="titleColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="transitionConfrim:" destination="jn5-cG-A5B" eventType="touchUpInside" id="Gth-b0-Wws"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <constraints>
@@ -70,6 +73,9 @@
                                                         <state key="normal" title="Каталог">
                                                             <color key="titleColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="transitionConfrim:" destination="jn5-cG-A5B" eventType="touchUpInside" id="zoE-6O-e5h"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -99,6 +105,9 @@
                                                         <state key="normal" title="Профиль">
                                                             <color key="titleColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="transitionConfrim:" destination="jn5-cG-A5B" eventType="touchUpInside" id="Leg-7Z-CdY"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -128,6 +137,9 @@
                                                         <state key="normal" title="FAQ">
                                                             <color key="titleColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="transitionConfrim:" destination="jn5-cG-A5B" eventType="touchUpInside" id="tWO-qA-X0E"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -157,6 +169,9 @@
                                                         <state key="normal" title="Exit">
                                                             <color key="titleColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="transitionConfrim:" destination="jn5-cG-A5B" eventType="touchUpInside" id="mIm-kZ-L7D"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -230,57 +245,69 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3xP-o6-G7s" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="934.78260869565224" y="-52.232142857142854"/>
+            <point key="canvasLocation" x="1842" y="-52"/>
         </scene>
         <!--OrderList-->
         <scene sceneID="ydu-xD-6NZ">
             <objects>
-                <viewControllerPlaceholder storyboardName="OrderList" id="MFg-e6-yC7" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="OrderList" id="MFg-e6-yC7" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="fMM-7I-J3U"/>
+                </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ldf-PS-LBP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1505.7971014492755" y="-167.41071428571428"/>
+            <point key="canvasLocation" x="2371" y="-94"/>
         </scene>
         <!--CatalogList-->
         <scene sceneID="2kd-fT-beh">
             <objects>
-                <viewControllerPlaceholder storyboardName="CatalogList" id="Eor-pZ-tJC" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="CatalogList" id="Eor-pZ-tJC" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="gXU-S6-VZC"/>
+                </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NNm-Qd-qJq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1515.9420289855075" y="-139.28571428571428"/>
+            <point key="canvasLocation" x="2381" y="-66"/>
         </scene>
         <!--FAQ-->
         <scene sceneID="P3P-Wh-22q">
             <objects>
-                <viewControllerPlaceholder storyboardName="FAQ" id="8RX-tb-arZ" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="FAQ" id="8RX-tb-arZ" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="bR3-Ql-JUk"/>
+                </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9RA-SB-Vgi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1481.8840579710145" y="-84.375"/>
+            <point key="canvasLocation" x="2347" y="-11"/>
         </scene>
         <!--Profile-->
         <scene sceneID="9Lq-vf-Jdt">
             <objects>
-                <viewControllerPlaceholder storyboardName="Profile" id="1Bp-kK-WRy" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Profile" id="1Bp-kK-WRy" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="LlJ-Uh-eMc"/>
+                </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Fl-17-d3F" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1492.753623188406" y="-115.17857142857142"/>
+            <point key="canvasLocation" x="2358" y="-42"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="GZc-Bt-mNv">
+        <scene sceneID="LKR-21-4h0">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="sfx-BV-bjX" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="GgJ-Mv-Va8" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="B2g-kK-s90">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="cQn-Hi-uY4">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="jn5-cG-A5B" kind="relationship" relationship="rootViewController" id="7qa-m4-rWF"/>
+                        <segue destination="jn5-cG-A5B" kind="relationship" relationship="rootViewController" id="U51-f4-EWu"/>
+                        <segue destination="MFg-e6-yC7" kind="show" id="f3S-B2-8KR"/>
+                        <segue destination="Eor-pZ-tJC" kind="show" id="OBD-fT-phy"/>
+                        <segue destination="1Bp-kK-WRy" kind="show" id="GHE-wT-wZd"/>
+                        <segue destination="8RX-tb-arZ" kind="show" id="4qw-7s-mjx"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="FBp-jQ-F0G" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="w12-gm-ejT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="24.637681159420293" y="-52.232142857142854"/>
+            <point key="canvasLocation" x="1064" y="-52"/>
         </scene>
     </scenes>
     <resources>

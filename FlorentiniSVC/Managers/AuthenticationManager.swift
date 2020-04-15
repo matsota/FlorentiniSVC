@@ -17,25 +17,26 @@ struct AuthenticationManager {
     uidAdmin = "Q0Lh49RsIrMU8itoNgNJHN3bjmD2"
     
     //MARK: - SignIn
-    func signIn(email: String, password: String, success: @escaping() -> Void, failure: @escaping(Error) -> Void) {
+    func signIn(email: String, password: String, success: @escaping(AuthDataResult) -> Void, failure: @escaping(Error) -> Void) {
         
         Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
             if error != nil {
                 failure(error!)
             }
             else{
-                success()
+                guard let result = result else {return}
+                success(result)
             }
         }
     }
 
-    //MARK: - Метод SignOut
-    func signOut() {
-        try? Auth.auth().signOut()
+    //MARK: - SignOut
+    func signOut(success: @escaping() -> Void, failure: @escaping(Error) -> Void) {
          do {
-         try Auth.auth().signOut()
-         }catch {
-            print(Error.self)
+            try Auth.auth().signOut()
+            success()
+         }catch{
+            failure(error)
         }
     }
     

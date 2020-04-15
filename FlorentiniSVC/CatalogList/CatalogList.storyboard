@@ -53,14 +53,14 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LpX-36-0MD">
                                         <rect key="frame" x="0.0" y="100" width="347" height="30"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8u0-lB-wgq">
+                                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8u0-lB-wgq">
                                                 <rect key="frame" x="0.0" y="0.0" width="69.333333333333329" height="30"/>
                                                 <color key="tintColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <state key="normal" title="+" image="hryvniasign.circle.fill" catalog="system">
                                                     <color key="titleColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="plusPriceToCategory:" destination="ilt-bP-f8l" eventType="touchUpInside" id="x5u-fp-vRb"/>
+                                                    <action selector="editPricesByCategoryTapped:" destination="ilt-bP-f8l" eventType="touchUpInside" id="x5u-fp-vRb"/>
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Catalog" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H23-Ih-Mj7">
@@ -72,14 +72,14 @@
                                                 <color key="textColor" red="0.81185215710000003" green="0.71545660499999997" blue="0.82354193929999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lce-gd-QxU">
+                                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lce-gd-QxU">
                                                 <rect key="frame" x="277.66666666666669" y="0.0" width="69.333333333333314" height="30"/>
                                                 <color key="tintColor" red="0.81185215710000003" green="0.71545660499999997" blue="0.82354193929999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <state key="normal" title="-" image="hryvniasign.circle" catalog="system">
                                                     <color key="titleColor" red="0.81185215710000003" green="0.71545660499999997" blue="0.82354193929999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="plusPriceToCategory:" destination="ilt-bP-f8l" eventType="touchUpInside" id="hvf-rl-68e"/>
+                                                    <action selector="editPricesByCategoryTapped:" destination="ilt-bP-f8l" eventType="touchUpInside" id="hvf-rl-68e"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -127,7 +127,7 @@
                                                                 <action selector="priceTapped:" destination="AOL-V6-38Y" eventType="touchUpInside" id="wU7-EO-gKe"/>
                                                             </connections>
                                                         </button>
-                                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="VYo-SF-nsH">
+                                                        <switch hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="VYo-SF-nsH">
                                                             <rect key="frame" x="270" y="14" width="51" height="31"/>
                                                             <connections>
                                                                 <action selector="stockCondition:" destination="AOL-V6-38Y" eventType="valueChanged" id="mQd-1N-LMw"/>
@@ -333,7 +333,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rHX-Pi-0NJ">
-                                <rect key="frame" x="-243.66666666666666" y="44" width="243.66666666666666" height="734"/>
+                                <rect key="frame" x="-243.66666666666669" y="44" width="243.66666666666666" height="734"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="rYM-MT-gvC">
                                         <rect key="frame" x="14" y="44" width="219.33333333333334" height="46"/>
@@ -589,6 +589,8 @@
                         <outletCollection property="allFilterButtonsCollection" destination="om9-Oa-SS2" collectionClass="NSMutableArray" id="Rv5-kM-aPZ"/>
                         <outletCollection property="allFilterButtonsCollection" destination="43H-yS-y7I" collectionClass="NSMutableArray" id="Xjh-gL-9KE"/>
                         <outletCollection property="allFilterButtonsCollection" destination="25S-M2-e91" collectionClass="NSMutableArray" id="YUh-5K-3LH"/>
+                        <outletCollection property="editPricesByCategoryButton" destination="8u0-lB-wgq" collectionClass="NSMutableArray" id="T5j-wM-OIq"/>
+                        <outletCollection property="editPricesByCategoryButton" destination="Lce-gd-QxU" collectionClass="NSMutableArray" id="xuS-di-Pk1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vsG-RJ-RJx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

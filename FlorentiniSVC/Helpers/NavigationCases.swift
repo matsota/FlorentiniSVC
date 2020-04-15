@@ -17,12 +17,12 @@ class NavigationCases {
         
         // - VC
         case LoginVC
+        case TransitionMenuVC
         case OrderListVC
         case CatalogListVC
         case ProfileVC
         case FAQVC
         case ChatVC
-        case ProductCustomizeVC
         
         // - Cells
         case OrdersListTVCell

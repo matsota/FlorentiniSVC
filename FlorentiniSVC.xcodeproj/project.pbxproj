@@ -47,7 +47,8 @@
 		8FC00BBF244328A700C80B45 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FC00BBD244328A700C80B45 /* LaunchScreen.storyboard */; };
 		8FC00BC924432C6600C80B45 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8FC00BC824432C6600C80B45 /* GoogleService-Info.plist */; };
 		8FC00BD3244332A200C80B45 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC00BD2244332A200C80B45 /* AuthenticationManager.swift */; };
-		8FD887EC24462D8700A1EF37 /* transitionMenu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FD887EB24462D8700A1EF37 /* transitionMenu.storyboard */; };
+		8FD887EC24462D8700A1EF37 /* TransitionMenu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FD887EB24462D8700A1EF37 /* TransitionMenu.storyboard */; };
+		8FD887EF2447539200A1EF37 /* TransitionMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD887EE2447539200A1EF37 /* TransitionMenuViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -94,7 +95,8 @@
 		8FC00BC0244328A700C80B45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8FC00BC824432C6600C80B45 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8FC00BD2244332A200C80B45 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
-		8FD887EB24462D8700A1EF37 /* transitionMenu.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = transitionMenu.storyboard; sourceTree = "<group>"; };
+		8FD887EB24462D8700A1EF37 /* TransitionMenu.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TransitionMenu.storyboard; sourceTree = "<group>"; };
+		8FD887EE2447539200A1EF37 /* TransitionMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionMenuViewController.swift; sourceTree = "<group>"; };
 		9C305ACAD9134474147066F2 /* Pods-FlorentiniSVC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlorentiniSVC.release.xcconfig"; path = "Target Support Files/Pods-FlorentiniSVC/Pods-FlorentiniSVC.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -223,6 +225,7 @@
 				8FC00BCF244330AD00C80B45 /* Helpers */,
 				8FC00BCE244330A300C80B45 /* Managers */,
 				8F98FA2124434119003C8759 /* Login */,
+				8FD887ED244752F400A1EF37 /* Transition */,
 				8F98FA2224434130003C8759 /* OrderList */,
 				8F98FA2324434158003C8759 /* OrdersDetailList */,
 				8F98FA2424434168003C8759 /* CatalogList */,
@@ -259,9 +262,17 @@
 				8F98FA382443421B003C8759 /* IBDesignable + Buttons.swift */,
 				8F98FA2E244341FB003C8759 /* String + Custom.swift */,
 				8F98FA3E244343C9003C8759 /* NavigationCases.swift */,
-				8FD887EB24462D8700A1EF37 /* transitionMenu.storyboard */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		8FD887ED244752F400A1EF37 /* Transition */ = {
+			isa = PBXGroup;
+			children = (
+				8FD887EB24462D8700A1EF37 /* TransitionMenu.storyboard */,
+				8FD887EE2447539200A1EF37 /* TransitionMenuViewController.swift */,
+			);
+			path = Transition;
 			sourceTree = "<group>";
 		};
 		95EF32C5042D9E40938B4E30 /* Frameworks */ = {
@@ -351,7 +362,7 @@
 				8F98FA502443485B003C8759 /* Login.storyboard in Resources */,
 				8F98FA542443487E003C8759 /* OrderDetailList.storyboard in Resources */,
 				8FC00BBC244328A700C80B45 /* Assets.xcassets in Resources */,
-				8FD887EC24462D8700A1EF37 /* transitionMenu.storyboard in Resources */,
+				8FD887EC24462D8700A1EF37 /* TransitionMenu.storyboard in Resources */,
 				8F98FA432443449E003C8759 /* Chat.storyboard in Resources */,
 				8F98FA5A244348A8003C8759 /* FAQ.storyboard in Resources */,
 			);
@@ -418,6 +429,7 @@
 				8F368ABB2443514100BF9EBF /* CatalogListViewController.swift in Sources */,
 				8F98FA332443420C003C8759 /* PersistenceService.swift in Sources */,
 				8F368AC02443515300BF9EBF /* StoreStaticticViewController.swift in Sources */,
+				8FD887EF2447539200A1EF37 /* TransitionMenuViewController.swift in Sources */,
 				8F98FA2B244341DE003C8759 /* ChatViewController.swift in Sources */,
 				8F368ABD2443514800BF9EBF /* ProfileViewController.swift in Sources */,
 				8F98FA2D244341F7003C8759 /* UIAlertController + Custom.swift in Sources */,
