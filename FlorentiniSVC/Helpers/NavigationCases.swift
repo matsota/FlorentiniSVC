@@ -35,7 +35,7 @@ class NavigationCases {
     }
     
     //MARK: - For Employee
-    enum WorkerInfoCases: String, CaseIterable {
+    enum EmployeeCases: String, CaseIterable {
         
         case name
         case position
@@ -61,7 +61,7 @@ class NavigationCases {
         case timeStamp
         case workers
         case workersMessages
-        case review
+//        case review
         
     }
     
@@ -110,8 +110,10 @@ class NavigationCases {
         
     }
     
-    //MARK: - Про заказ
-    enum UsersInfoCases: String, CaseIterable {
+    //MARK: - About Order
+    enum OrderCases: String, CaseIterable {
+        case order
+        case orderDescription
         
         case totalPrice
         case name
@@ -122,13 +124,6 @@ class NavigationCases {
         case timeStamp
         case currentDeviceID
         case deliveryPerson
-        
-        case cart
-        case order
-        case orderDescription
-        
-        case PreOrderEntity
-        case OrderDetailPathEntity
         
     }
     
@@ -151,6 +146,12 @@ class NavigationCases {
         case five = 5
         case three = 3
         
+    }
+    
+    //MARK: - For price increase/decrease
+    enum MinusPlus : String, CaseIterable {
+        case minus = "-"
+        case plus = "+"
     }
     
     //MARK: - Про Категории

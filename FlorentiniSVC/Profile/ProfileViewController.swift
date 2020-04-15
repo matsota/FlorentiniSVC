@@ -95,17 +95,13 @@ private extension ProfileViewController {
     
     //MARK: Для ViewDidLoad
     func forViewDidLoad() {
-        transitionViewLeftConstraint.constant = -UIScreen.main.bounds.width * 0.65
-        
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
-        
-        NetworkManager.shared.downloadEmployeeInfo(success: { workerInfo in
+        NetworkManager.shared.fetchEmployeeData(success: { workerInfo in
             self.currentWorkerInfo = workerInfo
             self.currentWorkerInfo.forEach { (workerInfo) in
                 self.nameLabel.text = workerInfo.name
                 self.positionLabel.text = workerInfo.position
                 
-                if workerInfo.position == NavigationCases.WorkerInfoCases.admin.rawValue && AuthenticationManager.shared.uidAdmin == AuthenticationManager.shared.currentUser?.uid{
+                if workerInfo.position == NavigationCases.EmployeeCases.admin.rawValue && AuthenticationManager.shared.uidAdmin == AuthenticationManager.shared.currentUser?.uid{
                     self.newProductButton.isHidden = false
                     self.statisticsButton.isHidden = false
                 }

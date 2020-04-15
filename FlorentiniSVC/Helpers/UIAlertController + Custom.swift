@@ -132,7 +132,7 @@ extension UIAlertController {
     }
     
     //MARK: - Price editor
-    static func setNumber(_ message: String, success: @escaping(Int) -> Void) -> (UIAlertController) {
+    static func setNumber(present message: String, success: @escaping(Int) -> Void) -> (UIAlertController) {
         let alert = UIAlertController(title: "Внимание", message: message, preferredStyle: .alert)
             
         alert.addTextField { (text:UITextField) in
@@ -209,7 +209,7 @@ extension UIAlertController {
     static func orderDelete(totalPrice: Int64, name: String, adress: String, cellphone: String, feedbackOption: String, mark: String, timeStamp: Date, id: String, deliveryPerson: String, success: @escaping() -> Void) -> (UIAlertController) {
         let alert = UIAlertController(title: "Внимание", message: "Подтвердите, что Вы желаете удалить заказ", preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Подтвердить", style: .default, handler: { _ in
-            NetworkManager.shared.deleteNotForArchive(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, orderKey: id, deliveryPerson: deliveryPerson)
+            NetworkManager.shared.deleteOrder(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, orderKey: id, deliveryPerson: deliveryPerson)
             success()
         }))
         alert.addAction(UIAlertAction(title: "Отмена", style: .destructive, handler: nil))

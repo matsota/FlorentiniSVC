@@ -15,8 +15,6 @@ class FAQViewController: UIViewController {
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
-//        transitionViewLeftConstraint.constant = -UIScreen.main.bounds.width * 0.65
         
     }
     

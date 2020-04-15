@@ -12,12 +12,9 @@ import UIKit
 class OrderListViewController: UIViewController {
     
     //MARK: - Override
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         forViewDidLoad()
-        
     }
     
     //MARK: - Prepare for Order Detail
@@ -84,10 +81,8 @@ private extension OrderListViewController {
     
     //MARK: for ViewDidLoad
     func forViewDidLoad() {
-        transitionViewLeftConstraint.constant = -transitionView.bounds.width
-//        slideMethod(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
-        
-        NetworkManager.shared.downloadMainOrderInfo(success: { (orders) in
+    
+        NetworkManager.shared.fetchOrders(success: { (orders) in
             self.order = orders
             self.orderCount = orders.count
             self.ordersCountLabel.text = "Orders: \(self.orderCount)"

@@ -234,7 +234,7 @@
                                 <viewLayoutGuide key="frameLayoutGuide" id="mtg-sc-65i"/>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pBh-KO-lg3">
-                                <rect key="frame" x="0.0" y="44" width="243.66666666666666" height="734"/>
+                                <rect key="frame" x="-243.66666666666666" y="44" width="243.66666666666666" height="734"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Ica-Nv-cVr">
                                         <rect key="frame" x="14" y="44" width="219.33333333333334" height="46"/>
@@ -445,7 +445,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ze-mF-HgI">
-                                <rect key="frame" x="243.66666666666663" y="44" width="131.33333333333337" height="734"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="734"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <action selector="transitionMenuDismiss:" destination="k99-WO-kUx" eventType="touchUpInside" id="KhC-hI-fBm"/>
@@ -456,7 +456,7 @@
                         <constraints>
                             <constraint firstItem="zFF-Lw-q8a" firstAttribute="trailing" secondItem="4ze-mF-HgI" secondAttribute="trailing" id="0yO-lA-iFS"/>
                             <constraint firstItem="zFF-Lw-q8a" firstAttribute="trailing" secondItem="CKH-Xd-PWp" secondAttribute="trailing" constant="14" id="7EJ-0T-Qkk"/>
-                            <constraint firstItem="pBh-KO-lg3" firstAttribute="leading" secondItem="zFF-Lw-q8a" secondAttribute="leading" id="A48-71-Rhd"/>
+                            <constraint firstItem="pBh-KO-lg3" firstAttribute="trailing" secondItem="zFF-Lw-q8a" secondAttribute="leading" id="A48-71-Rhd"/>
                             <constraint firstItem="4ze-mF-HgI" firstAttribute="leading" secondItem="pBh-KO-lg3" secondAttribute="trailing" id="HBf-tD-jQQ"/>
                             <constraint firstItem="CKH-Xd-PWp" firstAttribute="top" secondItem="3cc-G8-gHw" secondAttribute="bottom" constant="14" id="IKx-fR-sgj"/>
                             <constraint firstItem="4ze-mF-HgI" firstAttribute="width" relation="greaterThanOrEqual" secondItem="yhq-Sn-cuP" secondAttribute="width" multiplier="0.35" id="NOa-v0-whc"/>

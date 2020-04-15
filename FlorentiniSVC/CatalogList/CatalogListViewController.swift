@@ -18,7 +18,7 @@ class CatalogListViewController: UIViewController {
         super.viewDidLoad()
         
         forViewDidLoad()
-        
+        print(selectedCategory)
     }
     
     //MARK: - Transition menu tapped
@@ -40,6 +40,33 @@ class CatalogListViewController: UIViewController {
     //MARK: - Transition dismiss
     @IBAction private func transitionDismissTapped(_ sender: UIButton) {
         slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+    }
+    
+    //MARK: - Minus or Plus to price, depends on category
+    @IBAction func plusPriceToCategory(_ sender: UIButton) {
+        guard let title = sender.currentTitle,
+            let cases = NavigationCases.MinusPlus(rawValue: title) else {return}
+        
+        switch cases {
+            
+        case .minus:
+            self.present(UIAlertController.setNumber(present: "Введите сумму, которую вы хотите ОТНЯТЬ от всех товаров в данной категории", success: { (x) in
+                NetworkManager.shared.increaseDecreasePrice(for: self.selectedCategory, by: -x, success: {
+                    self.present(UIAlertController.completionDoneHalfSec(title: "Готово!", message: "Стоимости изменены"), animated: true)
+                }) { (error) in
+                    self.present(UIAlertController.completionDoneTwoSec(title: "ERROR", message: error.localizedDescription), animated: true)
+                }
+            }), animated: true)
+        case .plus:
+            self.present(UIAlertController.setNumber(present: "Введите сумму, которую вы хотите ДОБАВИТЬ ко всем товарам в данной категории", success: { (x) in
+                NetworkManager.shared.increaseDecreasePrice(for: self.selectedCategory, by: x, success: {
+                    self.present(UIAlertController.completionDoneHalfSec(title: "Готово!", message: "Стоимости изменены"), animated: true)
+                }) { (error) in
+                    self.present(UIAlertController.completionDoneTwoSec(title: "ERROR", message: error.localizedDescription), animated: true)
+                }
+            }), animated: true)
+        }
+        
     }
     
     
@@ -90,10 +117,6 @@ private extension CatalogListViewController {
     
     //MARK: for  ViewDidLoad
     func forViewDidLoad() {
-//        transitionViewLeftConstraint.constant = -UIScreen.main.bounds.width * 0.65
-        
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
-        
         NetworkManager.shared.downloadProducts(success: { productInfo in
             self.productInfo = productInfo
             self.tableView.reloadData()
@@ -101,7 +124,7 @@ private extension CatalogListViewController {
             print(error.localizedDescription)
         }
         
-        NetworkManager.shared.downloadEmployeeInfo(success: { (data) in
+        NetworkManager.shared.fetchEmployeeData(success: { (data) in
             self.employeePosition = data.map({$0.position}).first
         }) { error in
             print(error.localizedDescription)
@@ -154,7 +177,7 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         guard let position = self.employeePosition else {return nil}
-        if position == "admin" {
+        if position == NavigationCases.EmployeeCases.admin.rawValue {
             let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.IDVC.CatalogListTVCell.rawValue, for: indexPath) as! CatalogListTableViewCell
             guard let name = cell.productNameLabel.text else {return nil}
             let delete = deleteAction(name: name, at: indexPath)

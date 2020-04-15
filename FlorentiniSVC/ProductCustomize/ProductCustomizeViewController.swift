@@ -134,7 +134,6 @@ private extension ProductCustomizeViewController {
     
     //MARK: Для ViewDidLoad
     func forViewDidLoad() {
-        transitionViewLeftConstraint.constant = -transitionView.bounds.width
         imageActivityIndicator.isHidden = true
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -261,7 +260,7 @@ private extension ProductCustomizeViewController {
         self.present(UIAlertController.uploadImageURL { url in
             self.imageActivityIndicator.isHidden = false
             self.imageActivityIndicator.startAnimating()
-            NetworkManager.shared.downLoadImageByURL(url: url) { image in
+            NetworkManager.shared.downloadImageByURL(url: url) { image in
                 self.addedPhotoImageView.image = image
                 self.imageActivityIndicator.isHidden = true
                 self.imageActivityIndicator.stopAnimating()
@@ -290,7 +289,7 @@ private extension ProductCustomizeViewController {
         }else if image == nil{
             self.present(UIAlertController.classic(title: "Эттеншн", message: "Вы забыли фотографию"), animated: true)
         }else{
-            NetworkManager.shared.productCreation(image: image!, name: name!, price: price!, description: description!, category: category, stock: stock, progressIndicator: progressView)
+            NetworkManager.shared.setupProduct(image: image!, name: name!, price: price!, description: description!, category: category, stock: stock, progressIndicator: progressView)
         }
     }
     

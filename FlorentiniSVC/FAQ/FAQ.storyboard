@@ -62,7 +62,7 @@
                                 </subviews>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fYy-ms-ED3">
-                                <rect key="frame" x="0.0" y="44" width="243.66666666666666" height="734"/>
+                                <rect key="frame" x="-243.66666666666666" y="44" width="243.66666666666666" height="734"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="jLe-Mb-pIe">
                                         <rect key="frame" x="14" y="44" width="219.33333333333334" height="46"/>
@@ -273,7 +273,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PUY-cM-Zz3">
-                                <rect key="frame" x="243.66666666666663" y="44" width="131.33333333333337" height="734"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="734"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <action selector="transitionDismissTapped:" destination="RTm-Hr-bGD" eventType="touchUpInside" id="uWN-Ba-gwm"/>
@@ -285,7 +285,7 @@
                             <constraint firstItem="PUY-cM-Zz3" firstAttribute="leading" secondItem="fYy-ms-ED3" secondAttribute="trailing" id="6NX-C8-SZm"/>
                             <constraint firstItem="fYy-ms-ED3" firstAttribute="width" secondItem="OY9-vm-dro" secondAttribute="width" multiplier="0.65" id="G4i-tT-cqP"/>
                             <constraint firstItem="PUY-cM-Zz3" firstAttribute="top" secondItem="lph-Og-Mm7" secondAttribute="top" id="HJz-YJ-OZK"/>
-                            <constraint firstItem="fYy-ms-ED3" firstAttribute="leading" secondItem="lph-Og-Mm7" secondAttribute="leading" id="K2b-uh-KHq"/>
+                            <constraint firstItem="fYy-ms-ED3" firstAttribute="trailing" secondItem="lph-Og-Mm7" secondAttribute="leading" id="K2b-uh-KHq"/>
                             <constraint firstItem="PUY-cM-Zz3" firstAttribute="width" relation="greaterThanOrEqual" secondItem="OY9-vm-dro" secondAttribute="width" multiplier="0.35" id="X6K-KE-mnU"/>
                             <constraint firstItem="6Y0-6f-yJC" firstAttribute="trailing" secondItem="lph-Og-Mm7" secondAttribute="trailing" constant="-14" id="Z8o-sj-8OE"/>
                             <constraint firstItem="6Y0-6f-yJC" firstAttribute="top" secondItem="lph-Og-Mm7" secondAttribute="top" id="bUW-Hp-DeL"/>

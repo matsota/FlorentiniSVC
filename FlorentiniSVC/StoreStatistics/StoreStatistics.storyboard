@@ -762,7 +762,7 @@
                                 <viewLayoutGuide key="frameLayoutGuide" id="Hu2-tg-GdM"/>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gIF-iJ-KGk">
-                                <rect key="frame" x="0.0" y="88" width="243.66666666666666" height="690"/>
+                                <rect key="frame" x="-243.66666666666666" y="88" width="243.66666666666666" height="690"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="zai-lx-Hde">
                                         <rect key="frame" x="14" y="44" width="219.33333333333334" height="46"/>
@@ -973,7 +973,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zVV-wg-TU7">
-                                <rect key="frame" x="243.66666666666666" y="88" width="131.33333333333337" height="690"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="690"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <action selector="transitionDismiss:" destination="VzD-Fn-UXu" eventType="touchUpInside" id="jzm-G0-IYj"/>
@@ -986,7 +986,7 @@
                             <constraint firstItem="npj-4W-wee" firstAttribute="trailing" secondItem="zVV-wg-TU7" secondAttribute="trailing" id="5UC-fL-vql"/>
                             <constraint firstItem="gIF-iJ-KGk" firstAttribute="bottom" secondItem="npj-4W-wee" secondAttribute="bottom" id="9t8-qk-iHD"/>
                             <constraint firstItem="FuD-Gg-FKd" firstAttribute="trailing" secondItem="npj-4W-wee" secondAttribute="trailing" id="9tk-bO-LUP"/>
-                            <constraint firstItem="gIF-iJ-KGk" firstAttribute="leading" secondItem="npj-4W-wee" secondAttribute="leading" id="AWU-Ro-tsd"/>
+                            <constraint firstItem="gIF-iJ-KGk" firstAttribute="trailing" secondItem="npj-4W-wee" secondAttribute="leading" id="AWU-Ro-tsd"/>
                             <constraint firstItem="kj2-3X-9O5" firstAttribute="top" secondItem="FuD-Gg-FKd" secondAttribute="bottom" constant="14" id="CuX-vo-LBQ"/>
                             <constraint firstItem="gIF-iJ-KGk" firstAttribute="top" secondItem="npj-4W-wee" secondAttribute="top" id="DdF-uw-Smp"/>
                             <constraint firstItem="npj-4W-wee" firstAttribute="leading" secondItem="FuD-Gg-FKd" secondAttribute="leading" id="FrC-0f-8TN"/>

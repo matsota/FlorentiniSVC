@@ -21,8 +21,8 @@ class DatabaseManager {
         
         var dictionary: [String:Any]{
             return [
-                NavigationCases.WorkerInfoCases.name.rawValue: name,
-                NavigationCases.WorkerInfoCases.position.rawValue: position
+                NavigationCases.EmployeeCases.name.rawValue: name,
+                NavigationCases.EmployeeCases.position.rawValue: position
             ]
         }
     }
@@ -77,15 +77,15 @@ class DatabaseManager {
         
         var dictionary: [String:Any]{
             return [
-                NavigationCases.UsersInfoCases.totalPrice.rawValue: totalPrice,
-                NavigationCases.UsersInfoCases.name.rawValue: name,
-                NavigationCases.UsersInfoCases.adress.rawValue: adress,
-                NavigationCases.UsersInfoCases.cellphone.rawValue: cellphone,
-                NavigationCases.UsersInfoCases.feedbackOption.rawValue: feedbackOption,
-                NavigationCases.UsersInfoCases.mark.rawValue: mark,
-                NavigationCases.UsersInfoCases.timeStamp.rawValue: timeStamp,
-                NavigationCases.UsersInfoCases.currentDeviceID.rawValue: currentDeviceID,
-                NavigationCases.UsersInfoCases.deliveryPerson.rawValue: deliveryPerson
+                NavigationCases.OrderCases.totalPrice.rawValue: totalPrice,
+                NavigationCases.OrderCases.name.rawValue: name,
+                NavigationCases.OrderCases.adress.rawValue: adress,
+                NavigationCases.OrderCases.cellphone.rawValue: cellphone,
+                NavigationCases.OrderCases.feedbackOption.rawValue: feedbackOption,
+                NavigationCases.OrderCases.mark.rawValue: mark,
+                NavigationCases.OrderCases.timeStamp.rawValue: timeStamp,
+                NavigationCases.OrderCases.currentDeviceID.rawValue: currentDeviceID,
+                NavigationCases.OrderCases.deliveryPerson.rawValue: deliveryPerson
             ]
         }
     }
@@ -123,8 +123,8 @@ protocol DocumentSerializable {
 //MARK: Employee
 extension DatabaseManager.EmployeeInfo: DocumentSerializable {
     init?(dictionary: [String : Any]) {
-        guard let name = dictionary[NavigationCases.WorkerInfoCases.name.rawValue] as? String,
-            let position = dictionary[NavigationCases.WorkerInfoCases.position.rawValue] as? String else {return nil}
+        guard let name = dictionary[NavigationCases.EmployeeCases.name.rawValue] as? String,
+            let position = dictionary[NavigationCases.EmployeeCases.position.rawValue] as? String else {return nil}
         self.init(name: name, position: position)
     }
 }
@@ -155,15 +155,15 @@ extension DatabaseManager.ProductInfo: DocumentSerializable {
 //MARK: Про Заказ
 extension DatabaseManager.Order: DocumentSerializable {
     init?(dictionary: [String: Any]) {
-        guard let totalPrice = dictionary[NavigationCases.UsersInfoCases.totalPrice.rawValue] as? Int64,
-            let userName = dictionary[NavigationCases.UsersInfoCases.name.rawValue] as? String,
-            let userAdress = dictionary[NavigationCases.UsersInfoCases.adress.rawValue] as? String,
-            let userCellphone = dictionary[NavigationCases.UsersInfoCases.cellphone.rawValue] as? String,
-            let feedbackOption = dictionary[NavigationCases.UsersInfoCases.feedbackOption.rawValue] as? String,
-            let userMark = dictionary[NavigationCases.UsersInfoCases.mark.rawValue] as? String,
-            let timeStamp = (dictionary[NavigationCases.UsersInfoCases.timeStamp.rawValue] as? Timestamp)?.dateValue(),
-            let currentDeviceID = dictionary[NavigationCases.UsersInfoCases.currentDeviceID.rawValue] as? String,
-        let deliveryPerson = dictionary[NavigationCases.UsersInfoCases.deliveryPerson.rawValue] as? String else {return nil}
+        guard let totalPrice = dictionary[NavigationCases.OrderCases.totalPrice.rawValue] as? Int64,
+            let userName = dictionary[NavigationCases.OrderCases.name.rawValue] as? String,
+            let userAdress = dictionary[NavigationCases.OrderCases.adress.rawValue] as? String,
+            let userCellphone = dictionary[NavigationCases.OrderCases.cellphone.rawValue] as? String,
+            let feedbackOption = dictionary[NavigationCases.OrderCases.feedbackOption.rawValue] as? String,
+            let userMark = dictionary[NavigationCases.OrderCases.mark.rawValue] as? String,
+            let timeStamp = (dictionary[NavigationCases.OrderCases.timeStamp.rawValue] as? Timestamp)?.dateValue(),
+            let currentDeviceID = dictionary[NavigationCases.OrderCases.currentDeviceID.rawValue] as? String,
+        let deliveryPerson = dictionary[NavigationCases.OrderCases.deliveryPerson.rawValue] as? String else {return nil}
         self.init(totalPrice: totalPrice, name: userName, adress: userAdress, cellphone: userCellphone, feedbackOption: feedbackOption, mark: userMark, timeStamp: timeStamp, currentDeviceID: currentDeviceID, deliveryPerson: deliveryPerson)
     }
 }

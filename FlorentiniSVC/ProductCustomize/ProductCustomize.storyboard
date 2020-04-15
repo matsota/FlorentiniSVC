@@ -253,7 +253,7 @@
                                 <viewLayoutGuide key="frameLayoutGuide" id="V4J-It-YBJ"/>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZMV-mZ-dPP">
-                                <rect key="frame" x="0.0" y="44" width="243.66666666666666" height="734"/>
+                                <rect key="frame" x="-243.66666666666666" y="44" width="243.66666666666666" height="734"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Wuv-Fq-uWa">
                                         <rect key="frame" x="14" y="44" width="219.33333333333334" height="46"/>
@@ -464,7 +464,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="biy-6i-5oF">
-                                <rect key="frame" x="243.66666666666663" y="44" width="131.33333333333337" height="734"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="734"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <action selector="transitionDismiss:" destination="FX5-Ph-kHJ" eventType="touchUpInside" id="bPn-Q5-kgz"/>
@@ -480,7 +480,7 @@
                             <constraint firstItem="ZMV-mZ-dPP" firstAttribute="top" secondItem="yma-l0-bEZ" secondAttribute="top" id="TCk-JW-bmj"/>
                             <constraint firstItem="0mK-im-vZ0" firstAttribute="leading" secondItem="yma-l0-bEZ" secondAttribute="leading" constant="14" id="TVS-y0-zce"/>
                             <constraint firstItem="yma-l0-bEZ" firstAttribute="trailing" secondItem="biy-6i-5oF" secondAttribute="trailing" id="UZr-5d-Jwe"/>
-                            <constraint firstItem="ZMV-mZ-dPP" firstAttribute="leading" secondItem="yma-l0-bEZ" secondAttribute="leading" id="X5U-gX-oSH"/>
+                            <constraint firstItem="ZMV-mZ-dPP" firstAttribute="trailing" secondItem="yma-l0-bEZ" secondAttribute="leading" id="X5U-gX-oSH"/>
                             <constraint firstItem="0mK-im-vZ0" firstAttribute="top" secondItem="yma-l0-bEZ" secondAttribute="top" id="hsM-fQ-f64"/>
                             <constraint firstItem="biy-6i-5oF" firstAttribute="top" secondItem="yma-l0-bEZ" secondAttribute="top" id="hvg-OU-Dvl"/>
                             <constraint firstItem="ZMV-mZ-dPP" firstAttribute="bottom" secondItem="yma-l0-bEZ" secondAttribute="bottom" id="iTd-ci-kOf"/>

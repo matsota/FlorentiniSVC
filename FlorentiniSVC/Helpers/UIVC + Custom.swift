@@ -29,19 +29,19 @@ extension UIViewController {
     
     //MARK: Hide and Show Transition Menu
     func slideInTransitionMenu(for view: UIView, constraint distance: NSLayoutConstraint, dismissBy button: UIButton) {
-        let viewWidth = -view.bounds.width
+        let viewWidth = view.bounds.width
         button.isUserInteractionEnabled = !button.isUserInteractionEnabled
         
         if distance.constant == viewWidth {
             distance.constant = 0
             UIView.animate(withDuration: 0.5) {
-                button.alpha = 0.5
+                button.alpha = 0
                 self.view.layoutIfNeeded()
             }
         }else{
             distance.constant = viewWidth
             UIView.animate(withDuration: 0.5) {
-                button.alpha = 0
+                button.alpha = 0.5
                 self.view.layoutIfNeeded()
             }
         }

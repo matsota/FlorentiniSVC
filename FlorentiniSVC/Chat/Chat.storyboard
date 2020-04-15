@@ -128,7 +128,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Jb-X3-8zj">
-                                <rect key="frame" x="0.0" y="44" width="243.66666666666666" height="734"/>
+                                <rect key="frame" x="-243.66666666666666" y="44" width="243.66666666666666" height="734"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="GHt-sD-aV0">
                                         <rect key="frame" x="14" y="44" width="219.33333333333334" height="46"/>
@@ -339,7 +339,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="djg-Zk-7KB">
-                                <rect key="frame" x="243.66666666666663" y="44" width="131.33333333333337" height="734"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="734"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <action selector="transitionDismissTapped:" destination="eIh-AE-y3t" eventType="touchUpInside" id="CTr-lT-ILf"/>
@@ -353,7 +353,7 @@
                             <constraint firstItem="527-rk-gs4" firstAttribute="trailing" secondItem="kSw-ZL-YCh" secondAttribute="trailing" constant="-14" id="79t-Sh-WbW"/>
                             <constraint firstItem="1oy-ac-mCc" firstAttribute="top" secondItem="527-rk-gs4" secondAttribute="bottom" constant="14" id="93D-Jf-Rkm"/>
                             <constraint firstItem="djg-Zk-7KB" firstAttribute="width" relation="greaterThanOrEqual" secondItem="R3K-6g-qI2" secondAttribute="width" multiplier="0.35" id="9bg-7V-IiS"/>
-                            <constraint firstItem="3Jb-X3-8zj" firstAttribute="leading" secondItem="kSw-ZL-YCh" secondAttribute="leading" id="A4v-K8-Dhw"/>
+                            <constraint firstItem="3Jb-X3-8zj" firstAttribute="trailing" secondItem="kSw-ZL-YCh" secondAttribute="leading" id="A4v-K8-Dhw"/>
                             <constraint firstItem="djg-Zk-7KB" firstAttribute="leading" secondItem="3Jb-X3-8zj" secondAttribute="trailing" id="Ibm-60-4eq"/>
                             <constraint firstItem="kSw-ZL-YCh" firstAttribute="trailing" secondItem="1oy-ac-mCc" secondAttribute="trailing" constant="15" id="Nw5-YG-f9A"/>
                             <constraint firstItem="djg-Zk-7KB" firstAttribute="top" secondItem="kSw-ZL-YCh" secondAttribute="top" id="aW5-6X-e2o"/>

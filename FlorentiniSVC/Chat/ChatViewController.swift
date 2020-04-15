@@ -82,11 +82,8 @@ class ChatViewController: UIViewController {
 private extension ChatViewController {
     
     //MARK: Для ViewDidLoad
-    func forViewDidLoad() {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
-//        transitionViewLeftConstraint.constant = -UIScreen.main.bounds.width * 0.65
-        
-        NetworkManager.shared.downloadEmployeeInfo(success: { workerInfo in
+    func forViewDidLoad() {        
+        NetworkManager.shared.fetchEmployeeData(success: { workerInfo in
             self.currentWorkerInfo = workerInfo
             self.currentWorkerInfo.forEach { workerInfo in
                 self.name = workerInfo.name
@@ -97,7 +94,7 @@ private extension ChatViewController {
         }
         
         //MARK: Сообщения чата
-        NetworkManager.shared.workersChatLoad(success: { messages in
+        NetworkManager.shared.fetchEmployeeChat(success: { messages in
             self.messagesArray = messages
             self.tableView.reloadData()
         }) { error in
@@ -105,7 +102,7 @@ private extension ChatViewController {
         }
         
         //MARK: Обновление чата
-        NetworkManager.shared.chatUpdate { newMessages in
+        NetworkManager.shared.updateChat { newMessages in
             self.messagesArray.insert(newMessages, at: 0)
             
 //            let messageFrom = newMessages.name,

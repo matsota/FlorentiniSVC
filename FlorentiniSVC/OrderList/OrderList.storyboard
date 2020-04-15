@@ -239,7 +239,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E3J-OW-8br">
-                                <rect key="frame" x="0.0" y="44" width="269" height="818"/>
+                                <rect key="frame" x="-269" y="44" width="269" height="818"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="E6s-hO-WtD">
                                         <rect key="frame" x="14" y="44" width="242" height="46"/>
@@ -450,7 +450,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="00s-iw-LRl">
-                                <rect key="frame" x="269" y="44" width="145" height="818"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <action selector="transitionDismiss:" destination="XQO-Nm-Ti2" eventType="touchUpInside" id="bja-mu-ksG"/>
@@ -462,7 +462,7 @@
                             <constraint firstItem="WgL-WN-5QT" firstAttribute="top" secondItem="AGE-mG-iDi" secondAttribute="bottom" constant="14" id="2zt-zY-8DL"/>
                             <constraint firstItem="xNi-r3-7pM" firstAttribute="bottom" secondItem="WgL-WN-5QT" secondAttribute="bottom" constant="14" id="5Qm-oA-3mV"/>
                             <constraint firstItem="00s-iw-LRl" firstAttribute="leading" secondItem="E3J-OW-8br" secondAttribute="trailing" id="C4i-aL-05S"/>
-                            <constraint firstItem="E3J-OW-8br" firstAttribute="leading" secondItem="xNi-r3-7pM" secondAttribute="leading" id="Ii6-7l-M84"/>
+                            <constraint firstItem="E3J-OW-8br" firstAttribute="trailing" secondItem="xNi-r3-7pM" secondAttribute="leading" id="Ii6-7l-M84"/>
                             <constraint firstItem="AGE-mG-iDi" firstAttribute="leading" secondItem="xNi-r3-7pM" secondAttribute="leading" constant="14" id="MDN-Yu-6mn"/>
                             <constraint firstItem="E3J-OW-8br" firstAttribute="width" secondItem="3N6-Ip-rA9" secondAttribute="width" multiplier="0.65" id="YHm-d2-qFh"/>
                             <constraint firstItem="00s-iw-LRl" firstAttribute="bottom" secondItem="xNi-r3-7pM" secondAttribute="bottom" id="Zt5-nn-KAB"/>
