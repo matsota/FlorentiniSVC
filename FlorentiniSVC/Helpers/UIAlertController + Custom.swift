@@ -33,14 +33,15 @@ extension UIAlertController {
     ///
     
     //MARK: - Sign in
-    static func saveSignIn(success: @escaping() -> Void, failure: @escaping() -> Void) -> (UIAlertController) {
-        let alert = UIAlertController(title: "Внимание", message: "Желаете ли вы сохранить данные для входа в приложение?", preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Сохранить", style: .default, handler: { _ in
+    static func saveSignIn(_ indicator: UIActivityIndicatorView,success: @escaping() -> Void) -> (UIAlertController) {
+        let alert = UIAlertController(title: "Внимание", message: "Ваши данные для аутентификации будут автоматически сохранены", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Подтвердить", style: .default, handler: { _ in
             success()
         }))
-        alert.addAction(UIAlertAction(title: "Не сохранять", style: .default, handler: { _ in
-            failure()
+        alert.addAction(UIAlertAction(title: "Отменить вход", style: .destructive, handler: { _ in
+            indicator.stopAnimating()
         }))
+
         return (alert)
     }
     
@@ -128,7 +129,7 @@ extension UIAlertController {
     }
     
     //MARK: - Delivery editor
-    static func editDeliveryPerson(currentDeviceID: String, success: @escaping(String) -> Void) -> (UIAlertController) {
+    static func editDeliveryPerson(success: @escaping(String) -> Void) -> (UIAlertController) {
         let alert = UIAlertController(title: "Внимание", message: "Введите Имя человека, который будет доставлять этот заказ", preferredStyle: .alert)
             
         alert.addTextField { (text:UITextField) in
@@ -138,7 +139,6 @@ extension UIAlertController {
         alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Подтвердить", style: .default, handler: { (action: UIAlertAction) in
             guard let deliveryPerson = alert.textFields?.first?.text else {return}
-            NetworkManager.shared.editDeliveryMan(currentDeviceID: currentDeviceID, deliveryPerson: deliveryPerson)
             success(deliveryPerson)
         }))
         return alert

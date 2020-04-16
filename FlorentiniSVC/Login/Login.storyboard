@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="YGa-uY-8NV">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -53,14 +53,20 @@
                                     <action selector="loginTapped:" destination="H5x-VE-GbC" eventType="touchUpInside" id="b7B-vG-sIK"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="YFn-pP-LhP">
+                                <rect key="frame" x="169" y="392.66666666666669" width="37" height="37"/>
+                                <color key="color" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="1lH-m9-FlH" firstAttribute="height" secondItem="ze9-We-rv3" secondAttribute="height" id="1Qg-Vj-cws"/>
                             <constraint firstItem="ze9-We-rv3" firstAttribute="leading" secondItem="2YG-Yp-ZUc" secondAttribute="leading" constant="25" id="3vc-2z-Z72"/>
                             <constraint firstItem="79w-Tq-c88" firstAttribute="top" secondItem="1lH-m9-FlH" secondAttribute="bottom" constant="25" id="8AW-OO-ltK"/>
+                            <constraint firstItem="YFn-pP-LhP" firstAttribute="centerY" secondItem="2YG-Yp-ZUc" secondAttribute="centerY" id="AR7-r1-kai"/>
                             <constraint firstItem="bNf-Je-zOH" firstAttribute="top" secondItem="2YG-Yp-ZUc" secondAttribute="top" id="C9l-RW-4XJ"/>
                             <constraint firstItem="1lH-m9-FlH" firstAttribute="leading" secondItem="2YG-Yp-ZUc" secondAttribute="leading" constant="25" id="DNt-xr-C5j"/>
+                            <constraint firstItem="YFn-pP-LhP" firstAttribute="centerX" secondItem="2YG-Yp-ZUc" secondAttribute="centerX" id="U98-D1-cFw"/>
                             <constraint firstItem="2YG-Yp-ZUc" firstAttribute="trailing" secondItem="1lH-m9-FlH" secondAttribute="trailing" constant="25" id="Vzm-RH-L8O"/>
                             <constraint firstItem="bNf-Je-zOH" firstAttribute="trailing" secondItem="2YG-Yp-ZUc" secondAttribute="trailing" id="biA-sX-P38"/>
                             <constraint firstItem="79w-Tq-c88" firstAttribute="centerX" secondItem="2YG-Yp-ZUc" secondAttribute="centerX" id="fGM-fr-cLb"/>
@@ -73,6 +79,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="dqI-Em-Lba"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="YFn-pP-LhP" id="qzc-PK-FSt"/>
                         <outlet property="loginTextField" destination="ze9-We-rv3" id="6kT-fz-As9"/>
                         <outlet property="passwordTextField" destination="1lH-m9-FlH" id="C89-Zu-dJE"/>
                     </connections>

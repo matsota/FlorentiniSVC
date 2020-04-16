@@ -18,7 +18,7 @@ class OrderListTableViewCell: UITableViewCell {
     var bill = Int()
     var orderKey = String()
     var deliveryPerson = String()
-    var currentDeviceID = String()
+    var orderID = String()
     weak var delegate: OrdersListTableViewCellDelegate?
     
     //MARK: Label
@@ -40,7 +40,6 @@ class OrderListTableViewCell: UITableViewCell {
     //MARK: Override
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        //        CoreDataManager.shared.saveOrderPath(orderPath: orderKey)
     }
     
     
@@ -49,12 +48,12 @@ class OrderListTableViewCell: UITableViewCell {
     }
     
     //MARK: - Заполнение таблицы
-    func fill (bill: Int, orderKey: String, phoneNumber: String, adress: String, name: String, feedbackOption: String, mark: String, deliveryPerson: String, currentDeviceID: String) {
+    func fill (bill: Int, orderKey: String, phoneNumber: String, adress: String, name: String, feedbackOption: String, mark: String, deliveryPerson: String, orderID: String) {
         
         self.bill = bill
         self.orderKey = orderKey
         self.deliveryPerson = deliveryPerson
-        self.currentDeviceID = currentDeviceID
+        self.orderID = orderID
         
         billLabel.text = "\(self.bill) грн"
         phoneNumberLabel.text = phoneNumber

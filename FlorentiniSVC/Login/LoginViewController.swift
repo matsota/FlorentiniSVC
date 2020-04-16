@@ -14,7 +14,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         CoreDataManager.shared.fetchEmployeeData(success: { (data) -> (Void) in
             if let _ = data.map({$0.name}).first,
                 let _ = data.map({$0.position}).first,
@@ -27,11 +27,14 @@ class LoginViewController: UIViewController {
             self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Произошла ошибка с пользовательской информацией: \(error.localizedDescription)"), animated: true)
         }
         
+        hideKeyboardWhenTappedAround()
+        activityIndicator.stopAnimating()
+        
     }
     
     //MARK: - Login tapped
     @IBAction private func loginTapped(_ sender: UIButton) {
-        
+        activityIndicator.startAnimating()
         let email = loginTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         
@@ -41,23 +44,24 @@ class LoginViewController: UIViewController {
             NetworkManager.shared.fetchEmployeeDataOnes(uid: uid, success: { (employeeData) in
                 if let name = employeeData.map({$0.name}).first,
                     let position = employeeData.map({$0.position}).first {
-                    self.present(UIAlertController.saveSignIn(success: {
+                    self.present(UIAlertController.saveSignIn(self.activityIndicator, success: {
                         CoreDataManager.shared.saveEmployee(name: name, position: position, email: email, password: password, uid: uid) {
+                            self.activityIndicator.stopAnimating()
                             self.signInTransition()
                         }
-                    }, failure: {
-                        self.signInTransition()
                     }), animated: true)
                 }else{
+                    self.activityIndicator.stopAnimating()
                     self.present(UIAlertController.completionDoneTwoSec(title: "Внимание!", message: "Проблема с интернетом. Аунтефикация не произошла"), animated: true)
                 }
             }) { (error) in
+                self.activityIndicator.stopAnimating()
                 print(error.localizedDescription)
                 self.present(UIAlertController.completionDoneTwoSec(title: "Внимание!", message: "Проблема с интернетом. Аунтефикация не произошла"), animated: true)
             }
         }) { error in
-            print(error.localizedDescription)
-            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание!", message: "Проблема с интернетом. Аунтефикация не произошла"), animated: true)
+            self.activityIndicator.stopAnimating()
+            self.present(UIAlertController.completionDoneTwoSec(title: "Attention!", message: error.localizedDescription), animated: true)
         }
     }
     
@@ -65,6 +69,8 @@ class LoginViewController: UIViewController {
     @IBOutlet private weak var loginTextField: UITextField!
     @IBOutlet private weak var passwordTextField: UITextField!
     
+    //MARK: - Activity Indicator
+    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 }
 
 

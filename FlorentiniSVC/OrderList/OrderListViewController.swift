@@ -22,7 +22,7 @@ class OrderListViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "orderList_OrderDetail", let OrderDetailVC = segue.destination as? OrderDetailListTableViewController, let index = tableView.indexPathsForSelectedRows?.first?.row {
             let detail = order[index]
-            let currentDeviceID = detail.currentDeviceID
+            let currentDeviceID = detail.orderID
             OrderDetailVC.currentDeviceID = currentDeviceID
         }
     }
@@ -117,7 +117,7 @@ private extension OrderListViewController {
             self.employeePosition = position
         }) { (error) in
             CoreDataManager.shared.deleteAllData(entity: "EmployeeData", success: {
-                self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка Аунтефикации"), animated: true)
+                self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка Аунтефикации."), animated: true)
             }) { (_) in
                  print("ERROR LOCATION: OrderListViewController/viewDidload/CoreDataManager.shared.fetchEmployeeData: ",error.localizedDescription)
             }
@@ -138,25 +138,29 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.IDVC.OrdersListTVCell.rawValue, for: indexPath) as! OrderListTableViewCell,
         fetch = order[indexPath.row],
         bill = Int(fetch.totalPrice),
-        orderKey = fetch.currentDeviceID,
+        orderKey = fetch.orderID,
         phoneNumber = fetch.cellphone,
         adress = fetch.adress,
         name = fetch.name,
         feedbackOption = fetch.feedbackOption,
         mark = fetch.mark,
-        currentDeviceID = fetch.currentDeviceID,
+        orderID = fetch.orderID,
         deliveryPerson = fetch.deliveryPerson
         
         cell.delegate = self
         
-        cell.fill(bill: bill, orderKey: orderKey, phoneNumber: phoneNumber, adress: adress, name: name, feedbackOption: feedbackOption, mark: mark, deliveryPerson: deliveryPerson, currentDeviceID: currentDeviceID)
+        cell.fill(bill: bill, orderKey: orderKey, phoneNumber: phoneNumber, adress: adress, name: name, feedbackOption: feedbackOption, mark: mark, deliveryPerson: deliveryPerson, orderID: orderID)
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let archive = archiveAction(at: indexPath)
-        return UISwipeActionsConfiguration(actions: [archive])
+        if employeePosition == NavigationCases.EmployeeCases.admin.rawValue || employeePosition == NavigationCases.EmployeeCases.operator.rawValue {
+            let archive = archiveAction(at: indexPath)
+            return UISwipeActionsConfiguration(actions: [archive])
+        }else{
+            return nil
+        }
     }
     
     func archiveAction(at indexPath: IndexPath) -> UIContextualAction {
@@ -168,7 +172,7 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
         feedbackOption = fetch.feedbackOption,
         mark = fetch.mark,
         timeStamp = fetch.timeStamp,
-        id = fetch.currentDeviceID,
+        id = fetch.orderID,
         deliveryPerson = fetch.deliveryPerson,
         
         action = UIContextualAction(style: .destructive, title: "Архив") { (action, view, complition) in
@@ -185,8 +189,13 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = deleteAction(at: indexPath)
-        return UISwipeActionsConfiguration(actions: [delete])
+        if employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
+            let delete = deleteAction(at: indexPath)
+            return UISwipeActionsConfiguration(actions: [delete])
+        }else{
+            return nil
+        }
+        
     }
     
     func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
@@ -198,7 +207,7 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
         feedbackOption = fetch.feedbackOption,
         mark = fetch.mark,
         timeStamp = fetch.timeStamp,
-        id = fetch.currentDeviceID,
+        id = fetch.orderID,
         deliveryPerson = fetch.deliveryPerson,
         
         action = UIContextualAction(style: .destructive, title: "Удалить") { (action, view, complition) in
@@ -221,12 +230,17 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
 extension OrderListViewController: OrdersListTableViewCellDelegate {
     
     func deliveryPerson(_ cell: OrderListTableViewCell) {
-        let currentDeviceID = cell.currentDeviceID
-        
-        self.present(UIAlertController.editDeliveryPerson(currentDeviceID: currentDeviceID, success: { (deliveryPerson) in
-            cell.deliveryPersonButton.setTitle(deliveryPerson, for: .normal)
-        }), animated:  true)
-        self.tableView.reloadData()
+        if employeePosition == NavigationCases.EmployeeCases.admin.rawValue || employeePosition == NavigationCases.EmployeeCases.operator.rawValue {
+            let orderID = cell.orderID
+            
+            self.present(UIAlertController.editDeliveryPerson(success: { (deliveryPerson) in
+                NetworkManager.shared.editDeliveryMan(orderID: orderID, deliveryPerson: deliveryPerson)
+                cell.deliveryPersonButton.setTitle(deliveryPerson, for: .normal)
+            }), animated:  true)
+            self.tableView.reloadData()
+        }else{
+            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "У Вас недостаточно пользовательсих прав для назначения Курьера"), animated: true)
+        }
     }
     
 }

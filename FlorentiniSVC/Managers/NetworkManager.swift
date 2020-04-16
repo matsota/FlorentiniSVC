@@ -61,7 +61,7 @@ class NetworkManager {
     //MARK: - Archive order
     func archiveOrder(totalPrice: Int64, name: String, adress: String, cellphone: String, feedbackOption: String, mark: String, timeStamp: Date, orderKey: String, deliveryPerson: String){
         
-        let data =  DatabaseManager.Order(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, currentDeviceID: orderKey, deliveryPerson: deliveryPerson)
+        let data =  DatabaseManager.Order(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, orderID: orderKey, deliveryPerson: deliveryPerson)
         
         db.collection(NavigationCases.ArchiveCases.archivedOrders.rawValue).addDocument(data: data.dictionary)
         archiveOrderAddition(orderKey: orderKey)
@@ -327,8 +327,8 @@ class NetworkManager {
     }
     
     //MARK: - Set delivery person
-    func editDeliveryMan(currentDeviceID: String, deliveryPerson: String) {
-        let path = db.collection(NavigationCases.OrderCases.order.rawValue).document(currentDeviceID)
+    func editDeliveryMan(orderID: String, deliveryPerson: String) {
+        let path = db.collection(NavigationCases.OrderCases.order.rawValue).document(orderID)
         path.updateData([NavigationCases.OrderCases.deliveryPerson.rawValue : deliveryPerson])
     }
     
@@ -402,7 +402,7 @@ class NetworkManager {
             if let error = error {
                 print(error.localizedDescription)
             }else{
-                let data =  DatabaseManager.Order(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, currentDeviceID: orderKey, deliveryPerson: deliveryPerson),
+                let data =  DatabaseManager.Order(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, orderID: orderKey, deliveryPerson: deliveryPerson),
                 docRef = self.db.collection(NavigationCases.OrderCases.order.rawValue).document(orderKey)
                 
                 self.db.collection(NavigationCases.ArchiveCases.deletedOrders.rawValue).addDocument(data: data.dictionary)
