@@ -20,10 +20,9 @@ struct AuthenticationManager {
     func signIn(email: String, password: String, success: @escaping(AuthDataResult) -> Void, failure: @escaping(Error) -> Void) {
         
         Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
-            if error != nil {
-                failure(error!)
-            }
-            else{
+            if let error = error {
+                failure(error)
+            }else{
                 guard let result = result else {return}
                 success(result)
             }

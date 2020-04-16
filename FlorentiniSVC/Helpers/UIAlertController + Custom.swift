@@ -34,30 +34,31 @@ extension UIAlertController {
     
     //MARK: - Sign in
     static func saveSignIn(success: @escaping() -> Void, failure: @escaping() -> Void) -> (UIAlertController) {
-        let alertSignOut = UIAlertController(title: "Внимание", message: "Желаете ли вы сохранить вход в приложение?", preferredStyle: .actionSheet)
-        alertSignOut.addAction(UIAlertAction(title: "Сохранить", style: .default, handler: { _ in
+        let alert = UIAlertController(title: "Внимание", message: "Желаете ли вы сохранить данные для входа в приложение?", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Сохранить", style: .default, handler: { _ in
             success()
         }))
-        alertSignOut.addAction(UIAlertAction(title: "Не сохранять", style: .default, handler: { _ in
+        alert.addAction(UIAlertAction(title: "Не сохранять", style: .default, handler: { _ in
             failure()
         }))
-        return (alertSignOut)
+        return (alert)
     }
+    
     //MARK: - Send Message Method in Chat of WorkSpace
     static func sendToChat(name: String) -> (UIAlertController) {
         
-        let alertMessage = UIAlertController(title: name, message: nil, preferredStyle: .alert)
-        alertMessage.addTextField { (text:UITextField) in
+        let alert = UIAlertController(title: name, message: nil, preferredStyle: .alert)
+        alert.addTextField { (text:UITextField) in
             text.placeholder = "Введите сообщение"
         }
         
-        alertMessage.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
-        alertMessage.addAction(UIAlertAction(title: "Отправить", style: .default, handler: { (action: UIAlertAction) in
-            if let content = alertMessage.textFields?.first?.text {
+        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Отправить", style: .default, handler: { (action: UIAlertAction) in
+            if let content = alert.textFields?.first?.text {
                 NetworkManager.shared.newChatMessage(name: name, content: content)
             }
         }))
-        return alertMessage
+        return alert
     }
     
     //MARK: - Alert Image from URL
@@ -79,14 +80,14 @@ extension UIAlertController {
     ///
     //MARK: - Password change
     static func rePassword(success: @escaping() -> Void, password: String) -> (UIAlertController) {
-        let alertSignOut = UIAlertController(title: "Внимание", message: "Подтвердите смену пароля", preferredStyle: .actionSheet)
-        alertSignOut.addAction(UIAlertAction(title: "Подтвердить", style: .default, handler: { _ in
+        let alert = UIAlertController(title: "Внимание", message: "Подтвердите смену пароля", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Подтвердить", style: .default, handler: { _ in
             AuthenticationManager.shared.passChange(password: password)
             success()
         }))
-        alertSignOut.addAction(UIAlertAction(title: "Отмена", style: .destructive, handler: nil))
+        alert.addAction(UIAlertAction(title: "Отмена", style: .destructive, handler: nil))
         
-        return (alertSignOut)
+        return (alert)
     }
     
     //MARK: - Price editor
@@ -165,12 +166,12 @@ extension UIAlertController {
     ///
     //MARK: - Sign Out Method
     static func signOut(success: @escaping() -> Void) -> (UIAlertController) {
-        let alertSignOut = UIAlertController(title: "Внимание", message: "Подтвердите, что вы нажали на \"Выход\" неслучайно", preferredStyle: .actionSheet)
-        alertSignOut.addAction(UIAlertAction(title: "Отмена", style: .destructive, handler: nil))
-        alertSignOut.addAction(UIAlertAction(title: "Подтвердить", style: .default, handler: { _ in
+        let alert = UIAlertController(title: "Внимание", message: "Подтвердите, что вы нажали на \"Выход\" неслучайно", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Отмена", style: .destructive, handler: nil))
+        alert.addAction(UIAlertAction(title: "Подтвердить", style: .default, handler: { _ in
             success()
         }))
-        return (alertSignOut)
+        return (alert)
     }
     
     //MARK: - Success Upload

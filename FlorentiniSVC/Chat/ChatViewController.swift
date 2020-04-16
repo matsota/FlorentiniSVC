@@ -83,15 +83,7 @@ private extension ChatViewController {
     
     //MARK: Для ViewDidLoad
     func forViewDidLoad() {        
-        NetworkManager.shared.fetchEmployeeData(success: { workerInfo in
-            self.currentWorkerInfo = workerInfo
-            self.currentWorkerInfo.forEach { workerInfo in
-                self.name = workerInfo.name
-                self.position = workerInfo.position
-            }
-        }) { error in
-            print(error.localizedDescription)
-        }
+    
         
         //MARK: Сообщения чата
         NetworkManager.shared.fetchEmployeeChat(success: { messages in

@@ -14,22 +14,50 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(AuthenticationManager.shared.currentUser?.uid as Any)
         
-        if AuthenticationManager.shared.currentUser != nil {
-            self.signInTransition()
+        CoreDataManager.shared.fetchEmployeeData(success: { (data) -> (Void) in
+            if let _ = data.map({$0.name}).first,
+                let _ = data.map({$0.position}).first,
+                let _ = data.map({$0.email}).first,
+                let _ = data.map({$0.password}).first {
+                self.signInTransition()
+            }
+        }) { (error) in
+            print(error.localizedDescription)
+            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Произошла ошибка с пользовательской информацией: \(error.localizedDescription)"), animated: true)
         }
+        
     }
     
+    //MARK: - Login tapped
     @IBAction private func loginTapped(_ sender: UIButton) {
         
         let email = loginTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        AuthenticationManager.shared.signIn(email: email, password: password, success: { _ in
-            self.signInTransition()
-        }) { (error) in
-            self.present(UIAlertController.classic(title: "Attention", message: error.localizedDescription), animated: true)
+        AuthenticationManager.shared.signIn(email: email, password: password, success: { result in
+            let uid = result.user.uid
+            
+            NetworkManager.shared.fetchEmployeeDataOnes(uid: uid, success: { (employeeData) in
+                if let name = employeeData.map({$0.name}).first,
+                    let position = employeeData.map({$0.position}).first {
+                    self.present(UIAlertController.saveSignIn(success: {
+                        CoreDataManager.shared.saveEmployee(name: name, position: position, email: email, password: password, uid: uid) {
+                            self.signInTransition()
+                        }
+                    }, failure: {
+                        self.signInTransition()
+                    }), animated: true)
+                }else{
+                    self.present(UIAlertController.completionDoneTwoSec(title: "Внимание!", message: "Проблема с интернетом. Аунтефикация не произошла"), animated: true)
+                }
+            }) { (error) in
+                print(error.localizedDescription)
+                self.present(UIAlertController.completionDoneTwoSec(title: "Внимание!", message: "Проблема с интернетом. Аунтефикация не произошла"), animated: true)
+            }
+        }) { error in
+            print(error.localizedDescription)
+            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание!", message: "Проблема с интернетом. Аунтефикация не произошла"), animated: true)
         }
     }
     

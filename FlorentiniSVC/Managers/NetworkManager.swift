@@ -108,15 +108,27 @@ class NetworkManager {
     //MARK: - cRud
     ///
     
+//    //MARK: - Fetch employee data
+//    func fetchEmployeeData(success: @escaping([DatabaseManager.EmployeeData]) -> Void, failure: @escaping(Error) -> Void) {
+//        let uid = AuthenticationManager.shared.currentUser?.uid
+//        if uid == nil {
+//            failure(NetworkManagerError.employeeNotSignedIn)
+//        }else{
+//            db.collection(NavigationCases.MessagesCases.workers.rawValue).document(uid!).getDocument { (documentSnapshot, _) in
+//                guard let workerInfo = DatabaseManager.EmployeeData(dictionary: documentSnapshot!.data()!) else {return}
+//                success([workerInfo])
+//            }
+//        }
+//    }
     //MARK: - Fetch employee data
-    func fetchEmployeeData (success: @escaping([DatabaseManager.EmployeeData]) -> Void, failure: @escaping(Error) -> Void) {
-        let uid = AuthenticationManager.shared.currentUser?.uid
-        if uid == nil {
-            failure(NetworkManagerError.employeeNotSignedIn)
+    func fetchEmployeeDataOnes(uid: String, success: @escaping([DatabaseManager.EmployeeData]) -> Void, failure: @escaping(Error) -> Void) {
+        if uid == "" {
+            let error = NetworkManagerError.employeeUIDDoesNotExist
+            failure(error)
         }else{
-            db.collection(NavigationCases.MessagesCases.workers.rawValue).document(uid!).getDocument { (documentSnapshot, _) in
-                guard let workerInfo = DatabaseManager.EmployeeData(dictionary: documentSnapshot!.data()!) else {return}
-                success([workerInfo])
+            db.collection(NavigationCases.MessagesCases.workers.rawValue).document(uid).getDocument { (documentSnapshot, _) in
+                guard let employeeData = DatabaseManager.EmployeeData(dictionary: documentSnapshot!.data()!) else {return}
+                success([employeeData])
             }
         }
     }
@@ -291,7 +303,7 @@ class NetworkManager {
                 failure(error)
             }else{
                 let products = querySnapshot!.documents.compactMap{DatabaseManager.ProductInfo(dictionary: $0.data())}
-            
+                
                 for i in products {
                     let ref = self.db.collection(NavigationCases.ProductCases.imageCollection.rawValue).document(i.productName)
                     
@@ -404,5 +416,6 @@ class NetworkManager {
 extension NetworkManager {
     enum NetworkManagerError: Error {
         case employeeNotSignedIn
+        case employeeUIDDoesNotExist
     }
 }

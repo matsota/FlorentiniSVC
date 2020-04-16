@@ -138,15 +138,21 @@ extension UIViewController {
             }
         case .exit:
             self.present(UIAlertController.signOut {
-                AuthenticationManager.shared.signOut(success: {
-                    self.slideInTransitionMenu(for: view, constraint: constraint, dismissBy: button)
-                    self.present(UIAlertController.completionDoneHalfSec(title: "Удачи!", message: "Выход выполнен"), animated: true)
-                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-                        self.transitionToExit()
+                CoreDataManager.shared.deleteAllData(entity: "EmployeeData", success: {
+                    AuthenticationManager.shared.signOut(success: {
+                        self.slideInTransitionMenu(for: view, constraint: constraint, dismissBy: button)
+                        self.present(UIAlertController.completionDoneHalfSec(title: "Удачи!", message: "Выход выполнен"), animated: true)
+                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+                            self.transitionToExit()
+                        }
+                    }) { (error) in
+                        self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка в процессе выхода из профиля"), animated: true)
                     }
                 }) { (error) in
+                    print(error.localizedDescription)
                     self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка в процессе выхода из профиля"), animated: true)
                 }
+                
             }, animated: true)
         }
     }

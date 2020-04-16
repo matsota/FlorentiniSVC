@@ -36,10 +36,10 @@ class OrderListViewController: UIViewController {
     //MARK: - Transition confirm
     @IBAction func transitionConfim(_ sender: UIButton) {
         guard let title = sender.currentTitle,
-               let view = transitionView,
-               let constraint = transitionViewLeftConstraint,
-               let button = transitionDismissButton else {return}
-               
+            let view = transitionView,
+            let constraint = transitionViewLeftConstraint,
+            let button = transitionDismissButton else {return}
+        
         transitionPerform(by: title, for: view, with: constraint, dismiss: button)
     }
     
@@ -64,7 +64,7 @@ class OrderListViewController: UIViewController {
     
     //MARK: Label
     @IBOutlet private weak var ordersCountLabel: UILabel!
-
+    
     //MARK: Constraint
     @IBOutlet private weak var transitionViewLeftConstraint: NSLayoutConstraint!
 }
@@ -84,7 +84,7 @@ private extension OrderListViewController {
     
     //MARK: for ViewDidLoad
     func forViewDidLoad() {
-    
+        
         NetworkManager.shared.fetchOrders(success: { (orders) in
             self.order = orders
             self.orderCount = orders.count
@@ -101,13 +101,25 @@ private extension OrderListViewController {
             self.viewDidLoad()
         }
         
-        NetworkManager.shared.fetchEmployeeData(success: { (data) in
-            let name = data.map({$0.name})
-            print(name)
-            let position = data.map({$0.position})
-            print(position)
-        }) { error in
-            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание!", message: "Перезагрузите приложение. Критическая ошибка Аунтификации"), animated: true)
+        CoreDataManager.shared.fetchEmployeeData(success: { (data) -> (Void) in
+            guard let _ = data.map({$0.name}).first,
+                let _ = data.map({$0.position}).first,
+                let _ = data.map({$0.email}).first,
+                let _ = data.map({$0.password}).first,
+                let _ = data.map({$0.uid}).first else {
+                    CoreDataManager.shared.deleteAllData(entity: "EmployeeData", success: {
+                        self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка Аунтефикации"), animated: true)
+                    }) { (error) in
+                        print("ERROR LOCATION: OrderListViewController/viewDidload/fetchEmployeeData/CoreDataManager.shared.deleteAllData: ",error.localizedDescription)
+                    }
+                    return
+            }
+        }) { (error) in
+            CoreDataManager.shared.deleteAllData(entity: "EmployeeData", success: {
+                self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка Аунтефикации"), animated: true)
+            }) { (_) in
+                 print("ERROR LOCATION: OrderListViewController/viewDidload/CoreDataManager.shared.fetchEmployeeData: ",error.localizedDescription)
+            }
         }
     }
     
@@ -209,7 +221,7 @@ extension OrderListViewController: OrdersListTableViewCellDelegate {
     
     func deliveryPerson(_ cell: OrderListTableViewCell) {
         let currentDeviceID = cell.currentDeviceID
-         
+        
         self.present(UIAlertController.editDeliveryPerson(currentDeviceID: currentDeviceID, success: { (deliveryPerson) in
             cell.deliveryPersonButton.setTitle(deliveryPerson, for: .normal)
         }), animated:  true)

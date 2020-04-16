@@ -125,16 +125,16 @@ private extension CatalogListViewController {
             print(error.localizedDescription)
         }
         
-        NetworkManager.shared.fetchEmployeeData(success: { (data) in
-            self.employeePosition = data.map({$0.position}).first
-            if self.employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
-                self.editPricesByCategoryButton.forEach { (button) in
-                    button.alpha = 1
-                }
-            }
-        }) { error in
-            print(error.localizedDescription)
-        }
+//        NetworkManager.shared.fetchEmployeeData(success: { (data) in
+//            self.employeePosition = data.map({$0.position}).first
+//            if self.employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
+//                self.editPricesByCategoryButton.forEach { (button) in
+//                    button.alpha = 1
+//                }
+//            }
+//        }) { error in
+//            print(error.localizedDescription)
+//        }
     }
     
 }

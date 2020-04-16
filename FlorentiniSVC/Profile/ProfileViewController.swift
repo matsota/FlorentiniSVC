@@ -95,21 +95,21 @@ private extension ProfileViewController {
     
     //MARK: Для ViewDidLoad
     func forViewDidLoad() {
-        NetworkManager.shared.fetchEmployeeData(success: { employeeInfo in
-            self.currentEmployeeInfo = employeeInfo
-            self.currentEmployeeInfo.forEach { (employeeInfo) in
-                self.nameLabel.text = employeeInfo.name
-                self.positionLabel.text = employeeInfo.position
-                
-                if employeeInfo.position == NavigationCases.EmployeeCases.admin.rawValue && AuthenticationManager.shared.uidAdmin == AuthenticationManager.shared.currentUser?.uid{
-                    self.newProductButton.isHidden = false
-                    self.statisticsButton.isHidden = false
-                }
-            }
-            self.emailLabel.text = Auth.auth().currentUser?.email
-        }) { error in
-            self.present(UIAlertController.somethingWrong(), animated: true)
-        }
+//        NetworkManager.shared.fetchEmployeeData(success: { employeeInfo in
+//            self.currentEmployeeInfo = employeeInfo
+//            self.currentEmployeeInfo.forEach { (employeeInfo) in
+//                self.nameLabel.text = employeeInfo.name
+//                self.positionLabel.text = employeeInfo.position
+//                
+//                if employeeInfo.position == NavigationCases.EmployeeCases.admin.rawValue && AuthenticationManager.shared.uidAdmin == AuthenticationManager.shared.currentUser?.uid{
+//                    self.newProductButton.isHidden = false
+//                    self.statisticsButton.isHidden = false
+//                }
+//            }
+//            self.emailLabel.text = Auth.auth().currentUser?.email
+//        }) { error in
+//            self.present(UIAlertController.somethingWrong(), animated: true)
+//        }
     }
     
 }
