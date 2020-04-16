@@ -50,7 +50,7 @@ class OrderListViewController: UIViewController {
     
     //MARK: - Private Implementation
     private var order = [DatabaseManager.Order]()
-    private var employeeData = [DatabaseManager.EmployeeData]()
+    private var employeePosition: String?
     private var orderCount = Int()
     
     //MARK: TableView
@@ -103,7 +103,7 @@ private extension OrderListViewController {
         
         CoreDataManager.shared.fetchEmployeeData(success: { (data) -> (Void) in
             guard let _ = data.map({$0.name}).first,
-                let _ = data.map({$0.position}).first,
+                let position = data.map({$0.position}).first,
                 let _ = data.map({$0.email}).first,
                 let _ = data.map({$0.password}).first,
                 let _ = data.map({$0.uid}).first else {
@@ -114,6 +114,7 @@ private extension OrderListViewController {
                     }
                     return
             }
+            self.employeePosition = position
         }) { (error) in
             CoreDataManager.shared.deleteAllData(entity: "EmployeeData", success: {
                 self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка Аунтефикации"), animated: true)
