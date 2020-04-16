@@ -29,10 +29,10 @@ class CatalogListViewController: UIViewController {
     //MARK: - Transition confirm
     @IBAction func transitionConfirm(_ sender: UIButton) {
         guard let title = sender.currentTitle,
-               let view = transitionView,
-               let constraint = transitionViewLeftConstraint,
-               let button = transitionDismissButton else {return}
-               
+            let view = transitionView,
+            let constraint = transitionViewLeftConstraint,
+            let button = transitionDismissButton else {return}
+        
         transitionPerform(by: title, for: view, with: constraint, dismiss: button)
     }
     
@@ -83,7 +83,7 @@ class CatalogListViewController: UIViewController {
     
     //MARK: - Private Implementation
     private var productInfo = [DatabaseManager.ProductInfo]()
-    private var employeePosition: String?
+    private var employeePosition = String()
     private var selectedCategory = String()
     
     //MARK: View
@@ -125,16 +125,38 @@ private extension CatalogListViewController {
             print(error.localizedDescription)
         }
         
-//        NetworkManager.shared.fetchEmployeeData(success: { (data) in
-//            self.employeePosition = data.map({$0.position}).first
-//            if self.employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
-//                self.editPricesByCategoryButton.forEach { (button) in
-//                    button.alpha = 1
-//                }
-//            }
-//        }) { error in
-//            print(error.localizedDescription)
-//        }
+        self.employeePosition = CoreDataManager.shared.fetchEmployeePosition(failure: { (error) in
+            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка Аунтификации. Перезагрузите приложение"), animated: true)
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5) {
+                CoreDataManager.shared.deleteAllData(for: "EmployeeData", success: {
+                    self.transitionToExit()
+                }) { (error) in
+                    self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Критическая ошибка. Обратитесь к поставщику"), animated: true)
+                }
+            }
+        })
+        
+        if self.employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
+            
+            self.editPricesByCategoryButton.forEach { (button) in
+                button.alpha = 1
+            }
+        }else{
+            self.editPricesByCategoryButton.forEach { (button) in
+                button.alpha = 0
+            }
+        }
+        
+        //        NetworkManager.shared.fetchEmployeeData(success: { (data) in
+        //            self.employeePosition = data.map({$0.position}).first
+        //            if self.employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
+        //                self.editPricesByCategoryButton.forEach { (button) in
+        //                    button.alpha = 1
+        //                }
+        //            }
+        //        }) { error in
+        //            print(error.localizedDescription)
+        //        }
     }
     
 }
@@ -159,13 +181,14 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource{
         description = fetch.productDescription,
         stock = fetch.stock,
         storagePath = "\(NavigationCases.ProductCases.imageCollection.rawValue)/\(name)",
-        storageRef = Storage.storage().reference(withPath: storagePath)
+        storageRef = Storage.storage().reference(withPath: storagePath),
+        position = employeePosition
         
         
         cell.imageActivityIndicator.isHidden = false
         cell.imageActivityIndicator.startAnimating()
         
-        cell.fill(name: name, price: price, category: category, description: description, stock: stock, image: { (image) in
+        cell.fill(name: name, price: price, category: category, description: description, stock: stock, employeePosition: position, image: { (image) in
             DispatchQueue.main.async {
                 image.sd_setImage(with: storageRef)
                 cell.imageActivityIndicator.isHidden = true
@@ -181,9 +204,7 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource{
     
     //MARK: Delete
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
-        guard let position = self.employeePosition else {return nil}
-        if position == NavigationCases.EmployeeCases.admin.rawValue {
+        if self.employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
             let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.IDVC.CatalogListTVCell.rawValue, for: indexPath) as! CatalogListTableViewCell
             guard let name = cell.productNameLabel.text else {return nil}
             let delete = deleteAction(name: name, at: indexPath)
@@ -232,9 +253,8 @@ extension CatalogListViewController: CatalogListTableViewCellDelegate {
     }
     
     func editStockCondition(_ cell: CatalogListTableViewCell, _ text: UILabel) {
-        
         guard let name = cell.productNameLabel.text else {return}
-        
+
         if cell.stockSwitch.isOn == true {
             self.present(UIAlertController.editStockCondition(name: name, stock: true, text: text) {
                 if self.selectedCategory != "" {

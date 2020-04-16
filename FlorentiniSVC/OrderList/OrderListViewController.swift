@@ -49,7 +49,7 @@ class OrderListViewController: UIViewController {
     
     //MARK: - Private Implementation
     private var order = [DatabaseManager.Order]()
-    private var employeePosition = String()
+    private var employeePosition: String?
     private var orderCount = Int()
     
     //MARK: TableView

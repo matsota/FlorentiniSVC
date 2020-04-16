@@ -26,7 +26,7 @@ class CatalogListTableViewCell: UITableViewCell {
     var price = Int()
     var category = String()
     var stock = false
-    
+    var employeePosition = String()
     weak var delegate: CatalogListTableViewCellDelegate?
     
     //MARK: - Label
@@ -72,18 +72,25 @@ class CatalogListTableViewCell: UITableViewCell {
     
     
     //MARK: - Заполнение Таблицы
-    func fill(name: String, price: Int, category: String, description: String, stock: Bool, image: @escaping(UIImageView) -> Void, failure: @escaping(Error) -> Void) {
+    func fill(name: String, price: Int, category: String, description: String, stock: Bool, employeePosition: String, image: @escaping(UIImageView) -> Void, failure: @escaping(Error) -> Void) {
         productNameLabel.text = name
         productPriceButton.setTitle("\(price) грн", for: .normal)
+        productDescriptionLabel.text = description
         
         self.price = price
         self.category = category
         
-        productDescriptionLabel.text = description
+        self.employeePosition = employeePosition
+        if self.employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
+            self.stockSwitch.isHidden = false
+            self.productPriceButton.isUserInteractionEnabled = true
+        }else{
+            self.stockSwitch.isHidden = true
+            self.productPriceButton.isUserInteractionEnabled = false
+        }
         
         self.stock = stock
-        
-        if stock == true {
+        if self.stock == true {
             stockSwitch.isOn = true
             stockConditionLabel.text = "Акционный товар"
             stockConditionLabel.textColor = .red
