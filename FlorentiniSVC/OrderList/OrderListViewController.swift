@@ -15,7 +15,6 @@ class OrderListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         forViewDidLoad()
-        print(AuthenticationManager.shared.currentUser?.uid as Any)
     }
     
     //MARK: - Prepare for Order Detail
@@ -50,7 +49,7 @@ class OrderListViewController: UIViewController {
     
     //MARK: - Private Implementation
     private var order = [DatabaseManager.Order]()
-    private var employeePosition: String?
+    private var employeePosition = String()
     private var orderCount = Int()
     
     //MARK: TableView
@@ -101,27 +100,16 @@ private extension OrderListViewController {
             self.viewDidLoad()
         }
         
-        CoreDataManager.shared.fetchEmployeeData(success: { (data) -> (Void) in
-            guard let _ = data.map({$0.name}).first,
-                let position = data.map({$0.position}).first,
-                let _ = data.map({$0.email}).first,
-                let _ = data.map({$0.password}).first,
-                let _ = data.map({$0.uid}).first else {
-                    CoreDataManager.shared.deleteAllData(entity: "EmployeeData", success: {
-                        self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка Аунтефикации"), animated: true)
-                    }) { (error) in
-                        print("ERROR LOCATION: OrderListViewController/viewDidload/fetchEmployeeData/CoreDataManager.shared.deleteAllData: ",error.localizedDescription)
-                    }
-                    return
+        self.employeePosition = CoreDataManager.shared.fetchEmployeePosition(failure: { (error) in
+            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка Аунтификации. Перезагрузите приложение"), animated: true)
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5) {
+                CoreDataManager.shared.deleteAllData(for: "EmployeeData", success: {
+                    self.transitionToExit()
+                }) { (error) in
+                    self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Критическая ошибка. Обратитесь к поставщику"), animated: true)
+                }
             }
-            self.employeePosition = position
-        }) { (error) in
-            CoreDataManager.shared.deleteAllData(entity: "EmployeeData", success: {
-                self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка Аунтефикации."), animated: true)
-            }) { (_) in
-                 print("ERROR LOCATION: OrderListViewController/viewDidload/CoreDataManager.shared.fetchEmployeeData: ",error.localizedDescription)
-            }
-        }
+        })
     }
     
 }

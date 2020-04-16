@@ -138,7 +138,7 @@ extension UIViewController {
             }
         case .exit:
             self.present(UIAlertController.signOut {
-                CoreDataManager.shared.deleteAllData(entity: "EmployeeData", success: {
+                CoreDataManager.shared.deleteAllData(for: "EmployeeData", success: {
                     AuthenticationManager.shared.signOut(success: {
                         self.slideInTransitionMenu(for: view, constraint: constraint, dismissBy: button)
                         self.present(UIAlertController.completionDoneHalfSec(title: "Удачи!", message: "Выход выполнен"), animated: true)
@@ -152,12 +152,12 @@ extension UIViewController {
                     print(error.localizedDescription)
                     self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка в процессе выхода из профиля"), animated: true)
                 }
-                
             }, animated: true)
         }
     }
     
 }
+
 
 
 
