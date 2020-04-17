@@ -19,6 +19,9 @@
 		8F368AC02443515300BF9EBF /* StoreStaticticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98FA4E2443479A003C8759 /* StoreStaticticViewController.swift */; };
 		8F368AC12443515600BF9EBF /* ProductCustomizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98FA4524434736003C8759 /* ProductCustomizeViewController.swift */; };
 		8F368AC52443739100BF9EBF /* OrderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F368AC42443739100BF9EBF /* OrderListViewController.swift */; };
+		8F77678E2449FF8600745A22 /* Employees.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F77678D2449FF8600745A22 /* Employees.storyboard */; };
+		8F776790244A012800745A22 /* EmployeeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F77678F244A012800745A22 /* EmployeeListViewController.swift */; };
+		8F776792244A014800745A22 /* EmloyeeListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F776791244A014800745A22 /* EmloyeeListTableViewCell.swift */; };
 		8F98FA2B244341DE003C8759 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98FA2A244341DE003C8759 /* ChatViewController.swift */; };
 		8F98FA2D244341F7003C8759 /* UIAlertController + Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98FA2C244341F7003C8759 /* UIAlertController + Custom.swift */; };
 		8F98FA2F244341FB003C8759 /* String + Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98FA2E244341FB003C8759 /* String + Custom.swift */; };
@@ -55,6 +58,9 @@
 		2A543C8EC053833A3F8FAB90 /* Pods_FlorentiniSVC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FlorentiniSVC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		318B3323E78942C1E9FA91F7 /* Pods-FlorentiniSVC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlorentiniSVC.debug.xcconfig"; path = "Target Support Files/Pods-FlorentiniSVC/Pods-FlorentiniSVC.debug.xcconfig"; sourceTree = "<group>"; };
 		8F368AC42443739100BF9EBF /* OrderListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderListViewController.swift; sourceTree = "<group>"; };
+		8F77678D2449FF8600745A22 /* Employees.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Employees.storyboard; sourceTree = "<group>"; };
+		8F77678F244A012800745A22 /* EmployeeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListViewController.swift; sourceTree = "<group>"; };
+		8F776791244A014800745A22 /* EmloyeeListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmloyeeListTableViewCell.swift; sourceTree = "<group>"; };
 		8F98FA2A244341DE003C8759 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		8F98FA2C244341F7003C8759 /* UIAlertController + Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController + Custom.swift"; sourceTree = "<group>"; };
 		8F98FA2E244341FB003C8759 /* String + Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + Custom.swift"; sourceTree = "<group>"; };
@@ -112,6 +118,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8F77678C2449FF7300745A22 /* Employees */ = {
+			isa = PBXGroup;
+			children = (
+				8F77678F244A012800745A22 /* EmployeeListViewController.swift */,
+				8F776791244A014800745A22 /* EmloyeeListTableViewCell.swift */,
+				8F77678D2449FF8600745A22 /* Employees.storyboard */,
+			);
+			path = Employees;
+			sourceTree = "<group>";
+		};
 		8F98FA2124434119003C8759 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -234,6 +250,7 @@
 				8F98FA28244341BB003C8759 /* FAQ */,
 				8F98FA29244341C3003C8759 /* Chat */,
 				8F98FA272443419D003C8759 /* StoreStatistics */,
+				8F77678C2449FF7300745A22 /* Employees */,
 				8F98FA2624434188003C8759 /* ProductCustomize */,
 				8FC00BBB244328A700C80B45 /* Assets.xcassets */,
 				8FC00BBD244328A700C80B45 /* LaunchScreen.storyboard */,
@@ -362,6 +379,7 @@
 			files = (
 				8FC00BBF244328A700C80B45 /* LaunchScreen.storyboard in Resources */,
 				8F98FA5C244348C5003C8759 /* StoreStatistics.storyboard in Resources */,
+				8F77678E2449FF8600745A22 /* Employees.storyboard in Resources */,
 				8FC00BC924432C6600C80B45 /* GoogleService-Info.plist in Resources */,
 				8F98FA582443489B003C8759 /* Profile.storyboard in Resources */,
 				8F98FA5E244348E0003C8759 /* ProductCustomize.storyboard in Resources */,
@@ -441,6 +459,7 @@
 				8F98FA2B244341DE003C8759 /* ChatViewController.swift in Sources */,
 				8F368ABD2443514800BF9EBF /* ProfileViewController.swift in Sources */,
 				8F98FA2D244341F7003C8759 /* UIAlertController + Custom.swift in Sources */,
+				8F776792244A014800745A22 /* EmloyeeListTableViewCell.swift in Sources */,
 				8F98FA392443421B003C8759 /* IBDesignable + Buttons.swift in Sources */,
 				8F368AB92443512600BF9EBF /* OrderListDetailTableViewController.swift in Sources */,
 				8FC00BD3244332A200C80B45 /* AuthenticationManager.swift in Sources */,
@@ -452,6 +471,7 @@
 				8F98FA3524434210003C8759 /* CoreDataManager.swift in Sources */,
 				8F368AB82443502600BF9EBF /* OrderListTableViewCell.swift in Sources */,
 				8F98FA31244341FE003C8759 /* UIVC + Custom.swift in Sources */,
+				8F776790244A012800745A22 /* EmployeeListViewController.swift in Sources */,
 				8F98FA3F244343C9003C8759 /* NavigationCases.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

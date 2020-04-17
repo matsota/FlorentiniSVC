@@ -54,15 +54,14 @@ class ProfileViewController: UIViewController {
     }
     
     //MARK: - Private Implementation
-    private var currentEmployeeInfo = [DatabaseManager.EmployeeData]()
     
     //MARK: View
     @IBOutlet private weak var passwordView: UIView!
     @IBOutlet private weak var transitionView: UIView!
     
     //MARK: Button Outlet
-    @IBOutlet private weak  var newProductButton: UIButton!
-    @IBOutlet private weak var statisticsButton: DesignButton!
+
+    @IBOutlet private var adminButtons: [DesignButton]!
     @IBOutlet private weak var transitionDismissButton: UIButton!
     
     
@@ -95,21 +94,28 @@ private extension ProfileViewController {
     
     //MARK: Для ViewDidLoad
     func forViewDidLoad() {
-//        NetworkManager.shared.fetchEmployeeData(success: { employeeInfo in
-//            self.currentEmployeeInfo = employeeInfo
-//            self.currentEmployeeInfo.forEach { (employeeInfo) in
-//                self.nameLabel.text = employeeInfo.name
-//                self.positionLabel.text = employeeInfo.position
-//                
-//                if employeeInfo.position == NavigationCases.EmployeeCases.admin.rawValue && AuthenticationManager.shared.uidAdmin == AuthenticationManager.shared.currentUser?.uid{
-//                    self.newProductButton.isHidden = false
-//                    self.statisticsButton.isHidden = false
-//                }
-//            }
-//            self.emailLabel.text = Auth.auth().currentUser?.email
-//        }) { error in
-//            self.present(UIAlertController.somethingWrong(), animated: true)
-//        }
+        
+        CoreDataManager.shared.fetchEmployeeData(success: { (data) -> (Void) in
+            guard let name = data.map({$0.name}).first,
+            let email = data.map({$0.email}).first,
+            let position = data.map({$0.position}).first,
+            let uid = data.map({$0.uid}).first else {
+                print("ERROR: Profile/CoreDataManager.shared.fetchEmployeeData/guard_let_else")
+                self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка Аунтификации. Выйдите и перезагрузите приложение"), animated: true)
+                return
+            }
+            if position == NavigationCases.EmployeeCases.admin.rawValue && uid == AuthenticationManager.shared.uidAdmin {
+                self.adminButtons.forEach { (button) in
+                    button.isHidden = false
+                }
+            }
+            self.nameLabel.text = name
+            self.emailLabel.text = email
+            self.positionLabel.text = position
+        }) { (error) in
+            print("ERROR: Profile/CoreDataManager.shared.fetchEmployeeData: ", error.localizedDescription)
+            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка Аунтификации. Выйдите и перезагрузите приложение"), animated: true)
+        }
     }
     
 }
