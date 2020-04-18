@@ -30,58 +30,59 @@
                                                     <rect key="frame" x="14" y="14" width="386" height="30.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Имя:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="leV-7q-AL1">
-                                                            <rect key="frame" x="0.0" y="0.0" width="169.5" height="30.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="135.5" height="30.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.81185215710000003" green="0.71545660499999997" blue="0.82354193929999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Wq-Eh-YsQ">
-                                                            <rect key="frame" x="216.5" y="0.0" width="169.5" height="30.5"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qNh-Pg-E5e">
+                                                            <rect key="frame" x="182.5" y="0.0" width="203.5" height="30.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <color key="textColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="0Wq-Eh-YsQ" firstAttribute="height" secondItem="leV-7q-AL1" secondAttribute="height" id="QJm-em-bhO"/>
-                                                        <constraint firstItem="0Wq-Eh-YsQ" firstAttribute="width" secondItem="leV-7q-AL1" secondAttribute="width" id="jcD-XM-OzI"/>
+                                                        <constraint firstItem="qNh-Pg-E5e" firstAttribute="width" secondItem="leV-7q-AL1" secondAttribute="width" multiplier="1.5" id="uzM-p3-uki"/>
                                                     </constraints>
                                                 </stackView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="47" translatesAutoresizingMaskIntoConstraints="NO" id="MvV-Nm-fJ5">
                                                     <rect key="frame" x="14" y="58.5" width="386" height="30.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Должность:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zR4-Bt-NCE">
-                                                            <rect key="frame" x="0.0" y="0.0" width="169.5" height="30.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="135.5" height="30.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.81185215710000003" green="0.71545660499999997" blue="0.82354193929999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VSL-iZ-FUG">
-                                                            <rect key="frame" x="216.5" y="0.0" width="169.5" height="30.5"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <color key="textColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nOZ-6y-P9l">
+                                                            <rect key="frame" x="182.5" y="0.0" width="203.5" height="30.5"/>
+                                                            <state key="normal">
+                                                                <color key="titleColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="changeEmployeePositionTapped:" destination="3FI-i7-IU2" eventType="touchUpInside" id="KOb-FK-JtK"/>
+                                                            </connections>
+                                                        </button>
                                                     </subviews>
                                                 </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="VSL-iZ-FUG" firstAttribute="height" secondItem="leV-7q-AL1" secondAttribute="height" id="9C9-yQ-Vxe"/>
                                                 <constraint firstAttribute="trailing" secondItem="MvV-Nm-fJ5" secondAttribute="trailing" constant="14" id="FIC-XY-zyb"/>
-                                                <constraint firstItem="zR4-Bt-NCE" firstAttribute="height" secondItem="leV-7q-AL1" secondAttribute="height" id="GY0-W1-7XW"/>
-                                                <constraint firstItem="zR4-Bt-NCE" firstAttribute="width" secondItem="leV-7q-AL1" secondAttribute="width" id="HIm-G4-moZ"/>
                                                 <constraint firstAttribute="trailing" secondItem="Dzj-E8-YqE" secondAttribute="trailing" constant="14" id="Qc9-ns-ELQ"/>
+                                                <constraint firstItem="zR4-Bt-NCE" firstAttribute="width" secondItem="leV-7q-AL1" secondAttribute="width" id="Tt9-63-8Gv"/>
+                                                <constraint firstItem="qNh-Pg-E5e" firstAttribute="width" secondItem="nOZ-6y-P9l" secondAttribute="width" id="UHo-oY-mj9"/>
                                                 <constraint firstItem="Dzj-E8-YqE" firstAttribute="top" secondItem="FRa-E2-vTh" secondAttribute="top" constant="14" id="Vrk-FP-CN2"/>
                                                 <constraint firstAttribute="bottom" secondItem="MvV-Nm-fJ5" secondAttribute="bottom" constant="14" id="cG3-LM-KQ9"/>
                                                 <constraint firstItem="MvV-Nm-fJ5" firstAttribute="top" secondItem="Dzj-E8-YqE" secondAttribute="bottom" constant="14" id="fVo-53-16s"/>
-                                                <constraint firstItem="VSL-iZ-FUG" firstAttribute="width" secondItem="leV-7q-AL1" secondAttribute="width" id="iWf-GY-q27"/>
+                                                <constraint firstItem="MvV-Nm-fJ5" firstAttribute="height" relation="greaterThanOrEqual" secondItem="Dzj-E8-YqE" secondAttribute="height" id="qWI-QA-Laa"/>
                                                 <constraint firstItem="MvV-Nm-fJ5" firstAttribute="leading" secondItem="FRa-E2-vTh" secondAttribute="leading" constant="14" id="sfw-Xz-ogy"/>
                                                 <constraint firstItem="Dzj-E8-YqE" firstAttribute="leading" secondItem="FRa-E2-vTh" secondAttribute="leading" constant="14" id="t6R-st-hBj"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="nameLabel" destination="0Wq-Eh-YsQ" id="gcL-wm-aAu"/>
-                                            <outlet property="positionLabel" destination="VSL-iZ-FUG" id="MUS-Qj-oNl"/>
+                                            <outlet property="nameLabel" destination="qNh-Pg-E5e" id="qD5-d6-O1A"/>
+                                            <outlet property="positionButton" destination="nOZ-6y-P9l" id="mnJ-Fp-3xz"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

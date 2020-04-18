@@ -88,6 +88,7 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
         let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.IDVC.EmloyeeListTVCell.rawValue, for: indexPath) as! EmloyeeListTableViewCell
         
         cell.tag = indexPath.row
+        cell.delegate = self
         
         var fetch: DatabaseManager.EmployeeData
         
@@ -103,6 +104,14 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
         cell.fill(name: name, position: position)
         
         return cell
+    }
+    
+}
+
+extension EmployeeListViewController: EmloyeeListTableViewCellDelegate {
+    
+    func changeEmployeeposition(_ cell: EmloyeeListTableViewCell, _ position: String) {
+        
     }
     
 }

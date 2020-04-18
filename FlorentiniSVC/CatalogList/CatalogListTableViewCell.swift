@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseUI
 
 //MARK: - Protocol Worker-Catalog-ViewControllerDelegate
 
@@ -72,7 +73,9 @@ class CatalogListTableViewCell: UITableViewCell {
     
     
     //MARK: - Заполнение Таблицы
-    func fill(name: String, price: Int, category: String, description: String, stock: Bool, employeePosition: String, image: @escaping(UIImageView) -> Void, failure: @escaping(Error) -> Void) {
+    func fill(name: String, price: Int, category: String, description: String, stock: Bool, employeePosition: String, failure: @escaping(Error) -> Void) {
+        imageActivityIndicator.startAnimating()
+        
         productNameLabel.text = name
         productPriceButton.setTitle("\(price) грн", for: .normal)
         productDescriptionLabel.text = description
@@ -98,10 +101,18 @@ class CatalogListTableViewCell: UITableViewCell {
             stockSwitch.isOn = false
             stockConditionLabel.text = "Акция отсутствует"
             stockConditionLabel.textColor = .black
-            
         }
         
-        image(productImageView)
+        let storagePath = "\(NavigationCases.ProductCases.imageCollection.rawValue)/\(name)",
+        storageRef = Storage.storage().reference(withPath: storagePath)
+        productImageView.sd_setImage(with: storageRef, placeholderImage: .none) { (image, error, _, _) in
+            if let error = error{
+                self.imageActivityIndicator.stopAnimating()
+                failure(error)
+            }else{
+                self.imageActivityIndicator.stopAnimating()
+            }
+        }
     }
     
 }

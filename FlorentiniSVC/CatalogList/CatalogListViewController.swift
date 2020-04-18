@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import FirebaseUI
 
 class CatalogListViewController: UIViewController {
     
@@ -170,29 +169,19 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource{
         category = fetch.productCategory,
         description = fetch.productDescription,
         stock = fetch.stock,
-        storagePath = "\(NavigationCases.ProductCases.imageCollection.rawValue)/\(name)",
-        storageRef = Storage.storage().reference(withPath: storagePath),
         position = employeePosition
         
-        
-        cell.imageActivityIndicator.isHidden = false
         cell.imageActivityIndicator.startAnimating()
         
-        cell.fill(name: name, price: price, category: category, description: description, stock: stock, employeePosition: position, image: { (image) in
-            DispatchQueue.main.async {
-                image.sd_setImage(with: storageRef)
-                cell.imageActivityIndicator.isHidden = true
-                cell.imageActivityIndicator.stopAnimating()
-            }
-        }) { (error) in
-            cell.imageActivityIndicator.isHidden = true
-            cell.imageActivityIndicator.stopAnimating()
-            print(error.localizedDescription)
-        }
+        cell.fill(name: name, price: price, category: category, description: description, stock: stock, employeePosition: position, failure: { error in
+            print("ERROR: CatalogListViewController/tableView/imageRef: ",error.localizedDescription)
+            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Не все изображения сейчас могут подтянуться"), animated: true)
+        })
+        
         return cell
     }
     
-    //MARK: Delete
+    // - Delete action
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         if self.employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
             let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.IDVC.CatalogListTVCell.rawValue, for: indexPath) as! CatalogListTableViewCell

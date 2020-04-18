@@ -8,10 +8,18 @@
 
 import UIKit
 
+protocol EmloyeeListTableViewCellDelegate: class {
+    
+    func changeEmployeeposition (_ cell: EmloyeeListTableViewCell, _ position: String)
+    
+}
+
 class EmloyeeListTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var positionLabel: UILabel!
+    weak var delegate: EmloyeeListTableViewCellDelegate?
+    
+    @IBOutlet private weak var nameLabel: UILabel!
+    @IBOutlet private weak var positionButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -20,11 +28,16 @@ class EmloyeeListTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
+    
+    @IBAction func changeEmployeePositionTapped(_ sender: UIButton) {
+        
+    }
 
     func fill(name: String, position: String){
         
         nameLabel.text = name
-        positionLabel.text = position
+        
+        positionButton.setTitle(position, for: .normal)
         
     }
 }
