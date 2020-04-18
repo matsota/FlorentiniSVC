@@ -11,6 +11,8 @@ import UIKit
 
 class OrderListViewController: UIViewController {
     
+    weak var transitionVC: TransitionMenuViewController?
+    
     //MARK: - Override
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +31,6 @@ class OrderListViewController: UIViewController {
     //MARK: - Transition menu tapped
     @IBAction private func transitionMenuTapped(_ sender: UIButton) {
         slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
-        
     }
     
     //MARK: - Transition confirm
@@ -142,6 +143,7 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    // - archive
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         if employeePosition == NavigationCases.EmployeeCases.admin.rawValue || employeePosition == NavigationCases.EmployeeCases.operator.rawValue {
             let archive = archiveAction(at: indexPath)
@@ -176,6 +178,7 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
         return action
     }
     
+    // - delete
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         if employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
             let delete = deleteAction(at: indexPath)
@@ -214,7 +217,7 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
-//MARK: - Delivery Person
+//MARK: - Cell delegate
 extension OrderListViewController: OrdersListTableViewCellDelegate {
     
     func deliveryPerson(_ cell: OrderListTableViewCell) {

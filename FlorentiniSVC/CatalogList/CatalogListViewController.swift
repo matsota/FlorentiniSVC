@@ -213,7 +213,7 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource{
     
 }
 
-//MARK: Методы TableViewCell через delegate
+//MARK: - Cell delegate
 extension CatalogListViewController: CatalogListTableViewCellDelegate {
     
     func editPrice(_ cell: CatalogListTableViewCell){
