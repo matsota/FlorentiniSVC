@@ -10,7 +10,7 @@ import UIKit
 
 protocol EmloyeeListTableViewCellDelegate: class {
     
-    func changeEmployeeposition (_ cell: EmloyeeListTableViewCell, _ position: String)
+    func changeEmployeeposition (_ cell: EmloyeeListTableViewCell)
     
 }
 
@@ -30,7 +30,7 @@ class EmloyeeListTableViewCell: UITableViewCell {
     }
     
     @IBAction func changeEmployeePositionTapped(_ sender: UIButton) {
-        
+        delegate?.changeEmployeeposition(self)
     }
 
     func fill(name: String, position: String){

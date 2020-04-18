@@ -111,7 +111,7 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
 //MARK: - Cell delegate
 extension EmployeeListViewController: EmloyeeListTableViewCellDelegate {
     
-    func changeEmployeeposition(_ cell: EmloyeeListTableViewCell, _ position: String) {
+    func changeEmployeeposition(_ cell: EmloyeeListTableViewCell) {
         
     }
     
