@@ -23,12 +23,14 @@ class NavigationCases {
         case ProfileVC
         case FAQVC
         case ChatVC
+        case EmployeeListVC
         
         // - Cells
         case OrdersListTVCell
         case OrdersDetailListTVCell
         case CatalogListTVCell
         case ChatTVCell
+        case EmloyeeListTVCell
         
         
         // - sugue

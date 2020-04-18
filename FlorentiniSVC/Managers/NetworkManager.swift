@@ -108,20 +108,21 @@ class NetworkManager {
     //MARK: - cRud
     ///
     
-//    //MARK: - Fetch employee data
-//    func fetchEmployeeData(success: @escaping([DatabaseManager.EmployeeData]) -> Void, failure: @escaping(Error) -> Void) {
-//        let uid = AuthenticationManager.shared.currentUser?.uid
-//        if uid == nil {
-//            failure(NetworkManagerError.employeeNotSignedIn)
-//        }else{
-//            db.collection(NavigationCases.MessagesCases.workers.rawValue).document(uid!).getDocument { (documentSnapshot, _) in
-//                guard let workerInfo = DatabaseManager.EmployeeData(dictionary: documentSnapshot!.data()!) else {return}
-//                success([workerInfo])
-//            }
-//        }
-//    }
     //MARK: - Fetch employee data
-    func fetchEmployeeDataOnes(uid: String, success: @escaping([DatabaseManager.EmployeeData]) -> Void, failure: @escaping(Error) -> Void) {
+    func fetchEmployeeData(success: @escaping([DatabaseManager.EmployeeData]) -> Void, failure: @escaping(Error) -> Void) {
+        
+        db.collection(NavigationCases.MessagesCases.workers.rawValue).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                failure(error)
+            }else{
+                let employeeData = querySnapshot!.documents.compactMap{DatabaseManager.EmployeeData(dictionary: $0.data())}
+                success(employeeData)
+            }
+        }
+    }
+    
+    //MARK: - Fetch employee data
+    func fetchCertainDataOfEmployee(uid: String, success: @escaping([DatabaseManager.EmployeeData]) -> Void, failure: @escaping(Error) -> Void) {
         if uid == "" {
             let error = NetworkManagerError.employeeUIDDoesNotExist
             failure(error)
@@ -137,17 +138,28 @@ class NetworkManager {
     func fetchArchivedOrders(success: @escaping(_ receipts: [DatabaseManager.Order],_ additions: [DatabaseManager.OrderAddition], _ deleted: [DatabaseManager.Order]) -> Void, failure: @escaping(Error) -> Void) {
         //  - first fetch
         db.collection(NavigationCases.ArchiveCases.archivedOrders.rawValue).getDocuments {
-            (querySnapshot, _) in
-            let receiptsData = querySnapshot!.documents.compactMap{DatabaseManager.Order(dictionary: $0.data())}
-            // - second fetch
-            self.db.collection(NavigationCases.ArchiveCases.archivedOrderAdditions.rawValue).getDocuments {
-                (querySnapshot, _) in
-                let additionsData = querySnapshot!.documents.compactMap{DatabaseManager.OrderAddition(dictionary: $0.data())}
-                //third fetch
-                self.db.collection(NavigationCases.ArchiveCases.deletedOrders.rawValue).getDocuments { (querySnapshot, _) in
-                    let deletedData = querySnapshot!.documents.compactMap{DatabaseManager.Order(dictionary: $0.data())}
-                    
-                    success(receiptsData, additionsData, deletedData)
+            (querySnapshot, error) in
+            if let error = error {
+                failure(error)
+            }else{
+                let receiptsData = querySnapshot!.documents.compactMap{DatabaseManager.Order(dictionary: $0.data())}
+                // - second fetch
+                self.db.collection(NavigationCases.ArchiveCases.archivedOrderAdditions.rawValue).getDocuments {
+                    (querySnapshot, error) in
+                    if let error = error {
+                        failure(error)
+                    }else{
+                        let additionsData = querySnapshot!.documents.compactMap{DatabaseManager.OrderAddition(dictionary: $0.data())}
+                        //third fetch
+                        self.db.collection(NavigationCases.ArchiveCases.deletedOrders.rawValue).getDocuments { (querySnapshot, error) in
+                            if let error = error {
+                                failure(error)
+                            }else{
+                                let deletedData = querySnapshot!.documents.compactMap{DatabaseManager.Order(dictionary: $0.data())}
+                                success(receiptsData, additionsData, deletedData)
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -48,18 +48,18 @@ class StoreStaticticViewController: UIViewController {
             self.viewDidLoad()
         }), animated: true)
     }
-    //MARK: - По частоте покупки
+    //MARK: - By product frequency
     @IBAction private func byFrequencyTapped(_ sender: UIButton) {
         hideUnhideFrequency()
     }
     
-    //MARK: - По Чекам
+    //MARK: - By receipts
     @IBAction private func byReceiptsTapped(_ sender: UIButton) {
         hideUnhideReceipts()
     }
     
-    //MARK: Редактирование статистики по чекам.
-    //MARK - Default = 3000
+    //MARK: Statistics by receipts amount
+    // - Default = 3000
     @IBAction private func receiptsOverSomePriceTapped(_ sender: UIButton) {
         self.present(UIAlertController.setNumber(present: "Введите сумму покупки, и вам покажет количество чеков, сумма которых БОЛЬШЕ введённой цифры", success: { (number) in
             self.overSomePrice = number
@@ -67,7 +67,7 @@ class StoreStaticticViewController: UIViewController {
             self.viewDidLoad()
         }), animated: true)
     }
-    //MARK - Default = 700
+    // - Default = 700
     @IBAction private func receiptsLessSomePriceTapped(_ sender: UIButton) {
         self.present(UIAlertController.setNumber(present: "Введите сумму покупки, и вам покажет количество чеков, сумма которых МЕНЬШЕ введённой цифры", success: { (number) in
             self.lessSomePrice = number
@@ -76,7 +76,7 @@ class StoreStaticticViewController: UIViewController {
         }), animated: true)
     }
     
-    //MARK: - По популярности
+    //MARK: - By popularity
     @IBAction private func byPopularityTapped(_ sender: UIButton) {
         hideUnhidePopularity()
     }
@@ -208,7 +208,7 @@ private extension StoreStaticticViewController {
             NetworkManager.shared.fetchArchivedOrdersByReceipts(overThan: self.overSomePrice, lessThan: self.lessSomePrice, success: { (over, less)  in
                 self.forStatsByReceipts(receipts: receipts, over: over, less: less)
             }) { (error) in
-                print("Error occured in fetchArchivedOrders",error.localizedDescription)
+                print("Error occured in fetchArchivedOrdersByReceipts",error.localizedDescription)
             }
             
             //Most/Less popular product
@@ -216,11 +216,11 @@ private extension StoreStaticticViewController {
             self.lessPopularProductLabel.text = self.forStatsByLessPopular(additions: additions)
         }) { (error) in
             print("Error occured in fetchArchivedOrders",error.localizedDescription)
+            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Данные не подтягиваются из сети"), animated: true)
         }
         
         //Based on category
         NetworkManager.shared.fetchArchivedOrdersByCategory(success: { (bouquetData, apeiceData, giftData, stockData) in
-    
             // - By Frequency
             self.forStatsByCategoryFrequency(bouquetData: bouquetData, apeiceData: apeiceData, giftData: giftData, stockData: stockData)
             
@@ -228,16 +228,14 @@ private extension StoreStaticticViewController {
             self.forStatsByPopular(bouquetData: bouquetData, apeiceData: apeiceData, giftData: giftData)
             
         }) { (error) in
-            print("Error occured in fetchArchivedOrders",error.localizedDescription)
+            print("Error occured in fetchArchivedOrdersByCategory",error.localizedDescription)
+            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Данные не подтягиваются из сети"), animated: true)
         }
-        
-        
-//        NetworkManager.shared.fetch
     }
     
 }
 
-//MARK: - Для Статистики
+//MARK: - Statistics
 private extension StoreStaticticViewController{
     
     //MARK: По Общему обороту
@@ -253,22 +251,26 @@ private extension StoreStaticticViewController{
         totalOrders = ordersCompleted + ordersFailed,
         ordersCompletedPersentage = Int(Float(ordersCompleted)/Float(totalOrders) * 100.0),
         ordersFailedPersentage = Int(Float(ordersFailed)/Float(totalOrders) * 100.0)
+        
         // - total
         self.totalOrdersLabel.text = "\(totalOrders)"
+        
         // - completed
         self.ordersCompletedLabel.text = "\(ordersCompleted)"
         self.ordersCompletedPercentageLabel.text = "\(ordersCompletedPersentage)"
+        
         // - deleted
         self.ordersFailedLabel.text = "\(ordersFailed)"
         self.ordersFailedPercentageLabel.text = "\(ordersFailedPersentage)"
     }
     
-    //MARK: По Покупателям
+    //MARK: By Customers
     func forStatsByCustomers(receipts: [DatabaseManager.Order]) {
         let uniqueCustomers = Set(receipts.map({$0.orderID})),
         uniqueCustomersQuantity = uniqueCustomers.count
         self.uniqueCustomersLabel.text = "\(uniqueCustomersQuantity)"
-        // - regular
+        
+        // - regular customers
         var allCustomers = String(),
         regularCustomersQuantity = Int()
         
@@ -305,7 +307,7 @@ private extension StoreStaticticViewController{
         self.lessSomePriceLabel.text = "\(lessThan)"
     }
     
-    //MARK: По частоте выбора в кагеориях
+    //MARK: By Frequency in categories
     func forStatsByCategoryFrequency(bouquetData: [DatabaseManager.OrderAddition], apeiceData: [DatabaseManager.OrderAddition], giftData: [DatabaseManager.OrderAddition], stockData: [DatabaseManager.OrderAddition]) {
         
         let bouquets = bouquetData.count,
@@ -327,29 +329,29 @@ private extension StoreStaticticViewController{
         giftAmountPercentage = Int(Double(giftAmount)/Double(totalAmount) * 100.0),
         stockAmountPercentage = Int(Double(stockAmount)/Double(totalAmount) * 100.0)
         
-        //MARK - Букеты
+        // - bouquets
         self.bouquetFrequencyLabel.text = "\(bouquets)"
         self.bouquetFrequencyPercentageLabel.text = "\(bouquetPercentage)"
         self.amountOfBouquetsLabel.text = "\(bouquetAmount)"
         self.amountOfBouquetsPercentageLabel.text = "\(bouquetAmountPercentage)"
-        //MARK - Цветы Поштучно
+        // - apieces
         self.flowerFrequencyLabel.text = "\(apeices)"
         self.flowerFrequencyPercentageLabel.text = "\(apeicePercentage)"
         self.amountOfFlowersLabel.text = "\(apeiceAmount)"
         self.amountOfFlowersPercentageLabel.text = "\(apeiceAmountPercentage)"
-        //MARK - Подраки
+        // - gifts
         self.giftFrequencyLabel.text = "\(gifts)"
         self.giftFrequencyPercentageLabel.text = "\(giftPercentage)"
         self.amountOfGiftsLabel.text = "\(giftAmount)"
         self.amountOfGiftsPercentageLabel.text = "\(giftAmountPercentage)"
-        //MARK - Акционные товары
+        // - stocks
         self.stockFrequencyLabel.text = "\(stocks)"
         self.stockFrequencyPercentageLabel.text = "\(stockPercentage)"
         self.amountOfStocksLabel.text = "\(stockAmount)"
         self.amountOfStocksPercentageLabel.text = "\(stockAmountPercentage)"
     }
     
-    //MARK: Подготовка-1 для 'По Популярности'
+    //MARK: Prepare-1 for 'By populariy'
     func forStatsByMostPopular(additions: [DatabaseManager.OrderAddition]) -> String {
         
         var nameCountDict = [String: Int](),
@@ -382,7 +384,7 @@ private extension StoreStaticticViewController{
         return mostPopularProduct
     }
     
-    //MARK: Подготовка-2 для 'По Популярности'
+    //MARK: Prepare-2 for 'By populariy'
     func forStatsByLessPopular(additions: [DatabaseManager.OrderAddition]) -> String {
         
         var nameCountDict = [String: Int](),
@@ -415,7 +417,7 @@ private extension StoreStaticticViewController{
         return mostPopularProduct
     }
     
-    //MARK: - По популярности
+    //MARK: - By populariy
     func forStatsByPopular (bouquetData: [DatabaseManager.OrderAddition], apeiceData: [DatabaseManager.OrderAddition], giftData: [DatabaseManager.OrderAddition]) {
         //Bouquet
         self.mostPopularBouquetLabel.text = self.forStatsByMostPopular(additions: bouquetData)
@@ -438,9 +440,7 @@ private extension StoreStaticticViewController{
 
 //MARK: - Hide-Unhide certain statistics
 private extension StoreStaticticViewController {
-    
-   
-    
+
     func hideUnhideFrequency() {
         UIView.animate(withDuration: 0.3) {
             self.bouquetFrequencyStackView.isHidden = !self.bouquetFrequencyStackView.isHidden

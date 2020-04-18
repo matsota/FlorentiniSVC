@@ -41,7 +41,7 @@ class LoginViewController: UIViewController {
         AuthenticationManager.shared.signIn(email: email, password: password, success: { result in
             let uid = result.user.uid
             
-            NetworkManager.shared.fetchEmployeeDataOnes(uid: uid, success: { (employeeData) in
+            NetworkManager.shared.fetchCertainDataOfEmployee(uid: uid, success: { (employeeData) in
                 if let name = employeeData.map({$0.name}).first,
                     let position = employeeData.map({$0.position}).first {
                     self.present(UIAlertController.saveSignIn(self.activityIndicator, success: {
