@@ -93,7 +93,7 @@ class NetworkManager {
         let newMessage = DatabaseManager.ChatMessages(name: name, content: content, uid: AuthenticationManager.shared.currentUser!.uid, timeStamp: Date())
         var ref: DocumentReference? = nil
         
-        ref = db.collection(NavigationCases.MessagesCases.workersMessages.rawValue).addDocument(data: newMessage.dictionary) {
+        ref = db.collection(NavigationCases.MessagesCases.employeeMessages.rawValue).addDocument(data: newMessage.dictionary) {
             error in
             if let error = error {
                 print("Error: \(error.localizedDescription)")
@@ -135,7 +135,7 @@ class NetworkManager {
     }
     
     //MARK: - Fetch archive main data
-    func fetchArchivedOrders(success: @escaping(_ receipts: [DatabaseManager.Order],_ additions: [DatabaseManager.OrderAddition], _ deleted: [DatabaseManager.Order]) -> Void, failure: @escaping(Error) -> Void) {
+    func fetchArchivedOrders(time: Date, success: @escaping(_ receipts: [DatabaseManager.Order],_ additions: [DatabaseManager.OrderAddition], _ deleted: [DatabaseManager.Order]) -> Void, failure: @escaping(Error) -> Void) {
         //  - first fetch
         db.collection(NavigationCases.ArchiveCases.archivedOrders.rawValue).getDocuments {
             (querySnapshot, error) in
@@ -251,7 +251,7 @@ class NetworkManager {
         if AuthenticationManager.shared.currentUser?.uid == nil {
             failure(NetworkManagerError.employeeNotSignedIn)
         }else{
-            db.collection(NavigationCases.MessagesCases.workersMessages.rawValue).getDocuments(completion: {
+            db.collection(NavigationCases.MessagesCases.employeeMessages.rawValue).whereField(NavigationCases.MessagesCases.timeStamp.rawValue, isLessThan: Date()).getDocuments(completion: {
                 (querySnapshot, _) in
                 let messages = querySnapshot!.documents.compactMap{DatabaseManager.ChatMessages(dictionary: $0.data())}
                 success(messages)
@@ -346,7 +346,7 @@ class NetworkManager {
     
     //MARK: - Chat listener
     func updateChat(success: @escaping(DatabaseManager.ChatMessages) -> Void) {
-        db.collection(NavigationCases.MessagesCases.workersMessages.rawValue).whereField(NavigationCases.MessagesCases.timeStamp.rawValue, isGreaterThan: Date()).addSnapshotListener { (querySnapshot, error) in
+        db.collection(NavigationCases.MessagesCases.employeeMessages.rawValue).whereField(NavigationCases.MessagesCases.timeStamp.rawValue, isGreaterThan: Date()).addSnapshotListener { (querySnapshot, error) in
             guard let snapshot = querySnapshot else {return}
             
             snapshot.documentChanges.forEach { diff in

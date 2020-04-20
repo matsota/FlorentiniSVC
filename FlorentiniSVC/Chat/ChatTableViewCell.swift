@@ -10,11 +10,19 @@ import UIKit
 
 class ChatTableViewCell: UITableViewCell {
     
+    
+    //MARK: View
+    @IBOutlet weak var messageView: DesignView!
+    
+    //MARK: Label
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
+    //MARK: Constraint
+    @IBOutlet weak var stackViewLeadingConstraint: NSLayoutConstraint!
     
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -22,7 +30,6 @@ class ChatTableViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
         // Configure the view for the selected state
     }
     
@@ -32,6 +39,22 @@ class ChatTableViewCell: UITableViewCell {
         nameLabel?.text = name
         contentLabel?.text = content
         dateLabel?.text = date
+        
+        if name == CoreDataManager.shared.fetchEmployeeName(failure: { error in
+            print("ERROR in ChatTableViewCell with parametrs: name:\(name), time:\(date)", error.localizedDescription)
+        }) {
+            contentLabel.textColor = UIColor.pinkColorOfEnterprise
+            messageView.backgroundColor = UIColor.purpleColorOfEnterprise
+            stackViewLeadingConstraint.constant = nameLabel.frame.width
+            dateLabel.textAlignment = .right
+            nameLabel.isHidden = true
+        }else{
+            contentLabel.textColor = UIColor.purpleColorOfEnterprise
+            messageView.backgroundColor = UIColor.pinkColorOfEnterprise
+            stackViewLeadingConstraint.constant = 0
+            dateLabel.textAlignment = .left
+            nameLabel.isHidden = false
+        }
     }
     
 }

@@ -86,6 +86,7 @@ class StoreStaticticViewController: UIViewController {
     private var receiptsCountOfRegularCustomers = 5
     private var overSomePrice = 3000
     private var lessSomePrice = 700
+    private var time = Date()
     
     //MARK: - Labels
     @IBOutlet private weak var totalAmountLabel: UILabel!
@@ -194,7 +195,7 @@ private extension StoreStaticticViewController {
     
     //MARK: Для ViewDidLoad
     func forViewDidLoad() {
-        NetworkManager.shared.fetchArchivedOrders(success: { (receipts, additions, deletedData)  in
+        NetworkManager.shared.fetchArchivedOrders(time: time, success: { (receipts, additions, deletedData)  in
             //Total Amount
             self.forStatsByTotalAmount(additions: additions)
             

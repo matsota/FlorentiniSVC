@@ -19,6 +19,9 @@
 		8F368AC02443515300BF9EBF /* StoreStaticticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98FA4E2443479A003C8759 /* StoreStaticticViewController.swift */; };
 		8F368AC12443515600BF9EBF /* ProductCustomizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98FA4524434736003C8759 /* ProductCustomizeViewController.swift */; };
 		8F368AC52443739100BF9EBF /* OrderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F368AC42443739100BF9EBF /* OrderListViewController.swift */; };
+		8F3B52F2244C822500D13DB6 /* Date + Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3B52F1244C822500D13DB6 /* Date + Custom.swift */; };
+		8F3B52F4244DCD4700D13DB6 /* View + IBDesignable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3B52F3244DCD4700D13DB6 /* View + IBDesignable.swift */; };
+		8F591C0C244DF7E900F417BA /* UIColor + Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F591C0B244DF7E900F417BA /* UIColor + Custom.swift */; };
 		8F77678E2449FF8600745A22 /* Employees.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F77678D2449FF8600745A22 /* Employees.storyboard */; };
 		8F776790244A012800745A22 /* EmployeeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F77678F244A012800745A22 /* EmployeeListViewController.swift */; };
 		8F776792244A014800745A22 /* EmloyeeListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F776791244A014800745A22 /* EmloyeeListTableViewCell.swift */; };
@@ -29,7 +32,7 @@
 		8F98FA332443420C003C8759 /* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98FA322443420C003C8759 /* PersistenceService.swift */; };
 		8F98FA3524434210003C8759 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98FA3424434210003C8759 /* CoreDataManager.swift */; };
 		8F98FA3724434213003C8759 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98FA3624434213003C8759 /* Notifications.swift */; };
-		8F98FA392443421B003C8759 /* IBDesignable + Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98FA382443421B003C8759 /* IBDesignable + Buttons.swift */; };
+		8F98FA392443421B003C8759 /* Buttons + IBDesignable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98FA382443421B003C8759 /* Buttons + IBDesignable.swift */; };
 		8F98FA3B24434259003C8759 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98FA3A24434259003C8759 /* NetworkManager.swift */; };
 		8F98FA3D24434266003C8759 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98FA3C24434266003C8759 /* DatabaseManager.swift */; };
 		8F98FA3F244343C9003C8759 /* NavigationCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98FA3E244343C9003C8759 /* NavigationCases.swift */; };
@@ -58,6 +61,9 @@
 		2A543C8EC053833A3F8FAB90 /* Pods_FlorentiniSVC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FlorentiniSVC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		318B3323E78942C1E9FA91F7 /* Pods-FlorentiniSVC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlorentiniSVC.debug.xcconfig"; path = "Target Support Files/Pods-FlorentiniSVC/Pods-FlorentiniSVC.debug.xcconfig"; sourceTree = "<group>"; };
 		8F368AC42443739100BF9EBF /* OrderListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderListViewController.swift; sourceTree = "<group>"; };
+		8F3B52F1244C822500D13DB6 /* Date + Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date + Custom.swift"; sourceTree = "<group>"; };
+		8F3B52F3244DCD4700D13DB6 /* View + IBDesignable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View + IBDesignable.swift"; sourceTree = "<group>"; };
+		8F591C0B244DF7E900F417BA /* UIColor + Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Custom.swift"; sourceTree = "<group>"; };
 		8F77678D2449FF8600745A22 /* Employees.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Employees.storyboard; sourceTree = "<group>"; };
 		8F77678F244A012800745A22 /* EmployeeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListViewController.swift; sourceTree = "<group>"; };
 		8F776791244A014800745A22 /* EmloyeeListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmloyeeListTableViewCell.swift; sourceTree = "<group>"; };
@@ -68,7 +74,7 @@
 		8F98FA322443420C003C8759 /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
 		8F98FA3424434210003C8759 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		8F98FA3624434213003C8759 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
-		8F98FA382443421B003C8759 /* IBDesignable + Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IBDesignable + Buttons.swift"; sourceTree = "<group>"; };
+		8F98FA382443421B003C8759 /* Buttons + IBDesignable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Buttons + IBDesignable.swift"; sourceTree = "<group>"; };
 		8F98FA3A24434259003C8759 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		8F98FA3C24434266003C8759 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		8F98FA3E244343C9003C8759 /* NavigationCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationCases.swift; sourceTree = "<group>"; };
@@ -277,8 +283,11 @@
 			children = (
 				8F98FA2C244341F7003C8759 /* UIAlertController + Custom.swift */,
 				8F98FA30244341FD003C8759 /* UIVC + Custom.swift */,
-				8F98FA382443421B003C8759 /* IBDesignable + Buttons.swift */,
+				8F3B52F1244C822500D13DB6 /* Date + Custom.swift */,
 				8F98FA2E244341FB003C8759 /* String + Custom.swift */,
+				8F591C0B244DF7E900F417BA /* UIColor + Custom.swift */,
+				8F98FA382443421B003C8759 /* Buttons + IBDesignable.swift */,
+				8F3B52F3244DCD4700D13DB6 /* View + IBDesignable.swift */,
 				8F98FA3E244343C9003C8759 /* NavigationCases.swift */,
 			);
 			path = Helpers;
@@ -455,12 +464,15 @@
 				8F368ABB2443514100BF9EBF /* CatalogListViewController.swift in Sources */,
 				8F98FA332443420C003C8759 /* PersistenceService.swift in Sources */,
 				8F368AC02443515300BF9EBF /* StoreStaticticViewController.swift in Sources */,
+				8F3B52F2244C822500D13DB6 /* Date + Custom.swift in Sources */,
 				8FD887EF2447539200A1EF37 /* TransitionMenuViewController.swift in Sources */,
 				8F98FA2B244341DE003C8759 /* ChatViewController.swift in Sources */,
 				8F368ABD2443514800BF9EBF /* ProfileViewController.swift in Sources */,
 				8F98FA2D244341F7003C8759 /* UIAlertController + Custom.swift in Sources */,
+				8F591C0C244DF7E900F417BA /* UIColor + Custom.swift in Sources */,
 				8F776792244A014800745A22 /* EmloyeeListTableViewCell.swift in Sources */,
-				8F98FA392443421B003C8759 /* IBDesignable + Buttons.swift in Sources */,
+				8F98FA392443421B003C8759 /* Buttons + IBDesignable.swift in Sources */,
+				8F3B52F4244DCD4700D13DB6 /* View + IBDesignable.swift in Sources */,
 				8F368AB92443512600BF9EBF /* OrderListDetailTableViewController.swift in Sources */,
 				8FC00BD3244332A200C80B45 /* AuthenticationManager.swift in Sources */,
 				8F368ABC2443514300BF9EBF /* CatalogListTableViewCell.swift in Sources */,

@@ -13,7 +13,6 @@ class ChatViewController: UIViewController {
     
     //MARK: - Override
     
-    //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -23,14 +22,19 @@ class ChatViewController: UIViewController {
     
     //MARK: - New Message
     @IBAction private func typeMessage(_ sender: UIButton) {
-        guard name != "" else {return}
+        guard name != "" else {
+            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка Аутентификации"), animated: true)
+            return
+        }
         self.present(UIAlertController.sendToChat(name: name), animated: true)
     }
     
     //MARK: - Transition Menu Tapped
-    @IBAction private func workerMenuTapped(_ sender: UIButton) {
+    @IBAction private func transitionMenuTapped(_ sender: UIButton) {
         slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
     }
+    
+   
     
     //MARK: - Transition confirm
     @IBAction func transitionConfirm(_ sender: UIButton) {
@@ -54,11 +58,20 @@ class ChatViewController: UIViewController {
     private var name = String()
     private var position = String()
     
+    
+      
+    
+    //0.831494 0.711081 0.831399
+    
     //MARK: TableView Outlet
     @IBOutlet private weak var tableView: UITableView!
     
     //MARK: View
     @IBOutlet private weak var transitionView: UIView!
+    
+    //MARK: Text View
+    @IBOutlet private weak var chatTextView: UITextView!
+    
     
     //MARK: Button
     @IBOutlet private weak var transitionDismissButton: UIButton!
@@ -83,14 +96,14 @@ private extension ChatViewController {
     
     //MARK: Для ViewDidLoad
     func forViewDidLoad() {        
-    
-        
-        //MARK: Сообщения чата
+
         NetworkManager.shared.fetchEmployeeChat(success: { messages in
             self.messagesArray = messages
+            self.messagesArray.reverse()
             self.tableView.reloadData()
         }) { error in
-            print(error.localizedDescription)
+            print("ERROR: ChatViewController/viewDidLoad/fetchChat: ",error.localizedDescription)
+            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Произошла ошибка. Возможно пропал интеренет"), animated: true)
         }
         
         //MARK: Обновление чата
@@ -103,6 +116,13 @@ private extension ChatViewController {
             
             self.tableView.reloadData()
         }
+        
+        self.name = CoreDataManager.shared.fetchEmployeeName(failure: { (_) in
+            
+        })
+        self.position = CoreDataManager.shared.fetchEmployeePosition(failure: { (_) in
+            
+        })
         
     }
     
@@ -117,10 +137,11 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.IDVC.ChatTVCell.rawValue, for: indexPath) as! ChatTableViewCell,
-        message = messagesArray[indexPath.row]
-        
-        cell.fill(name: message.name, content: message.content, date: "\(message.timeStamp)")
-        
+        message = messagesArray[indexPath.row],
+        date = Date.asString(message.timeStamp)()
+    
+        cell.fill(name: message.name, content: message.content, date: date)
+    
         return cell
     }
     

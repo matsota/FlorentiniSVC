@@ -55,6 +55,11 @@ class CatalogListTableViewCell: UITableViewCell {
         super.awakeFromNib()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        descriptionView.isHidden = false
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         UIView.animate(withDuration: 0.5) {
