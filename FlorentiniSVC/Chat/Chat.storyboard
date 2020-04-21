@@ -36,13 +36,9 @@
                                                 </constraints>
                                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                             </imageView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KOm-uW-3Ug">
+                                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KOm-uW-3Ug">
                                                 <rect key="frame" x="312.33333333333331" y="0.0" width="34.666666666666686" height="100"/>
                                                 <color key="tintColor" red="0.81185215710000003" green="0.71545660499999997" blue="0.82354193929999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <state key="normal" image="square.and.pencil" catalog="system"/>
-                                                <connections>
-                                                    <action selector="typeMessage:" destination="eIh-AE-y3t" eventType="touchUpInside" id="3sY-gc-a6h"/>
-                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
@@ -62,7 +58,7 @@
                                 </subviews>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1oy-ac-mCc">
-                                <rect key="frame" x="14" y="188" width="347" height="520"/>
+                                <rect key="frame" x="14" y="188" width="347" height="548"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ChatTVCell" rowHeight="100" id="r9Q-KR-E5y" customClass="ChatTableViewCell" customModule="FlorentiniSVC" customModuleProvider="target">
@@ -362,10 +358,10 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QwV-kM-boo">
-                                <rect key="frame" x="14" y="716" width="347" height="62"/>
+                                <rect key="frame" x="14" y="744" width="347" height="34"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GaL-Jc-iii">
-                                        <rect key="frame" x="14" y="14" width="271" height="34"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="292" height="34"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <color key="tintColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <constraints>
@@ -374,9 +370,12 @@
                                         <color key="textColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="eIh-AE-y3t" id="HYB-OO-MOo"/>
+                                        </connections>
                                     </textView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lpS-gK-CYI">
-                                        <rect key="frame" x="299" y="14" width="34" height="34"/>
+                                    <button opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lpS-gK-CYI">
+                                        <rect key="frame" x="299" y="0.0" width="34" height="34"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="34" id="ivx-OV-HRO"/>
                                             <constraint firstAttribute="width" constant="34" id="tuF-Fb-IYF"/>
@@ -385,17 +384,21 @@
                                         <state key="normal" image="paperplane.fill" catalog="system">
                                             <color key="titleColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </state>
+                                        <connections>
+                                            <action selector="typeMessage:" destination="eIh-AE-y3t" eventType="touchUpInside" id="BRm-iu-uWR"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstItem="lpS-gK-CYI" firstAttribute="leading" secondItem="GaL-Jc-iii" secondAttribute="trailing" constant="14" id="1Ol-Fe-AAk"/>
-                                    <constraint firstAttribute="bottom" secondItem="GaL-Jc-iii" secondAttribute="bottom" constant="14" id="DFs-XM-aqZ"/>
+                                    <constraint firstItem="lpS-gK-CYI" firstAttribute="leading" secondItem="GaL-Jc-iii" secondAttribute="trailing" constant="7" id="1Ol-Fe-AAk"/>
+                                    <constraint firstAttribute="bottom" secondItem="GaL-Jc-iii" secondAttribute="bottom" id="DFs-XM-aqZ"/>
                                     <constraint firstAttribute="trailing" secondItem="lpS-gK-CYI" secondAttribute="trailing" constant="14" id="KAX-5C-n6Z"/>
-                                    <constraint firstItem="GaL-Jc-iii" firstAttribute="leading" secondItem="QwV-kM-boo" secondAttribute="leading" constant="14" id="QAb-rt-JfF"/>
-                                    <constraint firstItem="lpS-gK-CYI" firstAttribute="top" secondItem="QwV-kM-boo" secondAttribute="top" constant="14" id="Rts-TZ-iDz"/>
-                                    <constraint firstAttribute="bottom" secondItem="lpS-gK-CYI" secondAttribute="bottom" constant="14" id="iSL-Db-ACp"/>
-                                    <constraint firstItem="GaL-Jc-iii" firstAttribute="top" secondItem="QwV-kM-boo" secondAttribute="top" constant="14" id="jvL-EP-8sP"/>
+                                    <constraint firstAttribute="top" relation="greaterThanOrEqual" secondItem="lpS-gK-CYI" secondAttribute="top" id="OL5-Ci-QT3"/>
+                                    <constraint firstItem="GaL-Jc-iii" firstAttribute="leading" secondItem="QwV-kM-boo" secondAttribute="leading" id="QAb-rt-JfF"/>
+                                    <constraint firstAttribute="bottom" secondItem="lpS-gK-CYI" secondAttribute="bottom" id="iSL-Db-ACp"/>
+                                    <constraint firstItem="GaL-Jc-iii" firstAttribute="top" secondItem="QwV-kM-boo" secondAttribute="top" id="jvL-EP-8sP"/>
+                                    <constraint firstItem="GaL-Jc-iii" firstAttribute="height" secondItem="QwV-kM-boo" secondAttribute="height" id="nNN-wj-wSr"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -427,6 +430,7 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="chatTextView" destination="GaL-Jc-iii" id="NSH-zG-nrj"/>
+                        <outlet property="forKeyboardBottomConstraint" destination="dzZ-11-HdN" id="m4m-KX-LdG"/>
                         <outlet property="tableView" destination="1oy-ac-mCc" id="E7H-0E-28q"/>
                         <outlet property="transitionDismissButton" destination="djg-Zk-7KB" id="fYS-uc-rAS"/>
                         <outlet property="transitionView" destination="3Jb-X3-8zj" id="FAV-8P-Gea"/>
@@ -510,6 +514,5 @@
         <image name="paperplane.fill" catalog="system" width="128" height="121"/>
         <image name="person" catalog="system" width="128" height="117"/>
         <image name="questionmark" catalog="system" width="96" height="128"/>
-        <image name="square.and.pencil" catalog="system" width="128" height="118"/>
     </resources>
 </document>

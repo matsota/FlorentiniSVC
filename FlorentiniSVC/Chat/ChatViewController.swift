@@ -20,35 +20,39 @@ class ChatViewController: UIViewController {
         
     }
     
-    //MARK: - New Message
-    @IBAction private func typeMessage(_ sender: UIButton) {
-        guard name != "" else {
-            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка Аутентификации"), animated: true)
-            return
-        }
-        self.present(UIAlertController.sendToChat(name: name), animated: true)
-    }
-    
     //MARK: - Transition Menu Tapped
     @IBAction private func transitionMenuTapped(_ sender: UIButton) {
         slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
     }
     
-   
+    
     
     //MARK: - Transition confirm
     @IBAction func transitionConfirm(_ sender: UIButton) {
         guard let title = sender.currentTitle,
-               let view = transitionView,
-               let constraint = transitionViewLeftConstraint,
-               let button = transitionDismissButton else {return}
-               
+            let view = transitionView,
+            let constraint = transitionViewLeftConstraint,
+            let button = transitionDismissButton else {return}
+        
         transitionPerform(by: title, for: view, with: constraint, dismiss: button)
     }
     
     //MARK: - Transition dismiss
     @IBAction private func transitionDismissTapped(_ sender: UIButton) {
         slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+    }
+    
+    //MARK: - New Message
+    @IBAction private func typeMessage(_ sender: UIButton) {
+        guard name != "" else {
+            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка Аутентификации"), animated: true)
+            return
+        }
+        if let content = self.chatTextView.text {
+            NetworkManager.shared.newChatMessage(name: self.name, content: content)
+            self.chatTextView.text = ""
+            self.textViewDidEndEditing(self.chatTextView)
+        }
     }
     
     //MARK: - Private Implementation
@@ -59,7 +63,7 @@ class ChatViewController: UIViewController {
     private var position = String()
     
     
-      
+    
     
     //0.831494 0.711081 0.831399
     
@@ -78,6 +82,7 @@ class ChatViewController: UIViewController {
     
     //MARK: Constraint
     @IBOutlet private weak var transitionViewLeftConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var forKeyboardBottomConstraint: NSLayoutConstraint!
     
 }
 
@@ -96,7 +101,7 @@ private extension ChatViewController {
     
     //MARK: Для ViewDidLoad
     func forViewDidLoad() {        
-
+        
         NetworkManager.shared.fetchEmployeeChat(success: { messages in
             self.messagesArray = messages
             self.messagesArray.reverse()
@@ -110,9 +115,9 @@ private extension ChatViewController {
         NetworkManager.shared.updateChat { newMessages in
             self.messagesArray.insert(newMessages, at: 0)
             
-//            let messageFrom = newMessages.name,
-//            messageBody = newMessages.content
-//            Notifications.shared.newMessage(messageFrom: messageFrom, messageBody: messageBody, messageSender: self.name)
+            //            let messageFrom = newMessages.name,
+            //            messageBody = newMessages.content
+            //            Notifications.shared.newMessage(messageFrom: messageFrom, messageBody: messageBody, messageSender: self.name)
             
             self.tableView.reloadData()
         }
@@ -123,6 +128,11 @@ private extension ChatViewController {
         self.position = CoreDataManager.shared.fetchEmployeePosition(failure: { (_) in
             
         })
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        hideKeyboardWhenTappedAround()
+        
+        setTextViewPlaceholder(for: chatTextView)
         
     }
     
@@ -139,14 +149,73 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.IDVC.ChatTVCell.rawValue, for: indexPath) as! ChatTableViewCell,
         message = messagesArray[indexPath.row],
         date = Date.asString(message.timeStamp)()
-    
+        
         cell.fill(name: message.name, content: message.content, date: date)
-    
+        
         return cell
     }
     
 }
 
-//MARK: -
+//MARK: - Hide Unhide Any
+extension ChatViewController {
+    
+    // - show keyboard
+    @objc func keyboardWillShow(notification: Notification) {
+        guard let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber, let keyboardFrameValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {return}
+        
+        forKeyboardBottomConstraint.constant = keyboardFrameValue.cgRectValue.height
+        UIView.animate(withDuration: duration.doubleValue) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    // - hide keyboard
+    @objc func keyboardWillHide(notification: Notification) {
+        guard let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber else {return}
+        
+        forKeyboardBottomConstraint.constant = 0
+        UIView.animate(withDuration: duration.doubleValue) {
+            self.view.layoutIfNeeded()
+        }
+    }
+}
+
+//MARK: - TextView Delegate + Custom
+extension ChatViewController: UITextViewDelegate {
+    
+    private func setTextViewPlaceholder(for textView: UITextView) {
+        textView.text = "Введите текст"
+        textView.textColor = .systemGray4
+        textView.font = UIFont(name: "System", size: 13)
+        
+        textView.layer.borderWidth = 1
+        textView.layer.borderColor = UIColor.systemGray4.cgColor
+        textView.layer.cornerRadius = 5
+        textView.returnKeyType = .done
+        textView.delegate = self
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == "Введите текст" {
+            textView.text = ""
+            textView.textColor = UIColor.purpleColorOfEnterprise
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text == "" {
+            textView.text = "Введите текст"
+            textView.textColor = .systemGray4
+        }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+        }
+        return true
+    }
+    
+}
 
 
