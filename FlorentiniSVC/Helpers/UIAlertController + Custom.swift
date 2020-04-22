@@ -45,22 +45,22 @@ extension UIAlertController {
         return (alert)
     }
     
-    //MARK: - Send Message Method in Chat of WorkSpace
-    static func sendToChat(name: String) -> (UIAlertController) {
-        
-        let alert = UIAlertController(title: name, message: nil, preferredStyle: .alert)
-        alert.addTextField { (text:UITextField) in
-            text.placeholder = "Введите сообщение"
-        }
-        
-        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "Отправить", style: .default, handler: { (action: UIAlertAction) in
-            if let content = alert.textFields?.first?.text {
-                NetworkManager.shared.newChatMessage(name: name, content: content)
-            }
-        }))
-        return alert
-    }
+//    //MARK: - Send Message Method in Chat of WorkSpace
+//    static func sendToChat(name: String) -> (UIAlertController) {
+//        
+//        let alert = UIAlertController(title: name, message: nil, preferredStyle: .alert)
+//        alert.addTextField { (text:UITextField) in
+//            text.placeholder = "Введите сообщение"
+//        }
+//        
+//        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
+//        alert.addAction(UIAlertAction(title: "Отправить", style: .default, handler: { (action: UIAlertAction) in
+//            if let content = alert.textFields?.first?.text {
+//                NetworkManager.shared.newChatMessage(name: name, content: content)
+//            }
+//        }))
+//        return alert
+//    }
     
     //MARK: - Alert Image from URL
     static func uploadImageURL(success: @escaping(String) -> Void) -> (UIAlertController) {

@@ -89,8 +89,8 @@ class NetworkManager {
     }
     
     //MARK: - New chat message
-    func newChatMessage(name: String, content: String) {
-        let newMessage = DatabaseManager.ChatMessages(name: name, content: content, uid: AuthenticationManager.shared.currentUser!.uid, timeStamp: Date())
+    func newChatMessage(name: String, content: String, position: String) {
+        let newMessage = DatabaseManager.ChatMessages(name: name, content: content, position: position, uid: AuthenticationManager.shared.currentUser!.uid, timeStamp: Date())
         var ref: DocumentReference? = nil
         
         ref = db.collection(NavigationCases.MessagesCases.employeeMessages.rawValue).addDocument(data: newMessage.dictionary) {

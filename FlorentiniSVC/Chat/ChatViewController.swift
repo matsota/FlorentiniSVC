@@ -49,7 +49,7 @@ class ChatViewController: UIViewController {
             return
         }
         if let content = self.chatTextView.text {
-            NetworkManager.shared.newChatMessage(name: self.name, content: content)
+            NetworkManager.shared.newChatMessage(name: self.name, content: content, position: position)
             self.chatTextView.text = ""
             self.textViewDidEndEditing(self.chatTextView)
         }
@@ -148,9 +148,10 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.IDVC.ChatTVCell.rawValue, for: indexPath) as! ChatTableViewCell,
         message = messagesArray[indexPath.row],
-        date = Date.asString(message.timeStamp)()
+        date = Date.asString(message.timeStamp)(),
+        position = message.position
         
-        cell.fill(name: message.name, content: message.content, date: date)
+        cell.fill(name: message.name, content: message.content, position: position, date: date)
         
         return cell
     }

@@ -11,10 +11,9 @@ import Firebase
 
 class DatabaseManager {
     
-    //MARK: - Системные переменные
     static let shared = DatabaseManager()
     
-    //MARK: - Шаблон для информации о Сотруднике
+    //MARK: - About Employees
     struct EmployeeData {
         var name: String
         var position: String
@@ -27,10 +26,11 @@ class DatabaseManager {
         }
     }
     
-    //MARK: - Шаблон для информации о Чате
+    //MARK: - For Chat
     struct ChatMessages {
         var name: String
         var content: String
+        var position: String
         var uid: String
         var timeStamp: Date
         
@@ -38,13 +38,14 @@ class DatabaseManager {
             return [
                 NavigationCases.MessagesCases.name.rawValue: name,
                 NavigationCases.MessagesCases.content.rawValue: content,
+                NavigationCases.EmployeeCases.position.rawValue: position,
                 NavigationCases.MessagesCases.uid.rawValue: uid,
                 NavigationCases.MessagesCases.timeStamp.rawValue: timeStamp
             ]
         }
     }
     
-    //MARK: - Шаблон Про Продукт (закачка)
+    //MARK: - About Product
     struct ProductInfo {
         var productName: String
         var productPrice: Int
@@ -134,9 +135,10 @@ extension DatabaseManager.ChatMessages: DocumentSerializable {
     init?(dictionary: [String: Any]) {
         guard let name = dictionary[NavigationCases.MessagesCases.name.rawValue] as? String,
             let content = dictionary[NavigationCases.MessagesCases.content.rawValue] as? String,
+            let position = dictionary[NavigationCases.EmployeeCases.position.rawValue] as? String,
             let uid = dictionary[NavigationCases.MessagesCases.uid.rawValue] as? String,
             let timeStamp = (dictionary[NavigationCases.MessagesCases.timeStamp.rawValue] as? Timestamp)?.dateValue() else {return nil}
-        self.init(name: name, content: content, uid: uid, timeStamp: timeStamp)
+        self.init(name: name, content: content, position: position, uid: uid, timeStamp: timeStamp)
     }
 }
 
