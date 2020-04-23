@@ -16,12 +16,18 @@ class DatabaseManager {
     //MARK: - About Employees
     struct EmployeeData {
         var name: String
+        var phone: String
         var position: String
+        var success: Int
+        var failure: Int
         
         var dictionary: [String:Any]{
             return [
                 NavigationCases.EmployeeCases.name.rawValue: name,
-                NavigationCases.EmployeeCases.position.rawValue: position
+                NavigationCases.EmployeeCases.phone.rawValue: phone,
+                NavigationCases.EmployeeCases.position.rawValue: position,
+                NavigationCases.EmployeeCases.success.rawValue: success,
+                NavigationCases.EmployeeCases.failure.rawValue: failure
             ]
         }
     }
@@ -125,8 +131,11 @@ protocol DocumentSerializable {
 extension DatabaseManager.EmployeeData: DocumentSerializable {
     init?(dictionary: [String : Any]) {
         guard let name = dictionary[NavigationCases.EmployeeCases.name.rawValue] as? String,
-            let position = dictionary[NavigationCases.EmployeeCases.position.rawValue] as? String else {return nil}
-        self.init(name: name, position: position)
+            let phone = dictionary[NavigationCases.EmployeeCases.phone.rawValue] as? String,
+            let position = dictionary[NavigationCases.EmployeeCases.position.rawValue] as? String,
+            let success = dictionary[NavigationCases.EmployeeCases.success.rawValue] as? Int,
+            let failure = dictionary[NavigationCases.EmployeeCases.failure.rawValue] as? Int else {return nil}
+        self.init(name: name, phone: phone, position: position, success: success, failure: failure)
     }
 }
 

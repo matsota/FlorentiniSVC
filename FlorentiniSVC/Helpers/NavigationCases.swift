@@ -36,10 +36,27 @@ class NavigationCases {
         // - sugue
     }
     
+    //MARK: - First Collection path in Firebase
+    enum FirstCollectionRow: String, CaseIterable {
+        
+        case employee
+        case productInfo
+        case imageCollection
+        case order
+        case archivedOrderAddition
+        case archivedOrder
+        case deletedOrder
+        case employeeMessages
+        
+    }
+    
     //MARK: - For Employee
     enum EmployeeCases: String, CaseIterable {
         
         case name
+        case phone
+        case success
+        case failure
         case position
         case admin
         case `operator`
@@ -47,6 +64,7 @@ class NavigationCases {
         
     }
     
+
     //MARK: - For Notifications
     enum Notification: String, CaseIterable {
         
@@ -61,9 +79,6 @@ class NavigationCases {
         case content
         case uid
         case timeStamp
-        case workers
-        case employeeMessages
-//        case review
         
     }
     
@@ -76,7 +91,6 @@ class NavigationCases {
         case productCategory
         case productDescription
         case productImageURL
-        case imageCollection
         case stock
         
     }
@@ -92,13 +106,13 @@ class NavigationCases {
     }
     
     //MARK: - For Archive
-    enum ArchiveCases: String, CaseIterable{
-        
-        case archivedOrders
-        case archivedOrderAdditions
-        case deletedOrders
-        
-    }
+//    enum ArchiveCases: String, CaseIterable{
+//        
+//        case archivedOrders
+//        case archivedOrderAdditions
+//        case deletedOrders
+//        
+//    }
     
     //MARK: - For transition menu
     

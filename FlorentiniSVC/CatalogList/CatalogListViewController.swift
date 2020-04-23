@@ -119,6 +119,7 @@ private extension CatalogListViewController {
     func forViewDidLoad() {
         NetworkManager.shared.downloadProducts(success: { productInfo in
             self.productInfo = productInfo
+            self.productInfo.reverse()
             self.tableView.reloadData()
         }) { error in
             print(error.localizedDescription)
@@ -145,13 +146,13 @@ private extension CatalogListViewController {
                 button.alpha = 0
             }
         }
-
+        
     }
     
 }
 
 //MARK: - TableView Extention
-extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource{
+extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return productInfo.count
@@ -171,8 +172,6 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource{
         stock = fetch.stock,
         position = employeePosition
         
-        cell.imageActivityIndicator.startAnimating()
-        
         cell.fill(name: name, price: price, category: category, description: description, stock: stock, employeePosition: position, failure: { error in
             print("ERROR: CatalogListViewController/tableView/imageRef: ",error.localizedDescription)
             self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Не все изображения сейчас могут подтянуться"), animated: true)
@@ -183,20 +182,27 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource{
     
     // - Delete action
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        if self.employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
+//        if self.employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
             let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.IDVC.CatalogListTVCell.rawValue, for: indexPath) as! CatalogListTableViewCell
-            guard let name = cell.productNameLabel.text else {return nil}
+            guard let name = cell.name else {return nil}
+       
             let delete = deleteAction(name: name, at: indexPath)
-            
+            print("УДАЛЕН ПРОДУКТ:", name, indexPath, cell.tag)
             return UISwipeActionsConfiguration(actions: [delete])
-        }
-        return nil
+//        }else{
+//            return nil
+//        }
     }
     
     func deleteAction(name: String, at indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .destructive, title: "Удалить") { (action, view, complition) in
-            if AuthenticationManager.shared.currentUser?.uid == AuthenticationManager.shared.uidAdmin {
-                self.present(UIAlertController.productDelete(name: name, success: {
+            let uid = CoreDataManager.shared.fetchEmployeeUID { (error) in
+                self.present(UIAlertController.completionDoneTwoSec(title: "Эттеншн!", message: error.localizedDescription), animated: true)
+            }
+            
+            if uid == AuthenticationManager.shared.uidAdmin {
+                self.present(UIAlertController.confirmAction(message: "Подтвердите, что вы хотите удалить продукт под названием '\(name)'", success: {
+                    NetworkManager.shared.deleteProduct(name: name)
                     self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Продукт удачно Удалён"), animated: true)
                     self.productInfo.remove(at: indexPath.row)
                     self.tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -233,7 +239,7 @@ extension CatalogListViewController: CatalogListTableViewCellDelegate {
     
     func editStockCondition(_ cell: CatalogListTableViewCell, _ text: UILabel) {
         guard let name = cell.productNameLabel.text else {return}
-
+        
         if cell.stockSwitch.isOn == true {
             self.present(UIAlertController.editStockCondition(name: name, stock: true, text: text) {
                 if self.selectedCategory != "" {

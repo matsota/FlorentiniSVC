@@ -16,7 +16,20 @@ struct AuthenticationManager {
     let currentUser = Auth.auth().currentUser,
     uidAdmin = "Q0Lh49RsIrMU8itoNgNJHN3bjmD2"
     
-    //MARK: - SignIn
+    
+    //MARK: - Sign Up
+    func signUp(name: String, email: String, phone: String, position: String, failure: @escaping(Error) -> Void) {
+        
+        Auth.auth().createUser(withEmail: email, password: "123456") { (result, error) in
+            if let error = error {
+                failure(error)
+            }else{
+                guard let uid = result?.user.uid else {return}
+                NetworkManager.shared.createNewEmpoyee(name: name, phone: phone, position: position, uid: uid)
+            }
+        }
+    }
+    //MARK: - Sign In
     func signIn(email: String, password: String, success: @escaping(AuthDataResult) -> Void, failure: @escaping(Error) -> Void) {
         
         Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
@@ -28,13 +41,13 @@ struct AuthenticationManager {
             }
         }
     }
-
+    
     //MARK: - SignOut
     func signOut(success: @escaping() -> Void, failure: @escaping(Error) -> Void) {
-         do {
+        do {
             try Auth.auth().signOut()
             success()
-         }catch{
+        }catch{
             failure(error)
         }
     }

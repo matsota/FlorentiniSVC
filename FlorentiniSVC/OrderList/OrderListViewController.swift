@@ -166,7 +166,8 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
         deliveryPerson = fetch.deliveryPerson,
         
         action = UIContextualAction(style: .destructive, title: "Архив") { (action, view, complition) in
-            self.present(UIAlertController.orderArchive(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, id: id, deliveryPerson: deliveryPerson, success: {
+            self.present(UIAlertController.confirmAction(message: "", success: {
+                NetworkManager.shared.archiveOrder(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, orderKey: id, deliveryPerson: deliveryPerson)
                 self.orderCount -= 1
                 self.order.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -202,7 +203,8 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
         deliveryPerson = fetch.deliveryPerson,
         
         action = UIContextualAction(style: .destructive, title: "Удалить") { (action, view, complition) in
-            self.present(UIAlertController.orderDelete(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, id: id, deliveryPerson: deliveryPerson, success: {
+            self.present(UIAlertController.confirmAction(message: "", success: {
+                NetworkManager.shared.deleteOrder(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, orderKey: id, deliveryPerson: deliveryPerson)
                 self.orderCount -= 1
                 self.order.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)

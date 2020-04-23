@@ -28,9 +28,49 @@ extension UIAlertController {
         return (alertController)
     }
     
+    //MARK: - Confirm Any Action
+    static func confirmAction(message: String, success: @escaping() -> Void) -> (UIAlertController) {
+        let alert = UIAlertController(title: "Внимание", message: message, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Подтвердить", style: .default, handler: { _ in
+            success()
+        }))
+        alert.addAction(UIAlertAction(title: "Отмена", style: .destructive, handler: nil))
+        
+        return alert
+    }
+    
     ///
     //MARK: - Crud
     ///
+    
+    //MARK: - Success
+    //MARK: Half sec
+    static func completionDoneHalfSec(title: String, message: String) -> (UIAlertController){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+            alert.dismiss(animated: true, completion: nil)
+        }
+        return alert
+    }
+    
+    //MARK: Two sec
+    static func completionDoneTwoSec(title: String, message: String) -> (UIAlertController){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+            alert.dismiss(animated: true, completion: nil)
+        }
+        return alert
+    }
+    
+    //MARK: - Alert Image from URL
+    static func confrimAdminCreation(success: @escaping() -> Void) -> (UIAlertController) {
+        let alert = UIAlertController(title: "Внимание!", message: "Вы уверенны в том, что хотите создать нового админа? У него будут почти все теже права, что и у Вас. За исключением: 1) Удалять сотрудников; 2) Удалять товары; 3) Удалять заказы, но он сможет их архивировать", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Подтвердить", style: .default, handler: { (action: UIAlertAction) in
+            success()
+        }))
+        return alert
+    }
     
     //MARK: - Sign in
     static func saveSignIn(_ indicator: UIActivityIndicatorView,success: @escaping() -> Void) -> (UIAlertController) {
@@ -44,23 +84,6 @@ extension UIAlertController {
 
         return (alert)
     }
-    
-//    //MARK: - Send Message Method in Chat of WorkSpace
-//    static func sendToChat(name: String) -> (UIAlertController) {
-//        
-//        let alert = UIAlertController(title: name, message: nil, preferredStyle: .alert)
-//        alert.addTextField { (text:UITextField) in
-//            text.placeholder = "Введите сообщение"
-//        }
-//        
-//        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
-//        alert.addAction(UIAlertAction(title: "Отправить", style: .default, handler: { (action: UIAlertAction) in
-//            if let content = alert.textFields?.first?.text {
-//                NetworkManager.shared.newChatMessage(name: name, content: content)
-//            }
-//        }))
-//        return alert
-//    }
     
     //MARK: - Alert Image from URL
     static func uploadImageURL(success: @escaping(String) -> Void) -> (UIAlertController) {
@@ -172,60 +195,6 @@ extension UIAlertController {
             success()
         }))
         return (alert)
-    }
-    
-    //MARK: - Success Upload
-    //MARK: Half sec
-    static func completionDoneHalfSec(title: String, message: String) -> (UIAlertController){
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-            alert.dismiss(animated: true, completion: nil)
-        }
-        return alert
-    }
-    
-    //MARK: Two sec
-    static func completionDoneTwoSec(title: String, message: String) -> (UIAlertController){
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-            alert.dismiss(animated: true, completion: nil)
-        }
-        return alert
-    }
-    
-    //MARK: - Delete Product
-    static func productDelete(name: String, success: @escaping() -> Void) -> (UIAlertController) {
-        let alert = UIAlertController(title: "Внимание", message: "Подтвердите, что Вы желаете удалить продукт", preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Подтвердить", style: .default, handler: { _ in
-            NetworkManager.shared.deleteProduct(name: name)
-            success()
-        }))
-        alert.addAction(UIAlertAction(title: "Отмена", style: .destructive, handler: nil))
-        
-        return alert
-    }
-    
-    //MARK: - Archive Order
-    static func orderArchive(totalPrice: Int64, name: String, adress: String, cellphone: String, feedbackOption: String, mark: String, timeStamp: Date, id: String, deliveryPerson: String, success: @escaping() -> Void) -> (UIAlertController) {
-        let alert = UIAlertController(title: "Внимание", message: "Подтвердите, что Вы желаете отправить заказ в архив", preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Подтвердить", style: .default, handler: { _ in
-            NetworkManager.shared.archiveOrder(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, orderKey: id, deliveryPerson: deliveryPerson)
-            success()
-        }))
-        alert.addAction(UIAlertAction(title: "Отмена", style: .destructive, handler: nil))
-        
-        return alert
-    }
-    
-    //MARK: - Delete Order
-    static func orderDelete(totalPrice: Int64, name: String, adress: String, cellphone: String, feedbackOption: String, mark: String, timeStamp: Date, id: String, deliveryPerson: String, success: @escaping() -> Void) -> (UIAlertController) {
-        let alert = UIAlertController(title: "Внимание", message: "Подтвердите, что Вы желаете удалить заказ", preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Подтвердить", style: .default, handler: { _ in
-            NetworkManager.shared.deleteOrder(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, orderKey: id, deliveryPerson: deliveryPerson)
-            success()
-        }))
-        alert.addAction(UIAlertAction(title: "Отмена", style: .destructive, handler: nil))
-        
-        return alert
-    }
+    }    
+
 }

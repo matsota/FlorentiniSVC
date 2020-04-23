@@ -15,8 +15,221 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="AzD-gY-tHb">
+                                <rect key="frame" x="14" y="102" width="386" height="34"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rsN-zn-Shr" customClass="DesignButton" customModule="FlorentiniSVC" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="386" height="34"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="34" id="l54-vU-YUW"/>
+                                        </constraints>
+                                        <state key="normal" title="Создать Нового Сотрудника">
+                                            <color key="titleColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="prepareForCreateNewEmployee:" destination="KWt-P7-zBv" eventType="touchUpInside" id="gjf-mW-tuJ"/>
+                                        </connections>
+                                    </button>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UdJ-Ku-SPL">
+                                        <rect key="frame" x="0.0" y="0.0" width="386" height="178"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="3Nr-3a-pzv">
+                                                <rect key="frame" x="0.0" y="0.0" width="386" height="34"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Почта:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A46-O4-BcL">
+                                                        <rect key="frame" x="0.0" y="0.0" width="135" height="34"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <color key="textColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mAs-en-18T">
+                                                        <rect key="frame" x="139" y="0.0" width="247" height="34"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="34" id="4Nt-WI-uaM"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="emailAddress" textContentType="email"/>
+                                                    </textField>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="A46-O4-BcL" firstAttribute="width" secondItem="3Nr-3a-pzv" secondAttribute="width" multiplier="0.35" id="rcu-xc-rtd"/>
+                                                </constraints>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="ceG-pv-mHG">
+                                                <rect key="frame" x="0.0" y="41" width="386" height="34"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Имя:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xek-p0-hgT">
+                                                        <rect key="frame" x="0.0" y="0.0" width="135" height="34"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <color key="textColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6v9-lC-MCO">
+                                                        <rect key="frame" x="139" y="0.0" width="247" height="34"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="namePhonePad" textContentType="name"/>
+                                                    </textField>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="bhN-oI-13a">
+                                                <rect key="frame" x="0.0" y="82" width="386" height="34"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Телефон:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2RA-98-113">
+                                                        <rect key="frame" x="0.0" y="0.0" width="135" height="34"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <color key="textColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BBt-ja-9pc">
+                                                        <rect key="frame" x="139" y="0.0" width="247" height="34"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="phonePad" textContentType="tel"/>
+                                                    </textField>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Rk0-Ee-MHq">
+                                                <rect key="frame" x="0.0" y="123" width="386" height="34"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Должность:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Jf-tX-OMt">
+                                                        <rect key="frame" x="0.0" y="0.0" width="135" height="34"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <color key="textColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="TEV-hw-aXY">
+                                                        <rect key="frame" x="139" y="0.0" width="247" height="34"/>
+                                                        <subviews>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="sz5-iS-jWv">
+                                                                <rect key="frame" x="0.0" y="0.0" width="247" height="34"/>
+                                                                <subviews>
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6x6-Q2-XHe" customClass="DesignButton" customModule="FlorentiniSVC" customModuleProvider="target">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="247" height="34"/>
+                                                                        <color key="backgroundColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="34" id="NWe-fI-4Me"/>
+                                                                        </constraints>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                        <color key="tintColor" red="0.81185215710000003" green="0.71545660499999997" blue="0.82354193929999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                        <state key="normal" title="Не выбрана"/>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="number" keyPath="rounding">
+                                                                                <real key="value" value="5"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                        <connections>
+                                                                            <action selector="showPositions:" destination="KWt-P7-zBv" eventType="touchUpInside" id="F5d-l2-aaO"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kPN-Qf-Ov6" customClass="DesignButton" customModule="FlorentiniSVC" customModuleProvider="target">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="247" height="34"/>
+                                                                        <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                        <color key="tintColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                        <state key="normal" title="delivery"/>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="number" keyPath="rounding">
+                                                                                <real key="value" value="5"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                        <connections>
+                                                                            <action selector="positionPicked:" destination="KWt-P7-zBv" eventType="touchUpInside" id="RkT-Qd-FEa"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xCA-0S-Cfp" customClass="DesignButton" customModule="FlorentiniSVC" customModuleProvider="target">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="247" height="34"/>
+                                                                        <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                        <color key="tintColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                        <state key="normal" title="operator">
+                                                                            <color key="titleColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                        </state>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="number" keyPath="rounding">
+                                                                                <real key="value" value="5"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                        <connections>
+                                                                            <action selector="positionPicked:" destination="KWt-P7-zBv" eventType="touchUpInside" id="CkY-uC-qrC"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MdG-fp-vG4" customClass="DesignButton" customModule="FlorentiniSVC" customModuleProvider="target">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="247" height="34"/>
+                                                                        <color key="backgroundColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                        <color key="tintColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                        <state key="normal" title="admin"/>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="number" keyPath="rounding">
+                                                                                <real key="value" value="5"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                        <connections>
+                                                                            <action selector="positionPicked:" destination="KWt-P7-zBv" eventType="touchUpInside" id="GGZ-Y0-Dho"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                </subviews>
+                                                                <constraints>
+                                                                    <constraint firstItem="kPN-Qf-Ov6" firstAttribute="width" secondItem="6x6-Q2-XHe" secondAttribute="width" id="ANi-L9-yNq"/>
+                                                                    <constraint firstItem="MdG-fp-vG4" firstAttribute="width" secondItem="kPN-Qf-Ov6" secondAttribute="width" id="MfS-RB-ogw"/>
+                                                                    <constraint firstItem="MdG-fp-vG4" firstAttribute="width" secondItem="6x6-Q2-XHe" secondAttribute="width" id="aBx-fg-1wc"/>
+                                                                    <constraint firstItem="xCA-0S-Cfp" firstAttribute="width" secondItem="kPN-Qf-Ov6" secondAttribute="width" id="hOv-Uj-1Xi"/>
+                                                                    <constraint firstItem="xCA-0S-Cfp" firstAttribute="width" secondItem="6x6-Q2-XHe" secondAttribute="width" id="wea-b0-MU1"/>
+                                                                </constraints>
+                                                            </stackView>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="9Jf-tX-OMt" firstAttribute="width" secondItem="Rk0-Ee-MHq" secondAttribute="width" multiplier="0.35" id="8vK-Hl-01f"/>
+                                                    <constraint firstItem="9Jf-tX-OMt" firstAttribute="height" secondItem="Rk0-Ee-MHq" secondAttribute="height" id="OYZ-hz-odL"/>
+                                                </constraints>
+                                            </stackView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9b0-wc-SjK" customClass="DesignButton" customModule="FlorentiniSVC" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="164" width="386" height="0.0"/>
+                                                <color key="backgroundColor" red="0.81185215710000003" green="0.71545660499999997" blue="0.82354193929999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="tintColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <state key="normal" title="Создать"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="rounding">
+                                                        <real key="value" value="5"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="createNewEmployee:" destination="KWt-P7-zBv" eventType="touchUpInside" id="0Lk-N6-txP"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstItem="bhN-oI-13a" firstAttribute="leading" secondItem="UdJ-Ku-SPL" secondAttribute="leading" id="15l-kc-DMf"/>
+                                            <constraint firstItem="xek-p0-hgT" firstAttribute="width" secondItem="A46-O4-BcL" secondAttribute="width" id="26G-C0-mdA"/>
+                                            <constraint firstItem="BBt-ja-9pc" firstAttribute="width" secondItem="6v9-lC-MCO" secondAttribute="width" id="5Uz-Sw-BVg"/>
+                                            <constraint firstItem="sz5-iS-jWv" firstAttribute="width" secondItem="BBt-ja-9pc" secondAttribute="width" id="7PF-tK-oaT"/>
+                                            <constraint firstItem="BBt-ja-9pc" firstAttribute="height" secondItem="mAs-en-18T" secondAttribute="height" id="8P1-SY-aSx"/>
+                                            <constraint firstItem="bhN-oI-13a" firstAttribute="top" secondItem="ceG-pv-mHG" secondAttribute="bottom" constant="7" id="CWK-cW-MHZ"/>
+                                            <constraint firstItem="ceG-pv-mHG" firstAttribute="leading" secondItem="UdJ-Ku-SPL" secondAttribute="leading" id="I8J-Jz-dnz"/>
+                                            <constraint firstItem="3Nr-3a-pzv" firstAttribute="leading" secondItem="UdJ-Ku-SPL" secondAttribute="leading" id="IO6-TH-afP"/>
+                                            <constraint firstItem="6v9-lC-MCO" firstAttribute="height" secondItem="mAs-en-18T" secondAttribute="height" id="J2f-TX-vxM"/>
+                                            <constraint firstAttribute="trailing" secondItem="Rk0-Ee-MHq" secondAttribute="trailing" id="MeU-Ds-VJF"/>
+                                            <constraint firstAttribute="bottom" secondItem="9b0-wc-SjK" secondAttribute="bottom" constant="14" id="NlJ-p6-4dn"/>
+                                            <constraint firstItem="ceG-pv-mHG" firstAttribute="top" secondItem="3Nr-3a-pzv" secondAttribute="bottom" constant="7" id="QvE-pU-KC7"/>
+                                            <constraint firstItem="3Nr-3a-pzv" firstAttribute="top" secondItem="UdJ-Ku-SPL" secondAttribute="top" id="UnJ-qR-Agg"/>
+                                            <constraint firstAttribute="trailing" secondItem="9b0-wc-SjK" secondAttribute="trailing" id="Vt9-ve-k2V"/>
+                                            <constraint firstAttribute="trailing" secondItem="bhN-oI-13a" secondAttribute="trailing" id="YaR-xE-C7G"/>
+                                            <constraint firstItem="mAs-en-18T" firstAttribute="width" secondItem="6v9-lC-MCO" secondAttribute="width" id="jGr-ta-PTK"/>
+                                            <constraint firstItem="9b0-wc-SjK" firstAttribute="leading" secondItem="UdJ-Ku-SPL" secondAttribute="leading" id="m4b-Ls-4Nx"/>
+                                            <constraint firstItem="2RA-98-113" firstAttribute="width" secondItem="A46-O4-BcL" secondAttribute="width" id="mZW-6k-oFS"/>
+                                            <constraint firstItem="Rk0-Ee-MHq" firstAttribute="top" secondItem="bhN-oI-13a" secondAttribute="bottom" constant="7" id="nhd-bx-ssR"/>
+                                            <constraint firstItem="Rk0-Ee-MHq" firstAttribute="leading" secondItem="UdJ-Ku-SPL" secondAttribute="leading" id="pDN-Aj-ysq"/>
+                                            <constraint firstAttribute="trailing" secondItem="3Nr-3a-pzv" secondAttribute="trailing" id="svU-Bu-ZWz"/>
+                                            <constraint firstAttribute="trailing" secondItem="ceG-pv-mHG" secondAttribute="trailing" id="w9R-p8-hxZ"/>
+                                            <constraint firstItem="9b0-wc-SjK" firstAttribute="top" secondItem="Rk0-Ee-MHq" secondAttribute="bottom" constant="7" id="x47-lb-bvH"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                            </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="OC9-nf-3nm">
-                                <rect key="frame" x="0.0" y="102" width="414" height="760"/>
+                                <rect key="frame" x="0.0" y="150" width="414" height="712"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="EmloyeeListTVCell" rowHeight="103" id="3FI-i7-IU2" customClass="EmloyeeListTableViewCell" customModule="FlorentiniSVC" customModuleProvider="target">
@@ -94,16 +307,28 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="OC9-nf-3nm" firstAttribute="top" secondItem="AzD-gY-tHb" secondAttribute="bottom" constant="14" id="2SJ-tI-qno"/>
+                            <constraint firstItem="AzD-gY-tHb" firstAttribute="top" secondItem="QP2-DJ-Kth" secondAttribute="top" constant="14" id="8aC-yM-D1i"/>
                             <constraint firstItem="OC9-nf-3nm" firstAttribute="leading" secondItem="QP2-DJ-Kth" secondAttribute="leading" id="Kqg-i8-TGK"/>
+                            <constraint firstItem="AzD-gY-tHb" firstAttribute="leading" secondItem="QP2-DJ-Kth" secondAttribute="leading" constant="14" id="LNf-sh-Fql"/>
+                            <constraint firstItem="QP2-DJ-Kth" firstAttribute="trailing" secondItem="AzD-gY-tHb" secondAttribute="trailing" constant="14" id="SgY-vn-coD"/>
                             <constraint firstItem="QP2-DJ-Kth" firstAttribute="bottom" secondItem="OC9-nf-3nm" secondAttribute="bottom" id="ifT-I3-9xE"/>
-                            <constraint firstItem="OC9-nf-3nm" firstAttribute="top" secondItem="QP2-DJ-Kth" secondAttribute="top" constant="14" id="xDo-Qd-uQc"/>
                             <constraint firstItem="QP2-DJ-Kth" firstAttribute="trailing" secondItem="OC9-nf-3nm" secondAttribute="trailing" id="yOT-VO-6k0"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="QP2-DJ-Kth"/>
                     </view>
                     <navigationItem key="navigationItem" id="mfM-xl-CHg"/>
                     <connections>
+                        <outlet property="emailTextField" destination="mAs-en-18T" id="9Jl-IQ-KQV"/>
+                        <outlet property="employeeCreationButton" destination="rsN-zn-Shr" id="kbr-pA-shk"/>
+                        <outlet property="employeeCreationView" destination="UdJ-Ku-SPL" id="aWK-Ue-Eas"/>
+                        <outlet property="nameTextField" destination="6v9-lC-MCO" id="r11-pE-sbL"/>
+                        <outlet property="phoneTextField" destination="BBt-ja-9pc" id="mP4-ij-9mS"/>
+                        <outlet property="positionButton" destination="6x6-Q2-XHe" id="682-4o-C80"/>
                         <outlet property="tableView" destination="OC9-nf-3nm" id="9Vf-KG-mBC"/>
+                        <outletCollection property="positionCollectionButton" destination="kPN-Qf-Ov6" collectionClass="NSMutableArray" id="K3W-NB-ovA"/>
+                        <outletCollection property="positionCollectionButton" destination="xCA-0S-Cfp" collectionClass="NSMutableArray" id="knC-jN-hLg"/>
+                        <outletCollection property="positionCollectionButton" destination="MdG-fp-vG4" collectionClass="NSMutableArray" id="PG7-Lx-tDc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lUe-mP-XBt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -10,15 +10,16 @@ import UIKit
 
 protocol EmloyeeListTableViewCellDelegate: class {
     
-    func changeEmployeeposition (_ cell: EmloyeeListTableViewCell)
+    func changeEmployeePosition (_ cell: EmloyeeListTableViewCell)
     
 }
 
 class EmloyeeListTableViewCell: UITableViewCell {
 
+    var uid: String?
     weak var delegate: EmloyeeListTableViewCellDelegate?
     
-    @IBOutlet private weak var nameLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet private weak var positionButton: UIButton!
     
     override func awakeFromNib() {
@@ -30,7 +31,7 @@ class EmloyeeListTableViewCell: UITableViewCell {
     }
     
     @IBAction func changeEmployeePositionTapped(_ sender: UIButton) {
-        delegate?.changeEmployeeposition(self)
+        delegate?.changeEmployeePosition(self)
     }
 
     func fill(name: String, position: String){

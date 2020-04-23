@@ -24,6 +24,7 @@ protocol CatalogListTableViewCellDelegate: class {
 class CatalogListTableViewCell: UITableViewCell {
     
     //MARK: - Implementation
+    var name: String?
     var price = Int()
     var category = String()
     var stock = false
@@ -86,6 +87,7 @@ class CatalogListTableViewCell: UITableViewCell {
         
         self.price = price
         self.category = category
+        self.name = name
         
         self.employeePosition = employeePosition
         if self.employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
@@ -107,7 +109,7 @@ class CatalogListTableViewCell: UITableViewCell {
             stockConditionLabel.textColor = .black
         }
         
-        let storagePath = "\(NavigationCases.ProductCases.imageCollection.rawValue)/\(name)",
+        let storagePath = "\(NavigationCases.FirstCollectionRow.imageCollection.rawValue)/\(name)",
         storageRef = Storage.storage().reference(withPath: storagePath)
         productImageView.sd_setImage(with: storageRef, placeholderImage: .none) { (image, error, _, _) in
             if let error = error{
