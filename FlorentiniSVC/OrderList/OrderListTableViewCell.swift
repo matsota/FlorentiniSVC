@@ -27,6 +27,7 @@ class OrderListTableViewCell: UITableViewCell {
     @IBOutlet private weak var adressLabel: UILabel!
     @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var feedbackOptionLabel: UILabel!
+    @IBOutlet private weak var orderTimeLabel: UILabel!
     @IBOutlet private weak var markLabel: UILabel!
     
     //MARK: Button
@@ -48,7 +49,7 @@ class OrderListTableViewCell: UITableViewCell {
     }
     
     //MARK: - Заполнение таблицы
-    func fill (bill: Int, orderKey: String, phoneNumber: String, adress: String, name: String, feedbackOption: String, mark: String, deliveryPerson: String, orderID: String) {
+    func fill (bill: Int, orderKey: String, phoneNumber: String, adress: String, name: String, feedbackOption: String, orderTime: String, mark: String, deliveryPerson: String, orderID: String) {
         
         self.bill = bill
         self.orderKey = orderKey
@@ -60,6 +61,7 @@ class OrderListTableViewCell: UITableViewCell {
         adressLabel.text = adress
         nameLabel.text = name
         feedbackOptionLabel.text = feedbackOption
+        orderTimeLabel.text = orderTime
         markLabel.text = mark
         
         deliveryPersonButton.setTitle( self.deliveryPerson, for: .normal)

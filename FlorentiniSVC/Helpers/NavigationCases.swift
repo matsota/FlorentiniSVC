@@ -58,6 +58,7 @@ class NavigationCases {
         case success
         case failure
         case position
+        case uid
         case admin
         case `operator`
         case delivery
@@ -107,11 +108,11 @@ class NavigationCases {
     
     //MARK: - For Archive
 //    enum ArchiveCases: String, CaseIterable{
-//        
+//
 //        case archivedOrders
 //        case archivedOrderAdditions
 //        case deletedOrders
-//        
+//
 //    }
     
     //MARK: - For transition menu

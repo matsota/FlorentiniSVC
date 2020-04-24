@@ -89,6 +89,7 @@ class CatalogListTableViewCell: UITableViewCell {
         self.category = category
         self.name = name
         
+        //position tyt ne doljna but' !!!
         self.employeePosition = employeePosition
         if self.employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
             self.stockSwitch.isHidden = false

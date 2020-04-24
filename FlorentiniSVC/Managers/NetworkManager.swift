@@ -1,6 +1,6 @@
 //
 //  NetworkManager.swift
-//  Florentini
+//  FlorentiniSVC
 //
 //  Created by Andrew Matsota on 19.02.2020.
 //  Copyright © 2020 Andrew Matsota. All rights reserved.
@@ -16,13 +16,13 @@ class NetworkManager {
     static let shared = NetworkManager()
     let db = Firestore.firestore()
     
+    
     ///
     //MARK: - Crud
     ///
     
     //MARK: - Prepare product description for setup in Firebase
     func setupProductDescription(name: String, price: Int, description: String, category: String, stock: Bool) {
-        
         let data = DatabaseManager.ProductInfo(productName: name, productPrice: price, productDescription: description, productCategory: category, stock: stock)
         
         db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).document(name).setData(data.dictionary)
@@ -61,7 +61,7 @@ class NetworkManager {
     //MARK: - New Employee
     
     func createNewEmpoyee(name: String, phone: String, position: String, uid: String) {
-        let data =  DatabaseManager.EmployeeData(name: name, phone: phone, position: position, success: 0, failure: 0)
+        let data =  DatabaseManager.EmployeeDataStruct(name: name, phone: phone, position: position, uid: uid, success: 0, failure: 0)
         
         db.collection(NavigationCases.FirstCollectionRow.employee.rawValue).document(uid).setData(data.dictionary)
     }
@@ -122,26 +122,26 @@ class NetworkManager {
     ///
     
     //MARK: - Fetch employee data
-    func fetchEmployeeData(success: @escaping([DatabaseManager.EmployeeData]) -> Void, failure: @escaping(Error) -> Void) {
+    func fetchEmployeeData(success: @escaping([DatabaseManager.EmployeeDataStruct]) -> Void, failure: @escaping(Error) -> Void) {
         
         db.collection(NavigationCases.FirstCollectionRow.employee.rawValue).getDocuments { (querySnapshot, error) in
             if let error = error {
                 failure(error)
             }else{
-                let employeeData = querySnapshot!.documents.compactMap{DatabaseManager.EmployeeData(dictionary: $0.data())}
+                let employeeData = querySnapshot!.documents.compactMap{DatabaseManager.EmployeeDataStruct(dictionary: $0.data())}
                 success(employeeData)
             }
         }
     }
     
     //MARK: - Fetch employee data
-    func fetchCertainDataOfEmployee(uid: String, success: @escaping([DatabaseManager.EmployeeData]) -> Void, failure: @escaping(Error) -> Void) {
+    func fetchCertainDataOfEmployee(uid: String, success: @escaping([DatabaseManager.EmployeeDataStruct]) -> Void, failure: @escaping(Error) -> Void) {
         if uid == "" {
             let error = NetworkManagerError.employeeUIDDoesNotExist
             failure(error)
         }else{
             db.collection(NavigationCases.FirstCollectionRow.employee.rawValue).document(uid).getDocument { (documentSnapshot, _) in
-                guard let employeeData = DatabaseManager.EmployeeData(dictionary: documentSnapshot!.data()!) else {return}
+                guard let employeeData = DatabaseManager.EmployeeDataStruct(dictionary: documentSnapshot!.data()!) else {return}
                 success([employeeData])
             }
         }
@@ -433,6 +433,18 @@ class NetworkManager {
                 
                 self.db.collection(NavigationCases.FirstCollectionRow.deletedOrder.rawValue).addDocument(data: data.dictionary)
                 self.deleteOrderAddition(collection: docRef.collection(orderKey))
+            }
+        }
+    }
+    
+    //MARK: - Delete Employee Data
+    func deleteEmployeeData(uid: String, _ success: @escaping() -> Void, _ failure: @escaping(Error) -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.employee.rawValue).document(uid).delete { (error) in
+            if let error = error{
+                failure(error)
+            }else{
+                self.db.collection("deletedEmployees").addDocument(data: ["uid" : uid])
+                success()
             }
         }
     }

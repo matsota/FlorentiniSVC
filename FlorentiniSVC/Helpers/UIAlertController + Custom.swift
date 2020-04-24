@@ -103,10 +103,9 @@ extension UIAlertController {
     //MARK: - crUd
     ///
     //MARK: - Password change
-    static func rePassword(success: @escaping() -> Void, password: String) -> (UIAlertController) {
+    static func updatePassword(_ success: @escaping() -> Void) -> (UIAlertController) {
         let alert = UIAlertController(title: "Внимание", message: "Подтвердите смену пароля", preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Подтвердить", style: .default, handler: { _ in
-            AuthenticationManager.shared.passChange(password: password)
             success()
         }))
         alert.addAction(UIAlertAction(title: "Отмена", style: .destructive, handler: nil))

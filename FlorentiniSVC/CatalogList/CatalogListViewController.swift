@@ -17,12 +17,12 @@ class CatalogListViewController: UIViewController {
         super.viewDidLoad()
         
         forViewDidLoad()
-        print(selectedCategory)
+        
     }
     
     //MARK: - Transition menu tapped
     @IBAction private func transitionMenuTapped(_ sender: UIButton) {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissedBy: transitionDismissButton)
     }
     
     //MARK: - Transition confirm
@@ -38,19 +38,20 @@ class CatalogListViewController: UIViewController {
     
     //MARK: - Transition dismiss
     @IBAction private func transitionDismissTapped(_ sender: UIButton) {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissedBy: transitionDismissButton)
     }
     
     //MARK: - Minus or Plus to price, depends on category
     @IBAction func editPricesByCategoryTapped(_ sender: UIButton) {
         guard let title = sender.currentTitle,
-            let cases = NavigationCases.MinusPlus(rawValue: title) else {return}
+            let cases = NavigationCases.MinusPlus(rawValue: title),
+            let category = selectedCategory else {return}
         
         switch cases {
             
         case .minus:
             self.present(UIAlertController.setNumber(present: "Введите сумму, которую вы хотите ОТНЯТЬ от всех товаров в данной категории", success: { (x) in
-                NetworkManager.shared.increaseDecreasePrice(for: self.selectedCategory, by: -x, success: {
+                NetworkManager.shared.increaseDecreasePrice(for: category, by: -x, success: {
                     self.present(UIAlertController.completionDoneHalfSec(title: "Готово!", message: "Стоимости изменены"), animated: true)
                 }) { (error) in
                     self.present(UIAlertController.completionDoneTwoSec(title: "ERROR", message: error.localizedDescription), animated: true)
@@ -58,7 +59,7 @@ class CatalogListViewController: UIViewController {
             }), animated: true)
         case .plus:
             self.present(UIAlertController.setNumber(present: "Введите сумму, которую вы хотите ДОБАВИТЬ ко всем товарам в данной категории", success: { (x) in
-                NetworkManager.shared.increaseDecreasePrice(for: self.selectedCategory, by: x, success: {
+                NetworkManager.shared.increaseDecreasePrice(for: category, by: x, success: {
                     self.present(UIAlertController.completionDoneHalfSec(title: "Готово!", message: "Стоимости изменены"), animated: true)
                 }) { (error) in
                     self.present(UIAlertController.completionDoneTwoSec(title: "ERROR", message: error.localizedDescription), animated: true)
@@ -72,7 +73,7 @@ class CatalogListViewController: UIViewController {
     //MARK: - Product filter Start
     @IBAction private func startFiltering(_ sender: DesignButton) {
         guard let sender = sender.titleLabel!.text else {return}
-        showOptionsMethod(option: sender)
+        showOptionsMethod(sender)
     }
     
     //MARK: - Product dilter End
@@ -83,7 +84,7 @@ class CatalogListViewController: UIViewController {
     //MARK: - Private Implementation
     private var productInfo = [DatabaseManager.ProductInfo]()
     private var employeePosition = String()
-    private var selectedCategory = String()
+    private var selectedCategory: String?
     
     //MARK: View
     @IBOutlet private weak var buttonsView: UIView!
@@ -119,34 +120,22 @@ private extension CatalogListViewController {
     func forViewDidLoad() {
         NetworkManager.shared.downloadProducts(success: { productInfo in
             self.productInfo = productInfo
-            self.productInfo.reverse()
             self.tableView.reloadData()
         }) { error in
             print(error.localizedDescription)
         }
         
-        self.employeePosition = CoreDataManager.shared.fetchEmployeePosition(failure: { (error) in
-            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка Аунтификации. Перезагрузите приложение"), animated: true)
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5) {
-                CoreDataManager.shared.deleteAllData(for: "EmployeeData", success: {
-                    self.transitionToExit()
-                }) { (error) in
-                    self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Критическая ошибка. Обратитесь к поставщику"), animated: true)
-                }
-            }
+        employeePosition = CoreDataManager.shared.fetchEmployeePosition(failure: { (_) in
+            self.transitionToExit(title: "Внимание", message: "Ошибка Аунтификации. Перезагрузите приложение")
         })
         
-        if self.employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
-            
-            self.editPricesByCategoryButton.forEach { (button) in
-                button.alpha = 1
-            }
-        }else{
-            self.editPricesByCategoryButton.forEach { (button) in
-                button.alpha = 0
+        editPricesByCategoryButton.forEach { (button) in
+            if employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
+                button.isHidden = !button.isHidden
+            }else{
+                button.isHidden = true
             }
         }
-        
     }
     
 }
@@ -182,16 +171,14 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource 
     
     // - Delete action
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//        if self.employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
-            let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.IDVC.CatalogListTVCell.rawValue, for: indexPath) as! CatalogListTableViewCell
-            guard let name = cell.name else {return nil}
-       
-            let delete = deleteAction(name: name, at: indexPath)
-            print("УДАЛЕН ПРОДУКТ:", name, indexPath, cell.tag)
+        if self.employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
+            let fetch = productInfo[indexPath.row],
+            name = fetch.productName,
+            delete = deleteAction(name: name, at: indexPath)
             return UISwipeActionsConfiguration(actions: [delete])
-//        }else{
-//            return nil
-//        }
+        }else{
+            return nil
+        }
     }
     
     func deleteAction(name: String, at indexPath: IndexPath) -> UIContextualAction {
@@ -262,7 +249,7 @@ extension CatalogListViewController: CatalogListTableViewCellDelegate {
 
 //MARK: - Появление вариантов Категорий для отфильтровывания продукции
 private extension CatalogListViewController {
-    func showOptionsMethod(option: String) {
+    func showOptionsMethod(_ option: String) {
         selectedCategory = option
         allFilterButtonsCollection.forEach { (buttons) in
             if buttons.isHidden == true {
@@ -289,7 +276,7 @@ private extension CatalogListViewController {
         guard let title = sender.currentTitle, let categories = NavigationCases.ProductCategoriesCases(rawValue: title) else {return}
         switch categories {
         case .apiece:
-            showOptionsMethod(option: NavigationCases.ProductCategoriesCases.apiece.rawValue)
+            showOptionsMethod(NavigationCases.ProductCategoriesCases.apiece.rawValue)
             NetworkManager.shared.downloadApieces(success: { productInfo in
                 self.productInfo = productInfo
                 self.filterButton.isHidden = false
@@ -298,7 +285,7 @@ private extension CatalogListViewController {
                 print(error.localizedDescription)
             }
         case .gift:
-            showOptionsMethod(option: NavigationCases.ProductCategoriesCases.gift.rawValue)
+            showOptionsMethod(NavigationCases.ProductCategoriesCases.gift.rawValue)
             NetworkManager.shared.downloadGifts(success: { productInfo in
                 self.productInfo = productInfo
                 self.filterButton.isHidden = false
@@ -307,7 +294,7 @@ private extension CatalogListViewController {
                 print(error.localizedDescription)
             }
         case .bouquet:
-            showOptionsMethod(option: NavigationCases.ProductCategoriesCases.bouquet.rawValue)
+            showOptionsMethod(NavigationCases.ProductCategoriesCases.bouquet.rawValue)
             NetworkManager.shared.downloadBouquets(success: { productInfo in
                 self.productInfo = productInfo
                 self.filterButton.isHidden = false
@@ -316,7 +303,7 @@ private extension CatalogListViewController {
                 print(error.localizedDescription)
             }
         case .stock:
-            showOptionsMethod(option: NavigationCases.ProductCategoriesCases.stock.rawValue)
+            showOptionsMethod(NavigationCases.ProductCategoriesCases.stock.rawValue)
             NetworkManager.shared.downloadStocks(success: { productInfo in
                 self.productInfo = productInfo
                 self.filterButton.isHidden = false

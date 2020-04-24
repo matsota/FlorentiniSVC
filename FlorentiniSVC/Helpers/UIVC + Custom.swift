@@ -27,7 +27,7 @@ extension UIViewController {
 extension UIViewController {
     
     //MARK: Hide and Show Transition Menu
-    func slideInTransitionMenu(for view: UIView, constraint distance: NSLayoutConstraint, dismissBy button: UIButton) {
+    func slideInTransitionMenu(for view: UIView, constraint distance: NSLayoutConstraint, dismissedBy button: UIButton) {
         let viewWidth = view.bounds.width
         button.isUserInteractionEnabled = !button.isUserInteractionEnabled
         
@@ -99,14 +99,24 @@ extension UIViewController {
     }
     
     //MARK: Exit
-    func transitionToExit() {
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-            let storyboard = UIStoryboard(name: "Login", bundle: Bundle.main)
-            guard let destination = storyboard.instantiateViewController(withIdentifier: NavigationCases.IDVC.LoginVC.rawValue) as? LoginViewController else {
-                self.present(UIAlertController.completionDoneTwoSec(title: "Attention", message: "Navigation error"), animated: true)
-                return
+    func transitionToExit(title: String, message: String) {
+        CoreDataManager.shared.deleteAllData(for: "EmployeeData", success: {
+            AuthenticationManager.shared.signOut(success: {
+                self.present(UIAlertController.completionDoneHalfSec(title: title, message: message), animated: true)
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0) {
+                    let storyboard = UIStoryboard(name: "Login", bundle: Bundle.main)
+                    guard let destination = storyboard.instantiateViewController(withIdentifier: NavigationCases.IDVC.LoginVC.rawValue) as? LoginViewController else {
+                        self.present(UIAlertController.completionDoneTwoSec(title: "Attention", message: "Navigation error"), animated: true)
+                        return
+                    }
+                    self.navigationController?.pushViewController(destination, animated: true)
+                }
+            }) { (error) in
+                self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка в процессе выхода из профиля"), animated: true)
             }
-            self.navigationController?.pushViewController(destination, animated: true)
+        }) { (error) in
+            print(error.localizedDescription)
+            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка в процессе выхода из профиля"), animated: true)
         }
     }
     
@@ -121,36 +131,24 @@ extension UIViewController {
         switch cases {
         case .homeScreen:
             transitionToHomeStoryboard() {
-                self.slideInTransitionMenu(for: view, constraint: constraint, dismissBy: button)
+                self.slideInTransitionMenu(for: view, constraint: constraint, dismissedBy: button)
             }
         case .catalogScreen:
             transitionToCatalogStoryboard() {
-                self.slideInTransitionMenu(for: view, constraint: constraint, dismissBy: button)
+                self.slideInTransitionMenu(for: view, constraint: constraint, dismissedBy: button)
             }
         case .profile:
             transitionToProfileStoryboard() {
-                self.slideInTransitionMenu(for: view, constraint: constraint, dismissBy: button)
+                self.slideInTransitionMenu(for: view, constraint: constraint, dismissedBy: button)
             }
         case .faqScreen:
             transitionToFAQStoryboard() {
-                self.slideInTransitionMenu(for: view, constraint: constraint, dismissBy: button)
+                self.slideInTransitionMenu(for: view, constraint: constraint, dismissedBy: button)
             }
         case .exit:
+            self.slideInTransitionMenu(for: view, constraint: constraint, dismissedBy: button)
             self.present(UIAlertController.signOut {
-                CoreDataManager.shared.deleteAllData(for: "EmployeeData", success: {
-                    AuthenticationManager.shared.signOut(success: {
-                        self.slideInTransitionMenu(for: view, constraint: constraint, dismissBy: button)
-                        self.present(UIAlertController.completionDoneHalfSec(title: "Удачи!", message: "Выход выполнен"), animated: true)
-                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-                            self.transitionToExit()
-                        }
-                    }) { (error) in
-                        self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка в процессе выхода из профиля"), animated: true)
-                    }
-                }) { (error) in
-                    print(error.localizedDescription)
-                    self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка в процессе выхода из профиля"), animated: true)
-                }
+                self.transitionToExit(title: "Удачи!", message: "Выход выполнен")
             }, animated: true)
         }
     }

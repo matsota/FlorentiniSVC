@@ -23,7 +23,7 @@ class ProfileViewController: UIViewController {
     
     //MARK: - Transition menu tapped
     @IBAction private func transitionMenuTapped(_ sender: UIButton) {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissedBy: transitionDismissButton)
     }
     
     //MARK: - Transition confirm
@@ -39,7 +39,7 @@ class ProfileViewController: UIViewController {
     
     //MARK: - Transition dismiss
     @IBAction private func transitionMenuDismiss(_ sender: UIButton) {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissedBy: transitionDismissButton)
     }
     
     //MARK: - New password tapped
@@ -134,12 +134,11 @@ private extension ProfileViewController{
         }else if newPass == "" || reNewPass == "" {
             self.present(UIAlertController.classic(title: "Внимание", message: "Для смены пароля необходимо заполнить все поля"), animated: true)
         }else{
-            self.present(UIAlertController.rePassword(success: {
-                self.dismiss(animated: true) { let ordersVC = self.storyboard?.instantiateViewController(withIdentifier: NavigationCases.IDVC.OrderListVC.rawValue) as? OrderListViewController
-                    self.view.window?.rootViewController = ordersVC
-                    self.view.window?.makeKeyAndVisible()
+            self.present(UIAlertController.updatePassword({
+                AuthenticationManager.shared.updatePassword(newPass) {
+                    self.transitionToExit(title: "Успех!", message: "Перезайдите в приложение")
                 }
-            }, password: newPass), animated: true)
+            }), animated: true)
         }
     }
     

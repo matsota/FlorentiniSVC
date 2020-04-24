@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  AuthenticationManager.swift
 //  FlorentiniSVC
 //
 //  Created by Andrew Matsota on 12.04.2020.
@@ -17,7 +17,8 @@ struct AuthenticationManager {
     uidAdmin = "Q0Lh49RsIrMU8itoNgNJHN3bjmD2"
     
     
-    //MARK: - Sign Up
+    
+    //MARK: - Sign Up new member
     func signUp(name: String, email: String, phone: String, position: String, failure: @escaping(Error) -> Void) {
         
         Auth.auth().createUser(withEmail: email, password: "123456") { (result, error) in
@@ -42,7 +43,13 @@ struct AuthenticationManager {
         }
     }
     
-    //MARK: - SignOut
+    //MARK: - Update password
+    func updatePassword(_ password: String, _ success: @escaping() -> Void) {
+        Auth.auth().currentUser?.updatePassword(to: password, completion: nil)
+        success()
+    }
+    
+    //MARK: - Sign Out
     func signOut(success: @escaping() -> Void, failure: @escaping(Error) -> Void) {
         do {
             try Auth.auth().signOut()
@@ -50,11 +57,6 @@ struct AuthenticationManager {
         }catch{
             failure(error)
         }
-    }
-    
-    //MARK: - Метод смены пароля:
-    func passChange(password: String) {
-        Auth.auth().currentUser?.updatePassword(to: password, completion: nil)
     }
     
 }

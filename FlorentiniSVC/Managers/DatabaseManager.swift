@@ -1,6 +1,6 @@
 //
 //  DatabaseManager.swift
-//  Florentini
+//  FlorentiniSVC
 //
 //  Created by Andrew Matsota on 19.02.2020.
 //  Copyright © 2020 Andrew Matsota. All rights reserved.
@@ -14,10 +14,11 @@ class DatabaseManager {
     static let shared = DatabaseManager()
     
     //MARK: - About Employees
-    struct EmployeeData {
+    struct EmployeeDataStruct {
         var name: String
         var phone: String
         var position: String
+        var uid: String
         var success: Int
         var failure: Int
         
@@ -26,6 +27,7 @@ class DatabaseManager {
                 NavigationCases.EmployeeCases.name.rawValue: name,
                 NavigationCases.EmployeeCases.phone.rawValue: phone,
                 NavigationCases.EmployeeCases.position.rawValue: position,
+                NavigationCases.EmployeeCases.uid.rawValue: uid,
                 NavigationCases.EmployeeCases.success.rawValue: success,
                 NavigationCases.EmployeeCases.failure.rawValue: failure
             ]
@@ -128,14 +130,15 @@ protocol DocumentSerializable {
 //MARK: - Extensions Init
 
 //MARK: Employee
-extension DatabaseManager.EmployeeData: DocumentSerializable {
+extension DatabaseManager.EmployeeDataStruct: DocumentSerializable {
     init?(dictionary: [String : Any]) {
         guard let name = dictionary[NavigationCases.EmployeeCases.name.rawValue] as? String,
             let phone = dictionary[NavigationCases.EmployeeCases.phone.rawValue] as? String,
             let position = dictionary[NavigationCases.EmployeeCases.position.rawValue] as? String,
+            let uid = dictionary[NavigationCases.EmployeeCases.uid.rawValue] as? String,
             let success = dictionary[NavigationCases.EmployeeCases.success.rawValue] as? Int,
             let failure = dictionary[NavigationCases.EmployeeCases.failure.rawValue] as? Int else {return nil}
-        self.init(name: name, phone: phone, position: position, success: success, failure: failure)
+        self.init(name: name, phone: phone, position: position, uid: uid, success: success, failure: failure)
     }
 }
 

@@ -16,7 +16,8 @@ protocol EmloyeeListTableViewCellDelegate: class {
 
 class EmloyeeListTableViewCell: UITableViewCell {
 
-    var uid: String?
+    var uid = String()
+    var name = String()
     weak var delegate: EmloyeeListTableViewCellDelegate?
     
     @IBOutlet weak var nameLabel: UILabel!
@@ -34,11 +35,13 @@ class EmloyeeListTableViewCell: UITableViewCell {
         delegate?.changeEmployeePosition(self)
     }
 
-    func fill(name: String, position: String){
+    func fill(name: String, position: String, uid: String){
         
-        nameLabel.text = name
-        
+        self.name = name
+        nameLabel.text = self.name
         positionButton.setTitle(position, for: .normal)
+        self.uid = uid
+        print(self.name, self.uid)
         
     }
 }

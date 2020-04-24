@@ -106,7 +106,7 @@ class EmployeeListViewController: UIViewController {
     // - create
     @IBAction private func createNewEmployee(_ sender: DesignButton) {
         guard let name = nameTextField.text,
-        let email = emailTextField.text,
+            let email = emailTextField.text,
             let phone = phoneTextField.text else {
                 self.present(UIAlertController.classic(title: "Внимание", message: "Заполинте все поля"), animated: true)
                 return
@@ -123,15 +123,15 @@ class EmployeeListViewController: UIViewController {
             }, animated: true)
         }else{
             AuthenticationManager.shared.signUp(name: name, email: email, phone: phone, position: position, failure: { error in
-            self.present(UIAlertController.classic(title: "Эттеншн", message: error.localizedDescription), animated: true)
+                self.present(UIAlertController.classic(title: "Эттеншн", message: error.localizedDescription), animated: true)
             })
         }
-
+        
     }
     
     //MARK: - Implementation
-    private var employeeData = [DatabaseManager.EmployeeData]()
-    private var filteredEmployessData = [DatabaseManager.EmployeeData]()
+    private var employeeData = [DatabaseManager.EmployeeDataStruct]()
+    private var filteredEmployessData = [DatabaseManager.EmployeeDataStruct]()
     private let searchController = UISearchController(searchResultsController: nil)
     private var searchBarIsEmpty: Bool {
         guard let text = searchController.searchBar.text else {return false}
@@ -185,7 +185,7 @@ extension EmployeeListViewController: UISearchResultsUpdating {
     }
     
     private func filterContentForSearch(search text: String) {
-        filteredEmployessData = employeeData.filter({ (data: DatabaseManager.EmployeeData) -> Bool in
+        filteredEmployessData = employeeData.filter({ (data: DatabaseManager.EmployeeDataStruct) -> Bool in
             return data.name.lowercased().contains(text.lowercased())
         })
         tableView.reloadData()
@@ -210,7 +210,7 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
         cell.tag = indexPath.row
         cell.delegate = self
         
-        var fetch: DatabaseManager.EmployeeData
+        var fetch: DatabaseManager.EmployeeDataStruct
         
         if isFiltering {
             fetch = self.filteredEmployessData[cell.tag]
@@ -219,41 +219,48 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
         }
         
         let name = fetch.name,
-        position = fetch.position
+        position = fetch.position,
+        uid = fetch.uid
         
-        cell.fill(name: name, position: position)
-        
+        cell.fill(name: name, position: position, uid: uid)
+        print(name, position, uid)
         return cell
     }
     
     // - Delete action
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//        if self.position == NavigationCases.EmployeeCases.admin.rawValue {
-            let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.IDVC.EmloyeeListTVCell.rawValue, for: indexPath) as! EmloyeeListTableViewCell
-            guard let uid = cell.uid else {return nil}
-            let delete = deleteAction(uid: uid, at: indexPath)
-            print(cell.nameLabel.text)
+        let adminUID = CoreDataManager.shared.fetchEmployeeUID { (error) in
+            print("ERROR: EmployeeListViewController/TableView/deleteAction: ",error.localizedDescription)
+            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Сотрудник успешно удален"), animated: true)
+        }
+        if adminUID == AuthenticationManager.shared.uidAdmin {
+            let fetch = employeeData[indexPath.row],
+            name = fetch.name,
+            uid = fetch.uid,
+            delete = deleteAction(name: name, uid: uid, at: indexPath)
             return UISwipeActionsConfiguration(actions: [delete])
-//        }
-//        return nil
+        }else{
+            return nil
+        }
     }
     
-    func deleteAction(uid: String, at indexPath: IndexPath) -> UIContextualAction {
+    func deleteAction(name: String, uid: String, at indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .destructive, title: "Удалить") { (action, view, complition) in
-            let uid = CoreDataManager.shared.fetchEmployeeUID { (error) in
-                print("ERROR: EmployeeListViewController/TableView/deleteAction: ",error.localizedDescription)
-                self.present(UIAlertController.completionDoneTwoSec(title: "", message: ""), animated: true)
-            }
             if uid == AuthenticationManager.shared.uidAdmin {
-                self.present(UIAlertController.confirmAction(message: "", success: {
-                    self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Сотрудник удачно Удалён"), animated: true)
-                    self.employeeData.remove(at: indexPath.row)
-                    self.tableView.deleteRows(at: [indexPath], with: .automatic)
-                }), animated: true)
-                complition(true)
-            }else{
-                self.present(UIAlertController.classic(title: "Эттеншн", message: "У Вас нет прав Администратора, чтобы удалять любую из позиций. Не ну ты ЧО"), animated: true)
+                self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Невозможно удалить данного Администратора"), animated: true)
                 complition(false)
+            }else{
+                self.present(UIAlertController.confirmAction(message: "Подтвердите, что вы хотите удалить сотрудника под именем: '\(name)'", success: {
+                    NetworkManager.shared.deleteEmployeeData(uid: uid, {
+                        self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Сотрудник удачно Удалён"), animated: true)
+                        self.employeeData.remove(at: indexPath.row)
+                        self.tableView.deleteRows(at: [indexPath], with: .automatic)
+                    }) { (error) in
+                        print("ERROR: EmployeeListViewController/Table View/deleteAction: ", error.localizedDescription)
+                        self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Произошла Ошибка. Нет связи с сервером"), animated: true)
+                    }
+                    }), animated: true)
+                complition(true)
             }
         }
         action.backgroundColor = .red

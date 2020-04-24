@@ -21,7 +21,7 @@ class ProductCustomizeViewController: UIViewController {
     
     //MARK: - Transition menu tapped
     @IBAction func transitionMenuTapped(_ sender: UIButton) {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissedBy: transitionDismissButton)
     }
     
     
@@ -37,7 +37,7 @@ class ProductCustomizeViewController: UIViewController {
     
     //MARK: - Transition dismiss
     @IBAction func transitionDismiss(_ sender: UIButton) {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissedBy: transitionDismissButton)
     }
     
     //MARK: - Download image by URL

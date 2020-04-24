@@ -20,7 +20,7 @@ class FAQViewController: UIViewController {
     
     //MARK: - Transition menu tapped
     @IBAction private func workerMenuTapped(_ sender: UIButton) {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissedBy: transitionDismissButton)
     }
     
     //MARK: - Transition confirm
@@ -36,7 +36,7 @@ class FAQViewController: UIViewController {
     
     //MARK: Transition dismiss
     @IBAction private func transitionDismissTapped(_ sender: UIButton) {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissedBy: transitionDismissButton)
     }
     
     

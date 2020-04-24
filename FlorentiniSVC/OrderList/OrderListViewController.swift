@@ -30,7 +30,7 @@ class OrderListViewController: UIViewController {
     
     //MARK: - Transition menu tapped
     @IBAction private func transitionMenuTapped(_ sender: UIButton) {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissedBy: transitionDismissButton)
     }
     
     //MARK: - Transition confirm
@@ -45,7 +45,7 @@ class OrderListViewController: UIViewController {
     
     //MARK: - Transition dismiss
     @IBAction private func transitionDismiss(_ sender: UIButton) {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissedBy: transitionDismissButton)
     }
     
     //MARK: - Private Implementation
@@ -101,15 +101,8 @@ private extension OrderListViewController {
             self.viewDidLoad()
         }
         
-        self.employeePosition = CoreDataManager.shared.fetchEmployeePosition(failure: { (error) in
-            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка Аунтификации. Перезагрузите приложение"), animated: true)
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5) {
-                CoreDataManager.shared.deleteAllData(for: "EmployeeData", success: {
-                    self.transitionToExit()
-                }) { (error) in
-                    self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Критическая ошибка. Обратитесь к поставщику"), animated: true)
-                }
-            }
+        self.employeePosition = CoreDataManager.shared.fetchEmployeePosition(failure: { _ in
+            self.transitionToExit(title: "Внимание", message: "Ошибка Аунтификации. Перезагрузите приложение")
         })
     }
     
@@ -133,12 +126,13 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
         name = fetch.name,
         feedbackOption = fetch.feedbackOption,
         mark = fetch.mark,
+        orderTime = Date.asString(fetch.timeStamp)(),
         orderID = fetch.orderID,
         deliveryPerson = fetch.deliveryPerson
         
         cell.delegate = self
         
-        cell.fill(bill: bill, orderKey: orderKey, phoneNumber: phoneNumber, adress: adress, name: name, feedbackOption: feedbackOption, mark: mark, deliveryPerson: deliveryPerson, orderID: orderID)
+        cell.fill(bill: bill, orderKey: orderKey, phoneNumber: phoneNumber, adress: adress, name: name, feedbackOption: feedbackOption, orderTime: orderTime, mark: mark, deliveryPerson: deliveryPerson, orderID: orderID)
         
         return cell
     }

@@ -39,9 +39,9 @@ class ChatTableViewCell: UITableViewCell {
     
     //MARK: - Заполнение Таблицы
     func fill(name: String, content: String, position: String, date: String) {
-        nameLabel?.text = name
-        contentLabel?.text = content
-        dateLabel?.text = date
+        nameLabel.text = name
+        contentLabel.text = content
+        dateLabel.text = date
         positionLabel.text = position
         
         if name == CoreDataManager.shared.fetchEmployeeName(failure: { error in

@@ -303,8 +303,8 @@
 		8FD887ED244752F400A1EF37 /* Transition */ = {
 			isa = PBXGroup;
 			children = (
-				8FD887EB24462D8700A1EF37 /* TransitionMenu.storyboard */,
 				8FD887EE2447539200A1EF37 /* TransitionMenuViewController.swift */,
+				8FD887EB24462D8700A1EF37 /* TransitionMenu.storyboard */,
 			);
 			path = Transition;
 			sourceTree = "<group>";

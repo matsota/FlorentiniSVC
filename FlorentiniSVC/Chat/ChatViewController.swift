@@ -22,7 +22,7 @@ class ChatViewController: UIViewController {
     
     //MARK: - Transition Menu Tapped
     @IBAction private func transitionMenuTapped(_ sender: UIButton) {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissedBy: transitionDismissButton)
     }
     
     
@@ -39,7 +39,7 @@ class ChatViewController: UIViewController {
     
     //MARK: - Transition dismiss
     @IBAction private func transitionDismissTapped(_ sender: UIButton) {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissedBy: transitionDismissButton)
     }
     
     //MARK: - New Message
@@ -56,7 +56,7 @@ class ChatViewController: UIViewController {
     }
     
     //MARK: - Private Implementation
-    private var currentWorkerInfo = [DatabaseManager.EmployeeData]()
+    private var currentWorkerInfo = [DatabaseManager.EmployeeDataStruct]()
     private var messagesArray = [DatabaseManager.ChatMessages]()
     
     private var name = String()

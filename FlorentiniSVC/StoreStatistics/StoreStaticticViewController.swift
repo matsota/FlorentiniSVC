@@ -22,7 +22,7 @@ class StoreStaticticViewController: UIViewController {
     
     //MARK: - Transition menu tapped
     @IBAction func transitionMenuTapped(_ sender: UIButton) {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissedBy: transitionDismissButton)
     }
     
     //MARK: - Transition confirm
@@ -37,7 +37,7 @@ class StoreStaticticViewController: UIViewController {
     
     //MARK: - Transition dismiss
     @IBAction func transitionDismiss(_ sender: UIButton) {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissBy: transitionDismissButton)
+        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissedBy: transitionDismissButton)
     }
     
     //MARK: - Quantity of receipt for regular customer. Default = 5
