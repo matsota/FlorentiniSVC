@@ -172,18 +172,18 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource 
     // - Delete action
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         if self.employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
-            let fetch = productInfo[indexPath.row],
-            name = fetch.productName,
-            delete = deleteAction(name: name, at: indexPath)
+            let delete = deleteAction(at: indexPath)
             return UISwipeActionsConfiguration(actions: [delete])
         }else{
             return nil
         }
     }
     
-    func deleteAction(name: String, at indexPath: IndexPath) -> UIContextualAction {
+    func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .destructive, title: "Удалить") { (action, view, complition) in
-            let uid = CoreDataManager.shared.fetchEmployeeUID { (error) in
+            let fetch = self.productInfo[indexPath.row],
+            name = fetch.productName,
+            uid = CoreDataManager.shared.fetchEmployeeUID { (error) in
                 self.present(UIAlertController.completionDoneTwoSec(title: "Эттеншн!", message: error.localizedDescription), animated: true)
             }
             
@@ -196,7 +196,7 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource 
                 }), animated: true)
                 complition(true)
             }else{
-                self.present(UIAlertController.classic(title: "Эттеншн", message: "У Вас нет прав Администратора, чтобы удалять любую из позиций. Не ну ты ЧО"), animated: true)
+                self.present(UIAlertController.classic(title: "Эттеншн", message: "У Вас нет прав Самого Главного Администратора, чтобы удалять любую из позиций. Не ну ты ЧО"), animated: true)
                 complition(false)
             }
         }

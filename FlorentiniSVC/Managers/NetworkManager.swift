@@ -438,12 +438,13 @@ class NetworkManager {
     }
     
     //MARK: - Delete Employee Data
-    func deleteEmployeeData(uid: String, _ success: @escaping() -> Void, _ failure: @escaping(Error) -> Void) {
+    func deleteEmployeeData(uid: String, name: String, phone: String, position: String, successed: Int, fails: Int, _ success: @escaping() -> Void, _ failure: @escaping(Error) -> Void) {
         db.collection(NavigationCases.FirstCollectionRow.employee.rawValue).document(uid).delete { (error) in
             if let error = error{
                 failure(error)
             }else{
-                self.db.collection("deletedEmployees").addDocument(data: ["uid" : uid])
+                let deletedData: [String: Any] = ["uid": uid, "name": name, "phone": phone, "position": position, "success": successed, "failure": fails]
+                self.db.collection("deletedEmployees").addDocument(data: deletedData)
                 success()
             }
         }

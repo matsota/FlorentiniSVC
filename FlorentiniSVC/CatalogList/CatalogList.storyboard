@@ -54,7 +54,7 @@
                                         <rect key="frame" x="0.0" y="100" width="347" height="30"/>
                                         <subviews>
                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8u0-lB-wgq">
-                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="30"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="69.333333333333329" height="30"/>
                                                 <color key="tintColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <state key="normal" title="+" image="hryvniasign.circle.fill" catalog="system">
                                                     <color key="titleColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -73,7 +73,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lce-gd-QxU">
-                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="30"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="69.333333333333329" height="30"/>
                                                 <color key="tintColor" red="0.81185215710000003" green="0.71545660499999997" blue="0.82354193929999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <state key="normal" title="-" image="hryvniasign.circle" catalog="system">
                                                     <color key="titleColor" red="0.81185215710000003" green="0.71545660499999997" blue="0.82354193929999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -84,13 +84,11 @@
                                             </button>
                                         </subviews>
                                         <constraints>
+                                            <constraint firstItem="8u0-lB-wgq" firstAttribute="width" secondItem="LpX-36-0MD" secondAttribute="width" multiplier="0.2" id="G1G-ku-9O3"/>
                                             <constraint firstItem="Lce-gd-QxU" firstAttribute="width" secondItem="8u0-lB-wgq" secondAttribute="width" id="jtP-NS-pQU"/>
                                         </constraints>
                                     </stackView>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstItem="H23-Ih-Mj7" firstAttribute="width" secondItem="pJ1-dH-0da" secondAttribute="width" multiplier="0.6" id="266-ZJ-PEc"/>
-                                </constraints>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsMultipleSelection="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="d3o-eX-kPe">
                                 <rect key="frame" x="14" y="188" width="347" height="498"/>

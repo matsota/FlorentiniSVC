@@ -61,6 +61,10 @@ class LoginViewController: UIViewController {
                 print(error.localizedDescription)
                 self.present(UIAlertController.completionDoneTwoSec(title: "Внимание!", message: "Проблема с интернетом. Аунтефикация не произошла"), animated: true)
             }
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 15) {
+                self.activityIndicator.stopAnimating()
+            }
+            
         }) { error in
             self.activityIndicator.stopAnimating()
             self.present(UIAlertController.completionDoneTwoSec(title: "Attention!", message: error.localizedDescription), animated: true)

@@ -229,29 +229,34 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
     
     // - Delete action
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let adminUID = CoreDataManager.shared.fetchEmployeeUID { (error) in
-            print("ERROR: EmployeeListViewController/TableView/deleteAction: ",error.localizedDescription)
-            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Сотрудник успешно удален"), animated: true)
+        let uid = CoreDataManager.shared.fetchEmployeeUID { (error) in
+            print("ERROR: EmployeeListViewController/TableView/trailingSwipeActionsConfigurationForRowAt: ",error.localizedDescription)
+            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Произошла ошибка"), animated: true)
         }
-        if adminUID == AuthenticationManager.shared.uidAdmin {
-            let fetch = employeeData[indexPath.row],
-            name = fetch.name,
-            uid = fetch.uid,
-            delete = deleteAction(name: name, uid: uid, at: indexPath)
+        if uid == AuthenticationManager.shared.uidAdmin {
+            let delete = deleteAction(at: indexPath)
             return UISwipeActionsConfiguration(actions: [delete])
         }else{
             return nil
         }
     }
     
-    func deleteAction(name: String, uid: String, at indexPath: IndexPath) -> UIContextualAction {
+    func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .destructive, title: "Удалить") { (action, view, complition) in
+            let fetch = self.employeeData[indexPath.row],
+            name = fetch.name,
+            uid = fetch.uid,
+            phone = fetch.phone,
+            position = fetch.position,
+            success = fetch.success,
+            failure = fetch.failure
+            
             if uid == AuthenticationManager.shared.uidAdmin {
                 self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Невозможно удалить данного Администратора"), animated: true)
                 complition(false)
             }else{
                 self.present(UIAlertController.confirmAction(message: "Подтвердите, что вы хотите удалить сотрудника под именем: '\(name)'", success: {
-                    NetworkManager.shared.deleteEmployeeData(uid: uid, {
+                    NetworkManager.shared.deleteEmployeeData(uid: uid, name: name, phone: phone, position: position, successed: success, fails: failure, {
                         self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Сотрудник удачно Удалён"), animated: true)
                         self.employeeData.remove(at: indexPath.row)
                         self.tableView.deleteRows(at: [indexPath], with: .automatic)
