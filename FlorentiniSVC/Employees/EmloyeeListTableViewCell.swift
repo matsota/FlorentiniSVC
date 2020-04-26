@@ -16,12 +16,13 @@ protocol EmloyeeListTableViewCellDelegate: class {
 
 class EmloyeeListTableViewCell: UITableViewCell {
 
-    var uid = String()
-    var name = String()
+    var uid: String?
+    var name: String?
     weak var delegate: EmloyeeListTableViewCellDelegate?
     
-    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var positionButton: UIButton!
+    @IBOutlet private weak var noEmployeeDataLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -37,11 +38,10 @@ class EmloyeeListTableViewCell: UITableViewCell {
 
     func fill(name: String, position: String, uid: String){
         
-        self.name = name
-        nameLabel.text = self.name
+        self.name = name ; self.uid = uid
+        
+        nameLabel.text = name
         positionButton.setTitle(position, for: .normal)
-        self.uid = uid
-        print(self.name, self.uid)
         
     }
 }

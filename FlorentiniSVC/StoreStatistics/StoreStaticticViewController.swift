@@ -42,7 +42,7 @@ class StoreStaticticViewController: UIViewController {
     
     //MARK: - Quantity of receipt for regular customer. Default = 5
     @IBAction private func regularCusmotersTapped(_ sender: UIButton) {
-        self.present(UIAlertController.setNumber(present:"Введите минимальное число чеков для Постоянного покупателя", success: { (number) in
+        self.present(UIAlertController.setNumber(present:"Введите минимальное число чеков для Постоянного покупателя", confirm: { (number) in
             self.receiptsCountOfRegularCustomers = number
             self.regularCusmotersButton.setTitle("Постоянные Клиенты (больше \(self.receiptsCountOfRegularCustomers) покупок)", for: .normal)
             self.viewDidLoad()
@@ -61,7 +61,7 @@ class StoreStaticticViewController: UIViewController {
     //MARK: Statistics by receipts amount
     // - Default = 3000
     @IBAction private func receiptsOverSomePriceTapped(_ sender: UIButton) {
-        self.present(UIAlertController.setNumber(present: "Введите сумму покупки, и вам покажет количество чеков, сумма которых БОЛЬШЕ введённой цифры", success: { (number) in
+        self.present(UIAlertController.setNumber(present: "Введите сумму покупки, и вам покажет количество чеков, сумма которых БОЛЬШЕ введённой цифры", confirm: { (number) in
             self.overSomePrice = number
             self.receiptsOverSomePriceButton.setTitle("Чеков на сумму > \(number) грн", for: .normal)
             self.viewDidLoad()
@@ -69,7 +69,7 @@ class StoreStaticticViewController: UIViewController {
     }
     // - Default = 700
     @IBAction private func receiptsLessSomePriceTapped(_ sender: UIButton) {
-        self.present(UIAlertController.setNumber(present: "Введите сумму покупки, и вам покажет количество чеков, сумма которых МЕНЬШЕ введённой цифры", success: { (number) in
+        self.present(UIAlertController.setNumber(present: "Введите сумму покупки, и вам покажет количество чеков, сумма которых МЕНЬШЕ введённой цифры", confirm: { (number) in
             self.lessSomePrice = number
             self.receiptsLessSomePriceButton.setTitle("Чеков на сумму < \(number) грн", for: .normal)
             self.viewDidLoad()

@@ -15,7 +15,7 @@ protocol CatalogListTableViewCellDelegate: class {
     
     func editPrice(_ cell: CatalogListTableViewCell)
     
-    func editStockCondition(_ cell: CatalogListTableViewCell, _ text: UILabel)
+    func editStockCondition(_ cell: CatalogListTableViewCell, _ text: UILabel, _ switcher: UISwitch)
     
 }
 
@@ -25,10 +25,8 @@ class CatalogListTableViewCell: UITableViewCell {
     
     //MARK: - Implementation
     var name: String?
-    var price = Int()
-    var category = String()
-    var stock = false
-    var employeePosition = String()
+    var price: Int?
+    var category: String?
     weak var delegate: CatalogListTableViewCellDelegate?
     
     //MARK: - Label
@@ -73,34 +71,22 @@ class CatalogListTableViewCell: UITableViewCell {
     }
     
     @IBAction func stockCondition(_ sender: UISwitch) {
-        delegate?.editStockCondition(self, stockConditionLabel)
+        delegate?.editStockCondition(self, stockConditionLabel, stockSwitch)
     }
     
     
     //MARK: - Заполнение Таблицы
     func fill(name: String, price: Int, category: String, description: String, stock: Bool, employeePosition: String, failure: @escaping(Error) -> Void) {
+        
+        self.price = price ; self.category = category ;  self.name = name
+        
         imageActivityIndicator.startAnimating()
         
         productNameLabel.text = name
         productPriceButton.setTitle("\(price) грн", for: .normal)
         productDescriptionLabel.text = description
         
-        self.price = price
-        self.category = category
-        self.name = name
-        
-        //position tyt ne doljna but' !!!
-        self.employeePosition = employeePosition
-        if self.employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
-            self.stockSwitch.isHidden = false
-            self.productPriceButton.isUserInteractionEnabled = true
-        }else{
-            self.stockSwitch.isHidden = true
-            self.productPriceButton.isUserInteractionEnabled = false
-        }
-        
-        self.stock = stock
-        if self.stock == true {
+        if stock == true {
             stockSwitch.isOn = true
             stockConditionLabel.text = "Акционный товар"
             stockConditionLabel.textColor = .red

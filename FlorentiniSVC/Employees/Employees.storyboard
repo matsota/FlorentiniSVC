@@ -279,15 +279,27 @@
                                                         </button>
                                                     </subviews>
                                                 </stackView>
+                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.59999999999999998" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Данные об этом сотруднике не найдены." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xH2-Qu-KdN">
+                                                    <rect key="frame" x="4" y="4" width="406" height="95"/>
+                                                    <color key="backgroundColor" red="0.81185215710000003" green="0.71545660499999997" blue="0.82354193929999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <color key="tintColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="xH2-Qu-KdN" secondAttribute="trailing" constant="4" id="9yn-dc-fpA"/>
                                                 <constraint firstAttribute="trailing" secondItem="MvV-Nm-fJ5" secondAttribute="trailing" constant="14" id="FIC-XY-zyb"/>
+                                                <constraint firstAttribute="bottom" secondItem="xH2-Qu-KdN" secondAttribute="bottom" constant="4" id="K4Z-cR-GDF"/>
                                                 <constraint firstAttribute="trailing" secondItem="Dzj-E8-YqE" secondAttribute="trailing" constant="14" id="Qc9-ns-ELQ"/>
                                                 <constraint firstItem="zR4-Bt-NCE" firstAttribute="width" secondItem="leV-7q-AL1" secondAttribute="width" id="Tt9-63-8Gv"/>
                                                 <constraint firstItem="qNh-Pg-E5e" firstAttribute="width" secondItem="nOZ-6y-P9l" secondAttribute="width" id="UHo-oY-mj9"/>
                                                 <constraint firstItem="Dzj-E8-YqE" firstAttribute="top" secondItem="FRa-E2-vTh" secondAttribute="top" constant="14" id="Vrk-FP-CN2"/>
                                                 <constraint firstAttribute="bottom" secondItem="MvV-Nm-fJ5" secondAttribute="bottom" constant="14" id="cG3-LM-KQ9"/>
                                                 <constraint firstItem="MvV-Nm-fJ5" firstAttribute="top" secondItem="Dzj-E8-YqE" secondAttribute="bottom" constant="14" id="fVo-53-16s"/>
+                                                <constraint firstItem="xH2-Qu-KdN" firstAttribute="top" secondItem="FRa-E2-vTh" secondAttribute="top" constant="4" id="iGG-7Q-hJm"/>
+                                                <constraint firstItem="xH2-Qu-KdN" firstAttribute="leading" secondItem="FRa-E2-vTh" secondAttribute="leading" constant="4" id="lDx-G0-g2l"/>
                                                 <constraint firstItem="MvV-Nm-fJ5" firstAttribute="height" relation="greaterThanOrEqual" secondItem="Dzj-E8-YqE" secondAttribute="height" id="qWI-QA-Laa"/>
                                                 <constraint firstItem="MvV-Nm-fJ5" firstAttribute="leading" secondItem="FRa-E2-vTh" secondAttribute="leading" constant="14" id="sfw-Xz-ogy"/>
                                                 <constraint firstItem="Dzj-E8-YqE" firstAttribute="leading" secondItem="FRa-E2-vTh" secondAttribute="leading" constant="14" id="t6R-st-hBj"/>
@@ -295,6 +307,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="nameLabel" destination="qNh-Pg-E5e" id="qD5-d6-O1A"/>
+                                            <outlet property="noEmployeeDataLabel" destination="xH2-Qu-KdN" id="5Ou-Ym-IEk"/>
                                             <outlet property="positionButton" destination="nOZ-6y-P9l" id="mnJ-Fp-3xz"/>
                                         </connections>
                                     </tableViewCell>

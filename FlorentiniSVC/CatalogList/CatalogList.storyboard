@@ -549,12 +549,17 @@
                                     <action selector="transitionDismissTapped:" destination="ilt-bP-f8l" eventType="touchUpInside" id="ymQ-uR-W0y"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="9mW-VD-LtF">
+                                <rect key="frame" x="169" y="392.66666666666669" width="37" height="37"/>
+                                <color key="color" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="d3o-eX-kPe" firstAttribute="centerX" secondItem="7Vu-bp-Ho6" secondAttribute="centerX" id="3Ff-Z2-KfU"/>
                             <constraint firstItem="pJ1-dH-0da" firstAttribute="top" secondItem="7Vu-bp-Ho6" secondAttribute="top" id="3Jw-6I-sjb"/>
                             <constraint firstItem="sRA-ff-ill" firstAttribute="top" secondItem="7Vu-bp-Ho6" secondAttribute="top" id="5Eh-qX-4f9"/>
+                            <constraint firstItem="9mW-VD-LtF" firstAttribute="centerY" secondItem="7Vu-bp-Ho6" secondAttribute="centerY" id="CvY-nn-fhS"/>
                             <constraint firstItem="7Vu-bp-Ho6" firstAttribute="trailing" secondItem="sRA-ff-ill" secondAttribute="trailing" id="Jz5-zl-4PP"/>
                             <constraint firstItem="pJ1-dH-0da" firstAttribute="leading" secondItem="7Vu-bp-Ho6" secondAttribute="leading" constant="14" id="MIl-gA-eRV"/>
                             <constraint firstItem="rHX-Pi-0NJ" firstAttribute="top" secondItem="7Vu-bp-Ho6" secondAttribute="top" id="NpL-XM-EmM"/>
@@ -571,6 +576,7 @@
                             <constraint firstItem="sRA-ff-ill" firstAttribute="leading" secondItem="rHX-Pi-0NJ" secondAttribute="trailing" id="tUg-Ir-AHz"/>
                             <constraint firstItem="rHX-Pi-0NJ" firstAttribute="bottom" secondItem="7Vu-bp-Ho6" secondAttribute="bottom" id="teX-MP-SKc"/>
                             <constraint firstItem="N3W-nh-r2U" firstAttribute="leading" secondItem="7Vu-bp-Ho6" secondAttribute="leading" id="xD1-SM-di0"/>
+                            <constraint firstItem="9mW-VD-LtF" firstAttribute="centerX" secondItem="7Vu-bp-Ho6" secondAttribute="centerX" id="yyD-Ge-CM4"/>
                             <constraint firstItem="rHX-Pi-0NJ" firstAttribute="width" secondItem="Ect-nP-SxW" secondAttribute="width" multiplier="0.65" id="zOq-Tk-Jac"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="7Vu-bp-Ho6"/>
@@ -579,6 +585,7 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="buttonsView" destination="N3W-nh-r2U" id="gDE-A1-mE4"/>
+                        <outlet property="categoryChangesActivityIndicator" destination="9mW-VD-LtF" id="GRW-el-hVW"/>
                         <outlet property="filterButton" destination="T59-JF-XwL" id="Ozh-q4-Ahd"/>
                         <outlet property="tableView" destination="d3o-eX-kPe" id="YUO-Ko-Bbo"/>
                         <outlet property="transitionDismissButton" destination="sRA-ff-ill" id="Qva-Or-F6a"/>

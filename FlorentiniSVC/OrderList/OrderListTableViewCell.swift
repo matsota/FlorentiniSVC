@@ -15,10 +15,10 @@ protocol OrdersListTableViewCellDelegate: class {
 class OrderListTableViewCell: UITableViewCell {
     
     //MARK: - Implementation
-    var bill = Int()
-    var orderKey = String()
-    var deliveryPerson = String()
-    var orderID = String()
+    var bill: Int?
+    var orderKey: String?
+    var deliveryPerson: String?
+    var orderID: String?
     weak var delegate: OrdersListTableViewCellDelegate?
     
     //MARK: Label
@@ -51,12 +51,9 @@ class OrderListTableViewCell: UITableViewCell {
     //MARK: - Заполнение таблицы
     func fill (bill: Int, orderKey: String, phoneNumber: String, adress: String, name: String, feedbackOption: String, orderTime: String, mark: String, deliveryPerson: String, orderID: String) {
         
-        self.bill = bill
-        self.orderKey = orderKey
-        self.deliveryPerson = deliveryPerson
-        self.orderID = orderID
+        self.bill = bill ; self.orderKey = orderKey ; self.deliveryPerson = deliveryPerson ; self.orderID = orderID
         
-        billLabel.text = "\(self.bill) грн"
+        billLabel.text = "\(bill) грн"
         phoneNumberLabel.text = phoneNumber
         adressLabel.text = adress
         nameLabel.text = name

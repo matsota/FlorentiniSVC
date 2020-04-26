@@ -255,7 +255,7 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
                 self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Невозможно удалить данного Администратора"), animated: true)
                 complition(false)
             }else{
-                self.present(UIAlertController.confirmAction(message: "Подтвердите, что вы хотите удалить сотрудника под именем: '\(name)'", success: {
+                self.present(UIAlertController.confirmAction(message: "Подтвердите, что вы хотите удалить сотрудника под именем: '\(name)'", confirm: {
                     NetworkManager.shared.deleteEmployeeData(uid: uid, name: name, phone: phone, position: position, successed: success, fails: failure, {
                         self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Сотрудник удачно Удалён"), animated: true)
                         self.employeeData.remove(at: indexPath.row)
