@@ -30,6 +30,7 @@ struct AuthenticationManager {
             }
         }
     }
+    
     //MARK: - Sign In
     func signIn(email: String, password: String, success: @escaping(AuthDataResult) -> Void, failure: @escaping(Error) -> Void) {
         

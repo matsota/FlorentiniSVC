@@ -10,129 +10,38 @@ import UIKit
 
 class EmployeeListViewController: UIViewController {
     
+    //MARK: - Override
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NetworkManager.shared.fetchEmployeeData(success: { (data) in
-            self.employeeData = data
-            self.tableView.reloadData()
-        }) { (error) in
-            print("ERROR: EmployeeListViewController/viewDidLoad/fetchEmployeeData: ", error.localizedDescription)
-            self.present(UIAlertController.completionDoneTwoSec(title: "", message: ""), animated: true)
-        }
-        
-        position = CoreDataManager.shared.fetchEmployeePosition { (error) in
-            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка Аутентификации"), animated: true)
-        }
-        
-        if position != NavigationCases.EmployeeCases.admin.rawValue {
-            employeeCreationButton.isHidden = true
-        }
-        
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Введите имя сотрудника"
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
+        forViewDidload()
         
     }
     
     //MARK: - Employee Creation
-    // - hide unhide creation form
     @IBAction private func prepareForCreateNewEmployee(_ sender: DesignButton) {
-        employeeCreationView.isHidden = !employeeCreationView.isHidden
-        UIView.animate(withDuration: 0.3) {
-            self.view.layoutIfNeeded()
-        }
-        
+        prepareForCreateNewEmployeeMethod()
     }
-    // - hide unhide all position
+
     @IBAction private func showPositions(_ sender: DesignButton) {
-        positionCollectionButton.forEach { (button) in
-            positionButton.isHidden = !positionButton.isHidden
-            button.isHidden = !button.isHidden
-            UIView.animate(withDuration: 0.3) {
-                self.view.layoutIfNeeded()
-            }
-        }
+        showPositionMethod()
     }
-    // - picked
-    @IBAction private func positionPicked(_ sender: DesignButton) {
-        guard let title = sender.currentTitle, let position = NavigationCases.EmployeeCases(rawValue: title) else {return}
-        switch position {
-            
-        case .admin:
-            positionForNewEmployee = NavigationCases.EmployeeCases.admin.rawValue
-            positionButton.setTitle(positionForNewEmployee, for: .normal)
-            positionCollectionButton.forEach { (button) in
-                positionButton.isHidden = !positionButton.isHidden
-                button.isHidden = !button.isHidden
-                UIView.animate(withDuration: 0.3) {
-                    self.view.layoutIfNeeded()
-                }
-            }
-        case .operator:
-            positionForNewEmployee = NavigationCases.EmployeeCases.operator.rawValue
-            positionButton.setTitle(positionForNewEmployee, for: .normal)
-            positionCollectionButton.forEach { (button) in
-                positionButton.isHidden = !positionButton.isHidden
-                button.isHidden = !button.isHidden
-                UIView.animate(withDuration: 0.3) {
-                    self.view.layoutIfNeeded()
-                }
-            }
-        case .delivery:
-            positionForNewEmployee = NavigationCases.EmployeeCases.delivery.rawValue
-            positionButton.setTitle(positionForNewEmployee, for: .normal)
-            positionCollectionButton.forEach { (button) in
-                positionButton.isHidden = !positionButton.isHidden
-                button.isHidden = !button.isHidden
-                UIView.animate(withDuration: 0.3) {
-                    self.view.layoutIfNeeded()
-                }
-            }
-        default:
-            positionForNewEmployee = "Не выбрана"
-            positionButton.setTitle(positionForNewEmployee, for: .normal)
-            positionCollectionButton.forEach { (button) in
-                positionButton.isHidden = !positionButton.isHidden
-                button.isHidden = !button.isHidden
-                UIView.animate(withDuration: 0.3) {
-                    self.view.layoutIfNeeded()
-                }
-            }
-        }
+    
+    //MARK: - Position Confirmed
+    @IBAction private func positionConfirm(_ sender: DesignButton) {
+        positionConfirmMethod(sender)
     }
-    // - create
-    @IBAction private func createNewEmployee(_ sender: DesignButton) {
-        guard let name = nameTextField.text,
-            let email = emailTextField.text,
-            let phone = phoneTextField.text else {
-                self.present(UIAlertController.classic(title: "Внимание", message: "Заполинте все поля"), animated: true)
-                return
-        }
-        
-        let position = positionForNewEmployee
-        if position == "Не выбрана" {
-            self.present(UIAlertController.classic(title: "Внимание", message: "Вы забыли выбрать должность"), animated: true)
-        }else if position == NavigationCases.EmployeeCases.admin.rawValue {
-            self.present(UIAlertController.confrimAdminCreation {
-                AuthenticationManager.shared.signUp(name: name, email: email, phone: phone, position: position, failure: { error in
-                    self.present(UIAlertController.classic(title: "Эттеншн", message: error.localizedDescription), animated: true)
-                })
-            }, animated: true)
-        }else{
-            AuthenticationManager.shared.signUp(name: name, email: email, phone: phone, position: position, failure: { error in
-                self.present(UIAlertController.classic(title: "Эттеншн", message: error.localizedDescription), animated: true)
-            })
-        }
-        
+    
+    //MARK: - Employee Confirm
+    @IBAction private func employeeConfirm(_ sender: DesignButton) {
+        employeeConfirmMethod()
     }
     
     //MARK: - Implementation
+    private let searchController = UISearchController(searchResultsController: nil)
     private var employeeData = [DatabaseManager.EmployeeDataStruct]()
     private var filteredEmployessData = [DatabaseManager.EmployeeDataStruct]()
-    private let searchController = UISearchController(searchResultsController: nil)
+    
     private var searchBarIsEmpty: Bool {
         guard let text = searchController.searchBar.text else {return false}
         return text.isEmpty
@@ -141,7 +50,6 @@ class EmployeeListViewController: UIViewController {
         return searchController.isActive && !searchBarIsEmpty
     }
     
-    //MARK: - Implementation
     private var position: String?
     private var positionForNewEmployee = "Не выбрана"
     
@@ -153,17 +61,14 @@ class EmployeeListViewController: UIViewController {
     
     
     //MARK: - Button
-    
+    @IBOutlet private var positionCollectionButton: [DesignButton]!
     @IBOutlet private weak var employeeCreationButton: DesignButton!
     @IBOutlet private weak var positionButton: DesignButton!
-    @IBOutlet private var positionCollectionButton: [DesignButton]!
     
     //MARK: - Text Field
     @IBOutlet private weak var emailTextField: UITextField!
     @IBOutlet private weak var nameTextField: UITextField!
     @IBOutlet private weak var phoneTextField: UITextField!
-    
-    
     
 }
 
@@ -264,7 +169,7 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
                         print("ERROR: EmployeeListViewController/Table View/deleteAction: ", error.localizedDescription)
                         self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Произошла Ошибка. Нет связи с сервером"), animated: true)
                     }
-                    }), animated: true)
+                }), animated: true)
                 complition(true)
             }
         }
@@ -279,6 +184,136 @@ extension EmployeeListViewController: EmloyeeListTableViewCellDelegate {
     
     func changeEmployeePosition(_ cell: EmloyeeListTableViewCell) {
         
+    }
+    
+}
+
+//MARK: - Private extentions
+
+private extension EmployeeListViewController {
+    
+    func forViewDidload() {
+        NetworkManager.shared.fetchEmployeeData(success: { (data) in
+            self.employeeData = data
+            self.tableView.reloadData()
+        }) { (error) in
+            print("ERROR: EmployeeListViewController/viewDidLoad/fetchEmployeeData: ", error.localizedDescription)
+            self.present(UIAlertController.completionDoneTwoSec(title: "", message: ""), animated: true)
+        }
+        
+        position = CoreDataManager.shared.fetchEmployeePosition { (error) in
+            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка Аутентификации"), animated: true)
+        }
+        
+        if position != NavigationCases.EmployeeCases.admin.rawValue {
+            employeeCreationButton.isHidden = true
+        }
+        
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Введите имя сотрудника"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+    }
+    
+}
+
+private extension EmployeeListViewController {
+    
+    func positionConfirmMethod(_ sender: DesignButton) {
+        guard let title = sender.currentTitle, let position = NavigationCases.EmployeeCases(rawValue: title) else {return}
+        switch position {
+            
+        case .admin:
+            positionForNewEmployee = NavigationCases.EmployeeCases.admin.rawValue
+            positionButton.setTitle(positionForNewEmployee, for: .normal)
+            positionCollectionButton.forEach { (button) in
+                positionButton.isHidden = !positionButton.isHidden
+                button.isHidden = !button.isHidden
+                UIView.animate(withDuration: 0.3) {
+                    self.view.layoutIfNeeded()
+                }
+            }
+        case .operator:
+            positionForNewEmployee = NavigationCases.EmployeeCases.operator.rawValue
+            positionButton.setTitle(positionForNewEmployee, for: .normal)
+            positionCollectionButton.forEach { (button) in
+                positionButton.isHidden = !positionButton.isHidden
+                button.isHidden = !button.isHidden
+                UIView.animate(withDuration: 0.3) {
+                    self.view.layoutIfNeeded()
+                }
+            }
+        case .delivery:
+            positionForNewEmployee = NavigationCases.EmployeeCases.delivery.rawValue
+            positionButton.setTitle(positionForNewEmployee, for: .normal)
+            positionCollectionButton.forEach { (button) in
+                positionButton.isHidden = !positionButton.isHidden
+                button.isHidden = !button.isHidden
+                UIView.animate(withDuration: 0.3) {
+                    self.view.layoutIfNeeded()
+                }
+            }
+        default:
+            positionForNewEmployee = "Не выбрана"
+            positionButton.setTitle(positionForNewEmployee, for: .normal)
+            positionCollectionButton.forEach { (button) in
+                positionButton.isHidden = !positionButton.isHidden
+                button.isHidden = !button.isHidden
+                UIView.animate(withDuration: 0.3) {
+                    self.view.layoutIfNeeded()
+                }
+            }
+        }
+    }
+    
+    func employeeConfirmMethod() {
+        guard let name = nameTextField.text,
+            let email = emailTextField.text,
+            let phone = phoneTextField.text else {
+                self.present(UIAlertController.classic(title: "Внимание", message: "Заполинте все поля"), animated: true)
+                return
+        }
+        
+        let position = positionForNewEmployee
+        if position == "Не выбрана" {
+            self.present(UIAlertController.classic(title: "Внимание", message: "Вы забыли выбрать должность"), animated: true)
+        }else if position == NavigationCases.EmployeeCases.admin.rawValue {
+            self.present(UIAlertController.confrimAdminCreation {
+                AuthenticationManager.shared.signUp(name: name, email: email, phone: phone, position: position, failure: { error in
+                    self.present(UIAlertController.classic(title: "Эттеншн", message: error.localizedDescription), animated: true)
+                })
+            }, animated: true)
+        }else{
+            AuthenticationManager.shared.signUp(name: name, email: email, phone: phone, position: position, failure: { error in
+                self.present(UIAlertController.classic(title: "Эттеншн", message: error.localizedDescription), animated: true)
+            })
+        }
+    }
+    
+}
+
+
+//MARK: - Hide Unhide Any
+
+private extension EmployeeListViewController {
+    
+    func prepareForCreateNewEmployeeMethod() {
+        employeeCreationView.isHidden = !employeeCreationView.isHidden
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+        
+    }
+
+    func showPositionMethod() {
+        positionCollectionButton.forEach { (button) in
+            positionButton.isHidden = !positionButton.isHidden
+            button.isHidden = !button.isHidden
+            UIView.animate(withDuration: 0.3) {
+                self.view.layoutIfNeeded()
+            }
+        }
     }
     
 }

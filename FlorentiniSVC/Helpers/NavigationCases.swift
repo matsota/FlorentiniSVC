@@ -106,17 +106,7 @@ class NavigationCases {
         
     }
     
-    //MARK: - For Archive
-//    enum ArchiveCases: String, CaseIterable{
-//
-//        case archivedOrders
-//        case archivedOrderAdditions
-//        case deletedOrders
-//
-//    }
-    
     //MARK: - For transition menu
-    
     enum TranstionCases: String, CaseIterable {
         
         case homeScreen = "Главная"
@@ -129,9 +119,7 @@ class NavigationCases {
     
     //MARK: - About Order
     enum OrderCases: String, CaseIterable {
-        case order
         case orderDescription
-        
         case totalPrice
         case name
         case adress
@@ -144,7 +132,7 @@ class NavigationCases {
         
     }
     
-    //MARK: - Про обратную связь
+    //MARK: - Feedback
     enum FeedbackTypesCases: String, CaseIterable {
         
         case cellphone = "По телефону"
@@ -153,7 +141,7 @@ class NavigationCases {
         
     }
     
-    //MARK: - Про количество
+    //MARK: - About quantity
     enum MaxQuantityByCategoriesCases: Int {
         
         case towHundred = 200
@@ -171,7 +159,7 @@ class NavigationCases {
         case plus = "+"
     }
     
-    //MARK: - Про Категории
+    //MARK: - About Categories
     enum ProductCategoriesCases: String, CaseIterable {
         
         case apiece = "Поштучно"

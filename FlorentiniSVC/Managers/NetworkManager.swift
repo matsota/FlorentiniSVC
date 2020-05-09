@@ -85,7 +85,7 @@ class NetworkManager {
         var addition = [DatabaseManager.OrderAddition](),
         jsonArray: [[String: Any]] = []
         
-        let docRef = db.collection(NavigationCases.OrderCases.order.rawValue).document(orderKey)
+        let docRef = db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderKey)
         docRef.collection(orderKey).getDocuments(completion: {
             (querySnapshot, _) in
             addition = querySnapshot!.documents.compactMap{DatabaseManager.OrderAddition(dictionary: $0.data())}
@@ -97,7 +97,7 @@ class NetworkManager {
                 self.db.collection(NavigationCases.FirstCollectionRow.archivedOrderAddition.rawValue).addDocument(data: jsonArray.remove(at: 0))
             }
         })
-        db.collection(NavigationCases.OrderCases.order.rawValue).document(orderKey).delete()
+        db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderKey).delete()
         deleteOrderAddition(collection: docRef.collection(orderKey))
     }
     
@@ -135,7 +135,7 @@ class NetworkManager {
     }
     
     //MARK: - Fetch employee data
-    func fetchCertainDataOfEmployee(uid: String, success: @escaping([DatabaseManager.EmployeeDataStruct]) -> Void, failure: @escaping(Error) -> Void) {
+    func fetchDataOfCertainEmployee(uid: String, success: @escaping([DatabaseManager.EmployeeDataStruct]) -> Void, failure: @escaping(Error) -> Void) {
         if uid == "" {
             let error = NetworkManagerError.employeeUIDDoesNotExist
             failure(error)
@@ -242,7 +242,7 @@ class NetworkManager {
     
     //MARK: - Download order
     func fetchOrders(success: @escaping([DatabaseManager.Order]) -> Void, failure: @escaping(Error) -> Void) {
-        db.collection(NavigationCases.OrderCases.order.rawValue).getDocuments(completion: {
+        db.collection(NavigationCases.FirstCollectionRow.order.rawValue).getDocuments(completion: {
             (querySnapshot, _) in
             let orders = querySnapshot!.documents.compactMap{DatabaseManager.Order(dictionary: $0.data())}
             success(orders)
@@ -251,7 +251,7 @@ class NetworkManager {
     
     //MARK: - Download order addition
     func fetchOrderAdditions(key: String, success: @escaping([DatabaseManager.OrderAddition]) -> Void, failure: @escaping(Error) -> Void) {        
-        let docRef = db.collection(NavigationCases.OrderCases.order.rawValue).document(key)
+        let docRef = db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(key)
         docRef.collection(key).getDocuments(completion: {
             (querySnapshot, _) in
             let addition = querySnapshot!.documents.compactMap{DatabaseManager.OrderAddition(dictionary: $0.data())}
@@ -354,7 +354,7 @@ class NetworkManager {
     
     //MARK: - Set delivery person
     func editDeliveryMan(orderID: String, deliveryPerson: String) {
-        let path = db.collection(NavigationCases.OrderCases.order.rawValue).document(orderID)
+        let path = db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderID)
         path.updateData([NavigationCases.OrderCases.deliveryPerson.rawValue : deliveryPerson])
     }
     
@@ -374,7 +374,7 @@ class NetworkManager {
     
     //MARK: - Orders listener
     func updateOrders(success: @escaping(DatabaseManager.Order) -> Void) {
-        db.collection(NavigationCases.OrderCases.order.rawValue).whereField(NavigationCases.MessagesCases.timeStamp.rawValue, isGreaterThan: Date()).addSnapshotListener { (querySnapshot, error) in
+        db.collection(NavigationCases.FirstCollectionRow.order.rawValue).whereField(NavigationCases.MessagesCases.timeStamp.rawValue, isGreaterThan: Date()).addSnapshotListener { (querySnapshot, error) in
             guard let snapshot = querySnapshot else {return}
             
             snapshot.documentChanges.forEach { diff in
@@ -424,12 +424,12 @@ class NetworkManager {
     
     //MARK: - Delete order
     func deleteOrder(totalPrice: Int64, name: String, adress: String, cellphone: String, feedbackOption: String, mark: String, timeStamp: Date, orderKey: String, deliveryPerson: String) {
-        db.collection(NavigationCases.OrderCases.order.rawValue).document(orderKey).delete { (error) in
+        db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderKey).delete { (error) in
             if let error = error {
                 print(error.localizedDescription)
             }else{
                 let data =  DatabaseManager.Order(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, orderID: orderKey, deliveryPerson: deliveryPerson),
-                docRef = self.db.collection(NavigationCases.OrderCases.order.rawValue).document(orderKey)
+                docRef = self.db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderKey)
                 
                 self.db.collection(NavigationCases.FirstCollectionRow.deletedOrder.rawValue).addDocument(data: data.dictionary)
                 self.deleteOrderAddition(collection: docRef.collection(orderKey))
