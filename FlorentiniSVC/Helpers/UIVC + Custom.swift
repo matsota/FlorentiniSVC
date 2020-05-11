@@ -47,7 +47,7 @@ extension UIViewController {
     }
     
     //MARK: To Orders storyboard
-    func transitionToHomeStoryboard(success: @escaping() -> Void) {
+    func transitionToOrderStoryboard(success: @escaping() -> Void) {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
             let storyboard = UIStoryboard(name: "OrderList", bundle: Bundle.main)
             guard let destination = storyboard.instantiateViewController(withIdentifier: NavigationCases.IDVC.OrderListVC.rawValue) as? OrderListViewController else {
@@ -130,7 +130,7 @@ extension UIViewController {
         
         switch cases {
         case .homeScreen:
-            transitionToHomeStoryboard() {
+            transitionToOrderStoryboard() {
                 self.slideInTransitionMenu(for: view, constraint: constraint, dismissedBy: button)
             }
         case .catalogScreen:
