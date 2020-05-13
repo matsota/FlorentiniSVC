@@ -23,8 +23,7 @@ class OrderListViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "orderList_OrderDetail", let OrderDetailVC = segue.destination as? OrderDetailListTableViewController, let index = tableView.indexPathsForSelectedRows?.first?.row {
             let detail = order[index]
-            let currentDeviceID = detail.orderID
-            OrderDetailVC.currentDeviceID = currentDeviceID
+            OrderDetailVC.orderRef = detail.orderID
         }
     }
     
@@ -120,14 +119,14 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.IDVC.OrdersListTVCell.rawValue, for: indexPath) as! OrderListTableViewCell,
         fetch = order[indexPath.row],
         bill = Int(fetch.totalPrice),
-        orderKey = fetch.orderID,
+        orderKey = fetch.currentDeviceID,
         phoneNumber = fetch.cellphone,
         adress = fetch.adress,
         name = fetch.name,
         feedbackOption = fetch.feedbackOption,
         mark = fetch.mark,
         orderTime = Date.asString(fetch.timeStamp)(),
-        orderID = fetch.orderID,
+        orderID = fetch.currentDeviceID,
         deliveryPerson = fetch.deliveryPerson
         
         cell.delegate = self
@@ -156,12 +155,13 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
         feedbackOption = fetch.feedbackOption,
         mark = fetch.mark,
         timeStamp = fetch.timeStamp,
-        id = fetch.orderID,
+        currentDeviceID = fetch.currentDeviceID,
         deliveryPerson = fetch.deliveryPerson,
+        orderID = fetch.orderID,
         
         action = UIContextualAction(style: .destructive, title: "Архив") { (action, view, complition) in
             self.present(UIAlertController.confirmAction(message: "", confirm: {
-                NetworkManager.shared.archiveOrder(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, orderKey: id, deliveryPerson: deliveryPerson)
+                NetworkManager.shared.archiveOrder(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, orderKey: currentDeviceID, deliveryPerson: deliveryPerson, orderID: orderID)
                 self.orderCount -= 1
                 self.order.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -193,12 +193,13 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
         feedbackOption = fetch.feedbackOption,
         mark = fetch.mark,
         timeStamp = fetch.timeStamp,
-        id = fetch.orderID,
+        currentDeviceID = fetch.currentDeviceID,
         deliveryPerson = fetch.deliveryPerson,
+        orderID = fetch.orderID,
         
         action = UIContextualAction(style: .destructive, title: "Удалить") { (action, view, complition) in
             self.present(UIAlertController.confirmAction(message: "", confirm: {
-                NetworkManager.shared.deleteOrder(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, orderKey: id, deliveryPerson: deliveryPerson)
+                NetworkManager.shared.deleteOrder(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, orderKey: currentDeviceID, deliveryPerson: deliveryPerson, orderID: orderID)
                 self.orderCount -= 1
                 self.order.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)

@@ -43,7 +43,7 @@ class NavigationCases {
         case productInfo
         case imageCollection
         case order
-        case archivedOrderAddition
+        case archivedOrderDescription
         case archivedOrder
         case deletedOrder
         case employeeMessages
@@ -94,6 +94,7 @@ class NavigationCases {
         case productImageURL
         case stock
         
+        
     }
     
     //MARK: - For Categories
@@ -129,6 +130,7 @@ class NavigationCases {
         case timeStamp
         case currentDeviceID
         case deliveryPerson
+        case orderID
         
     }
     

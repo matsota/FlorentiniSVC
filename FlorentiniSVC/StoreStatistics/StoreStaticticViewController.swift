@@ -267,7 +267,7 @@ private extension StoreStaticticViewController{
     
     //MARK: By Customers
     func forStatsByCustomers(receipts: [DatabaseManager.Order]) {
-        let uniqueCustomers = Set(receipts.map({$0.orderID})),
+        let uniqueCustomers = Set(receipts.map({$0.currentDeviceID})),
         uniqueCustomersQuantity = uniqueCustomers.count
         self.uniqueCustomersLabel.text = "\(uniqueCustomersQuantity)"
         
@@ -276,7 +276,7 @@ private extension StoreStaticticViewController{
         regularCustomersQuantity = Int()
         
         for i in receipts {
-            allCustomers += "(\(i.orderID)), "
+            allCustomers += "(\(i.currentDeviceID)), "
         }
         
         for i in uniqueCustomers {

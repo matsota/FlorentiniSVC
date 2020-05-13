@@ -13,7 +13,7 @@ class OrderDetailListTableViewController: UITableViewController {
     
     //MARK: - Implementation
     private var orderAddition = [DatabaseManager.OrderAddition]()
-    var currentDeviceID = String()
+    var orderRef: String?
     
     //MARK: - Table View
     @IBOutlet private var orderDetailTableView: UITableView!
@@ -25,7 +25,11 @@ class OrderDetailListTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NetworkManager.shared.fetchOrderAdditions(key: currentDeviceID,success: { (orders) in
+        guard let orderRef = orderRef else {
+            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Произошла ошибка. Не можем найти необходимый заказ"), animated: true)
+            return
+        }
+        NetworkManager.shared.fetchOrderAdditions(orderRef: orderRef,success: { (orders) in
             self.orderAddition = orders
             self.orderDetailTableView.reloadData()
         }) { error in

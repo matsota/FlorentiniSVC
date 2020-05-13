@@ -22,14 +22,12 @@ class NetworkManager {
     ///
     
     //MARK: - Prepare product description for setup in Firebase
-    func setupProductDescription(name: String, price: Int, description: String, category: String, stock: Bool) {
-        let data = DatabaseManager.ProductInfo(productName: name, productPrice: price, productDescription: description, productCategory: category, stock: stock)
-        
-        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).document(name).setData(data.dictionary)
+    func setupProductDescription(dataModel: DatabaseManager.ProductInfo, name: String) {
+        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).document(name).setData(dataModel.dictionary)
     }
     
     //MARK: - Setup new product in Firebase
-    func setupProduct(image: UIImageView, name: String, price: Int, description: String, category: String, stock: Bool, progressIndicator: UIProgressView) {
+    func setupProduct(image: UIImageView, name: String, dataModel: DatabaseManager.ProductInfo, progressIndicator: UIProgressView, success: @escaping() -> Void) {
         guard AuthenticationManager.shared.uidAdmin == AuthenticationManager.shared.currentUser?.uid else {return}
         
         progressIndicator.isHidden = false
@@ -46,7 +44,7 @@ class NetworkManager {
                 print("Oh no! \(error.localizedDescription)")
                 return
             }
-            self.setupProductDescription(name: name, price: price, description: description, category: category, stock: stock)
+            self.setupProductDescription(dataModel: dataModel, name: name)
         }
         
         taskRef.observe(.progress){ (snapshot) in
@@ -55,7 +53,9 @@ class NetworkManager {
         }
         taskRef.observe(.success) {_ in
             progressIndicator.isHidden = true
+            success()
         }
+        
     }
     
     //MARK: - New Employee
@@ -67,9 +67,9 @@ class NetworkManager {
     }
     
     //MARK: - Archive order
-    func archiveOrder(totalPrice: Int64, name: String, adress: String, cellphone: String, feedbackOption: String, mark: String, timeStamp: Date, orderKey: String, deliveryPerson: String){
+    func archiveOrder(totalPrice: Int64, name: String, adress: String, cellphone: String, feedbackOption: String, mark: String, timeStamp: Date, orderKey: String, deliveryPerson: String, orderID: String){
         
-        let data =  DatabaseManager.Order(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, orderID: orderKey, deliveryPerson: deliveryPerson)
+        let data =  DatabaseManager.Order(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, currentDeviceID: orderKey, deliveryPerson: deliveryPerson, orderID: orderID)
         
         db.collection(NavigationCases.FirstCollectionRow.archivedOrder.rawValue).addDocument(data: data.dictionary)
         archiveOrderAddition(orderKey: orderKey)
@@ -94,7 +94,7 @@ class NetworkManager {
             }
             
             for _ in jsonArray {
-                self.db.collection(NavigationCases.FirstCollectionRow.archivedOrderAddition.rawValue).addDocument(data: jsonArray.remove(at: 0))
+                self.db.collection(NavigationCases.FirstCollectionRow.archivedOrderDescription.rawValue).addDocument(data: jsonArray.remove(at: 0))
             }
         })
         db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderKey).delete()
@@ -156,7 +156,7 @@ class NetworkManager {
             }else{
                 let receiptsData = querySnapshot!.documents.compactMap{DatabaseManager.Order(dictionary: $0.data())}
                 // - second fetch
-                self.db.collection(NavigationCases.FirstCollectionRow.archivedOrderAddition.rawValue).getDocuments {
+                self.db.collection(NavigationCases.FirstCollectionRow.archivedOrderDescription.rawValue).getDocuments {
                     (querySnapshot, error) in
                     if let error = error {
                         failure(error)
@@ -189,17 +189,17 @@ class NetworkManager {
     //MARK: - Fetch archive data for statistics by category
     func fetchArchivedOrdersByCategory(success: @escaping(_ bouquets: [DatabaseManager.OrderAddition],_ apiece: [DatabaseManager.OrderAddition], _ gifts: [DatabaseManager.OrderAddition], _ stocks: [DatabaseManager.OrderAddition]) -> Void, failure: @escaping(Error) -> Void) {
         //  - first fetch
-        db.collection(NavigationCases.FirstCollectionRow.archivedOrderAddition.rawValue).whereField(NavigationCases.ProductCases.productCategory.rawValue, isEqualTo: NavigationCases.ProductCategoriesCases.bouquet.rawValue).getDocuments { (querySnapshot, _) in
+        db.collection(NavigationCases.FirstCollectionRow.archivedOrderDescription.rawValue).whereField(NavigationCases.ProductCases.productCategory.rawValue, isEqualTo: NavigationCases.ProductCategoriesCases.bouquet.rawValue).getDocuments { (querySnapshot, _) in
             let bouquetsData = querySnapshot!.documents.compactMap{DatabaseManager.OrderAddition(dictionary: $0.data())}
             //  - second fetch
-            self.db.collection(NavigationCases.FirstCollectionRow.archivedOrderAddition.rawValue).whereField(NavigationCases.ProductCases.productCategory.rawValue, isEqualTo: NavigationCases.ProductCategoriesCases.apiece.rawValue).getDocuments { (querySnapshot, _) in
+            self.db.collection(NavigationCases.FirstCollectionRow.archivedOrderDescription.rawValue).whereField(NavigationCases.ProductCases.productCategory.rawValue, isEqualTo: NavigationCases.ProductCategoriesCases.apiece.rawValue).getDocuments { (querySnapshot, _) in
                 let apieceData = querySnapshot!.documents.compactMap{DatabaseManager.OrderAddition(dictionary: $0.data())}
                 //  - third fetch
-                self.db.collection(NavigationCases.FirstCollectionRow.archivedOrderAddition.rawValue).whereField(NavigationCases.ProductCases.productCategory.rawValue, isEqualTo: NavigationCases.ProductCategoriesCases.gift.rawValue).getDocuments { (querySnapshot, _) in
+                self.db.collection(NavigationCases.FirstCollectionRow.archivedOrderDescription.rawValue).whereField(NavigationCases.ProductCases.productCategory.rawValue, isEqualTo: NavigationCases.ProductCategoriesCases.gift.rawValue).getDocuments { (querySnapshot, _) in
                     let giftsData = querySnapshot!.documents.compactMap{DatabaseManager.OrderAddition(dictionary: $0.data())}
                     
                     //  - fourth fetch
-                    self.db.collection(NavigationCases.FirstCollectionRow.archivedOrderAddition.rawValue).whereField(NavigationCases.ProductCases.stock.rawValue, isEqualTo: true).getDocuments { (querySnapshot, _) in
+                    self.db.collection(NavigationCases.FirstCollectionRow.archivedOrderDescription.rawValue).whereField(NavigationCases.ProductCases.stock.rawValue, isEqualTo: true).getDocuments { (querySnapshot, _) in
                         let stocksData = querySnapshot!.documents.compactMap{DatabaseManager.OrderAddition(dictionary: $0.data())}
                         
                         success(bouquetsData, apieceData, giftsData, stocksData)
@@ -249,9 +249,9 @@ class NetworkManager {
     }
     
     //MARK: - Download order addition
-    func fetchOrderAdditions(key: String, success: @escaping([DatabaseManager.OrderAddition]) -> Void, failure: @escaping(Error) -> Void) {        
-        let docRef = db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(key)
-        docRef.collection(key).getDocuments(completion: {
+    func fetchOrderAdditions(orderRef: String, success: @escaping([DatabaseManager.OrderAddition]) -> Void, failure: @escaping(Error) -> Void) {        
+        let docRef = db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderRef)
+        docRef.collection(NavigationCases.OrderCases.orderDescription.rawValue).getDocuments(completion: {
             (querySnapshot, _) in
             let addition = querySnapshot!.documents.compactMap{DatabaseManager.OrderAddition(dictionary: $0.data())}
             success(addition)
@@ -422,12 +422,12 @@ class NetworkManager {
     }
     
     //MARK: - Delete order
-    func deleteOrder(totalPrice: Int64, name: String, adress: String, cellphone: String, feedbackOption: String, mark: String, timeStamp: Date, orderKey: String, deliveryPerson: String) {
+    func deleteOrder(totalPrice: Int64, name: String, adress: String, cellphone: String, feedbackOption: String, mark: String, timeStamp: Date, orderKey: String, deliveryPerson: String, orderID: String) {
         db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderKey).delete { (error) in
             if let error = error {
                 print(error.localizedDescription)
             }else{
-                let data =  DatabaseManager.Order(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, orderID: orderKey, deliveryPerson: deliveryPerson),
+                let data =  DatabaseManager.Order(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, currentDeviceID: orderKey, deliveryPerson: deliveryPerson, orderID: orderID),
                 docRef = self.db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderKey)
                 
                 self.db.collection(NavigationCases.FirstCollectionRow.deletedOrder.rawValue).addDocument(data: data.dictionary)
