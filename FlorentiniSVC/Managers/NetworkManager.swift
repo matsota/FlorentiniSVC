@@ -106,8 +106,7 @@ class NetworkManager {
         let newMessage = DatabaseManager.ChatMessages(name: name, content: content, position: position, uid: AuthenticationManager.shared.currentUser!.uid, timeStamp: Date())
         var ref: DocumentReference? = nil
         
-        ref = db.collection(NavigationCases.FirstCollectionRow.employeeMessages.rawValue).addDocument(data: newMessage.dictionary) {
-            error in
+        ref = db.collection(NavigationCases.FirstCollectionRow.employeeMessages.rawValue).addDocument(data: newMessage.dictionary) { error in
             if let error = error {
                 print("Error: \(error.localizedDescription)")
             }else{
