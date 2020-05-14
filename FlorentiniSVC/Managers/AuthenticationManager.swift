@@ -26,7 +26,8 @@ struct AuthenticationManager {
                 failure(error)
             }else{
                 guard let uid = result?.user.uid else {return}
-                NetworkManager.shared.createNewEmpoyee(name: name, phone: phone, position: position, uid: uid)
+                let dataModel =  DatabaseManager.EmployeeDataStruct(name: name, phone: phone, position: position, uid: uid, success: 0, failure: 0)
+                NetworkManager.shared.createNewEmpoyee(dataModel: dataModel, uid: uid)
             }
         }
     }

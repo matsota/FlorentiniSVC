@@ -60,33 +60,23 @@ class NetworkManager {
     
     //MARK: - New Employee
     
-    func createNewEmpoyee(name: String, phone: String, position: String, uid: String) {
-        let data =  DatabaseManager.EmployeeDataStruct(name: name, phone: phone, position: position, uid: uid, success: 0, failure: 0)
-        
-        db.collection(NavigationCases.FirstCollectionRow.employee.rawValue).document(uid).setData(data.dictionary)
+    func createNewEmpoyee(dataModel: DatabaseManager.EmployeeDataStruct, uid: String) {
+        db.collection(NavigationCases.FirstCollectionRow.employee.rawValue).document(uid).setData(dataModel.dictionary)
     }
     
     //MARK: - Archive order
-    func archiveOrder(totalPrice: Int64, name: String, adress: String, cellphone: String, feedbackOption: String, mark: String, timeStamp: Date, orderKey: String, deliveryPerson: String, orderID: String){
-        
-        let data =  DatabaseManager.Order(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, currentDeviceID: orderKey, deliveryPerson: deliveryPerson, orderID: orderID)
-        
-        db.collection(NavigationCases.FirstCollectionRow.archivedOrder.rawValue).addDocument(data: data.dictionary)
-        archiveOrderAddition(orderKey: orderKey)
-    }
-    
-    func refactor(productName: String, productPrice: Int, productDescription: String, productCategory: String, stock: Bool) {
-        let data = DatabaseManager.ProductInfo(productName: productName, productPrice: productPrice, productDescription: productDescription, productCategory: productCategory, stock: stock)
-        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).document(productName).setData(data.dictionary)
+    func archiveOrder(dataModel: DatabaseManager.Order, orderKey: String){
+        db.collection(NavigationCases.FirstCollectionRow.archivedOrder.rawValue).addDocument(data: dataModel.dictionary)
+        archiveOrderAddition(orderID: orderKey)
     }
     
     //MARK: Archive order addition
-    func archiveOrderAddition(orderKey: String) {
+    func archiveOrderAddition(orderID: String) {
         var addition = [DatabaseManager.OrderAddition](),
         jsonArray: [[String: Any]] = []
         
-        let docRef = db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderKey)
-        docRef.collection(orderKey).getDocuments(completion: {
+        let docRef = db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderID)
+        docRef.collection(NavigationCases.OrderCases.orderDescription.rawValue).getDocuments(completion: {
             (querySnapshot, _) in
             addition = querySnapshot!.documents.compactMap{DatabaseManager.OrderAddition(dictionary: $0.data())}
             for i in addition {
@@ -97,8 +87,9 @@ class NetworkManager {
                 self.db.collection(NavigationCases.FirstCollectionRow.archivedOrderDescription.rawValue).addDocument(data: jsonArray.remove(at: 0))
             }
         })
-        db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderKey).delete()
-        deleteOrderAddition(collection: docRef.collection(orderKey))
+        
+        db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderID).delete()
+        deleteOrderAddition(collection: docRef.collection(NavigationCases.OrderCases.orderDescription.rawValue))
     }
     
     //MARK: - New chat message
@@ -422,16 +413,17 @@ class NetworkManager {
     }
     
     //MARK: - Delete order
-    func deleteOrder(totalPrice: Int64, name: String, adress: String, cellphone: String, feedbackOption: String, mark: String, timeStamp: Date, orderKey: String, deliveryPerson: String, orderID: String) {
-        db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderKey).delete { (error) in
+    func deleteOrder(dataModel: DatabaseManager.Order, orderID: String) {
+        
+        var docRef: DocumentReference?
+        
+        docRef = db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderID)
+        docRef?.delete { (error) in
             if let error = error {
                 print(error.localizedDescription)
             }else{
-                let data =  DatabaseManager.Order(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, currentDeviceID: orderKey, deliveryPerson: deliveryPerson, orderID: orderID),
-                docRef = self.db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderKey)
-                
-                self.db.collection(NavigationCases.FirstCollectionRow.deletedOrder.rawValue).addDocument(data: data.dictionary)
-                self.deleteOrderAddition(collection: docRef.collection(orderKey))
+                self.db.collection(NavigationCases.FirstCollectionRow.deletedOrder.rawValue).addDocument(data: dataModel.dictionary)
+                self.deleteOrderAddition(collection: docRef!.collection(NavigationCases.OrderCases.orderDescription.rawValue))
             }
         }
     }

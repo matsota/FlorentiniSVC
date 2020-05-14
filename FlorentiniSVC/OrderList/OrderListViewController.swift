@@ -161,7 +161,8 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
         
         action = UIContextualAction(style: .destructive, title: "Архив") { (action, view, complition) in
             self.present(UIAlertController.confirmAction(message: "", confirm: {
-                NetworkManager.shared.archiveOrder(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, orderKey: currentDeviceID, deliveryPerson: deliveryPerson, orderID: orderID)
+                let dataModel =  DatabaseManager.Order(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, currentDeviceID: currentDeviceID, deliveryPerson: deliveryPerson, orderID: orderID)
+                NetworkManager.shared.archiveOrder(dataModel: dataModel, orderKey: orderID)
                 self.orderCount -= 1
                 self.order.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -170,6 +171,7 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
                 complition(true)
             }), animated: true)
         }
+
         return action
     }
     
@@ -199,7 +201,8 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
         
         action = UIContextualAction(style: .destructive, title: "Удалить") { (action, view, complition) in
             self.present(UIAlertController.confirmAction(message: "", confirm: {
-                NetworkManager.shared.deleteOrder(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, orderKey: currentDeviceID, deliveryPerson: deliveryPerson, orderID: orderID)
+                let dataModel =  DatabaseManager.Order(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, currentDeviceID: currentDeviceID, deliveryPerson: deliveryPerson, orderID: orderID)
+                NetworkManager.shared.deleteOrder(dataModel: dataModel, orderID: dataModel.orderID)
                 self.orderCount -= 1
                 self.order.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)
