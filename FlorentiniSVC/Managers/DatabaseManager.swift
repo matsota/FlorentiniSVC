@@ -54,12 +54,33 @@ class DatabaseManager {
     }
     
     //MARK: - About Product
+//    struct ProductInfo {
+//        var productName: String
+//        var productPrice: Int
+//        var productDescription: String
+//        var productCategory: String
+//        var stock: Bool
+//
+//        var dictionary: [String:Any]{
+//            return [
+//                NavigationCases.ProductCases.productName.rawValue: productName,
+//                NavigationCases.ProductCases.productPrice.rawValue: productPrice,
+//                NavigationCases.ProductCases.productDescription.rawValue: productDescription,
+//                NavigationCases.ProductCases.productCategory.rawValue: productCategory,
+//                NavigationCases.ProductCases.stock.rawValue: stock
+//            ]
+//        }
+//    }
     struct ProductInfo {
         var productName: String
         var productPrice: Int
         var productDescription: String
         var productCategory: String
         var stock: Bool
+        var productID: String
+        var searchArray: [String]
+        var voteCount: Int
+        var voteAmount: Int
         
         var dictionary: [String:Any]{
             return [
@@ -67,7 +88,11 @@ class DatabaseManager {
                 NavigationCases.ProductCases.productPrice.rawValue: productPrice,
                 NavigationCases.ProductCases.productDescription.rawValue: productDescription,
                 NavigationCases.ProductCases.productCategory.rawValue: productCategory,
-                NavigationCases.ProductCases.stock.rawValue: stock
+                NavigationCases.ProductCases.stock.rawValue: stock,
+                NavigationCases.ProductCases.productID.rawValue: productID,
+                NavigationCases.ProductCases.searchArray.rawValue: searchArray,
+                NavigationCases.ProductCases.voteCount.rawValue: voteCount,
+                NavigationCases.ProductCases.voteAmount.rawValue: voteAmount
             ]
         }
     }
@@ -157,14 +182,30 @@ extension DatabaseManager.ChatMessages: DocumentSerializable {
 }
 
 //MARK: Про Продукт
+//extension DatabaseManager.ProductInfo: DocumentSerializable {
+//    init?(dictionary: [String: Any]) {
+//        guard let productName = dictionary[NavigationCases.ProductCases.productName.rawValue] as? String,
+//            let productPrice = dictionary[NavigationCases.ProductCases.productPrice.rawValue] as? Int,
+//            let productDescription = dictionary[NavigationCases.ProductCases.productDescription.rawValue] as? String,
+//            let productCategory = dictionary[NavigationCases.ProductCases.productCategory.rawValue] as? String,
+//            let stock = dictionary[NavigationCases.ProductCases.stock.rawValue] as? Bool else {return nil}
+//        self.init(productName: productName, productPrice: productPrice, productDescription: productDescription, productCategory: productCategory, stock: stock)
+//    }
+//}
+
+//MARK: Про Продукт
 extension DatabaseManager.ProductInfo: DocumentSerializable {
     init?(dictionary: [String: Any]) {
         guard let productName = dictionary[NavigationCases.ProductCases.productName.rawValue] as? String,
             let productPrice = dictionary[NavigationCases.ProductCases.productPrice.rawValue] as? Int,
             let productDescription = dictionary[NavigationCases.ProductCases.productDescription.rawValue] as? String,
             let productCategory = dictionary[NavigationCases.ProductCases.productCategory.rawValue] as? String,
-            let stock = dictionary[NavigationCases.ProductCases.stock.rawValue] as? Bool else {return nil}
-        self.init(productName: productName, productPrice: productPrice, productDescription: productDescription, productCategory: productCategory, stock: stock)
+            let stock = dictionary[NavigationCases.ProductCases.stock.rawValue] as? Bool,
+            let productID = dictionary[NavigationCases.ProductCases.productID.rawValue] as? String,
+            let searchArray = dictionary[NavigationCases.ProductCases.searchArray.rawValue] as? [String],
+            let voteCount = dictionary[NavigationCases.ProductCases.voteCount.rawValue] as? Int,
+            let voteAmount = dictionary[NavigationCases.ProductCases.voteAmount.rawValue] as? Int else {return nil}
+        self.init(productName: productName, productPrice: productPrice, productDescription: productDescription, productCategory: productCategory, stock: stock, productID: productID, searchArray: searchArray, voteCount: voteCount, voteAmount: voteAmount)
     }
 }
 

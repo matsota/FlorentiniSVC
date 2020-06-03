@@ -22,21 +22,20 @@ class NetworkManager {
     ///
     
     //MARK: - Prepare product description for setup in Firebase
-    func setupProductDescription(dataModel: DatabaseManager.ProductInfo, name: String) {
-        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).document(name).setData(dataModel.dictionary)
+    func setupProductDescription(productName: String, productPrice: Int, productDescription: String, productCategory: String, stock: Bool, searchArray: [String], success: @escaping() -> Void) {
+        let ref = db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).document(),
+        dataModel = DatabaseManager.ProductInfo(productName: productName, productPrice: productPrice, productDescription: productDescription, productCategory: productCategory, stock: stock, productID: ref.documentID, searchArray: searchArray, voteCount: 0, voteAmount: 0)
+            ref.setData(dataModel.dictionary)
+        success()
     }
     
     //MARK: - Setup new product in Firebase
-    func setupProduct(image: UIImageView, name: String, dataModel: DatabaseManager.ProductInfo, progressIndicator: UIProgressView, success: @escaping() -> Void) {
-        guard AuthenticationManager.shared.uidAdmin == AuthenticationManager.shared.currentUser?.uid else {return}
-        
+    func setupProduct(image: UIImageView, productName: String, progressIndicator: UIProgressView, success: @escaping() -> Void, failure: @escaping(Error) -> Void) {
         progressIndicator.isHidden = false
+        guard AuthenticationManager.shared.uidAdmin == AuthenticationManager.shared.currentUser?.uid, let imageData = image.image?.jpegData(compressionQuality: 0.75) else {return}
+        let uploadRef = Storage.storage().reference(withPath: "\(NavigationCases.FirstCollectionRow.imageCollection.rawValue)/\(productName)"),
+        uploadMetadata = StorageMetadata.init()
         
-        let uploadRef = Storage.storage().reference(withPath: "\(NavigationCases.FirstCollectionRow.imageCollection.rawValue)/\(name)")
-        
-        guard let imageData = image.image?.jpegData(compressionQuality: 0.75) else {return}
-        
-        let uploadMetadata = StorageMetadata.init()
         uploadMetadata.contentType = "image/jpg"
         
         let taskRef = uploadRef.putData(imageData, metadata: uploadMetadata) { (downloadMetadata, error) in
@@ -44,16 +43,20 @@ class NetworkManager {
                 print("Oh no! \(error.localizedDescription)")
                 return
             }
-            self.setupProductDescription(dataModel: dataModel, name: name)
         }
         
         taskRef.observe(.progress){ (snapshot) in
             guard let pctThere = snapshot.progress?.fractionCompleted else {return}
             progressIndicator.progress = Float(pctThere)
         }
-        taskRef.observe(.success) {_ in
-            progressIndicator.isHidden = true
-            success()
+        
+        taskRef.observe(.success) { i in
+            if let error = i.error {
+                failure(error)
+            }else{
+                progressIndicator.isHidden = true
+                success()
+            }
         }
         
     }
@@ -310,7 +313,7 @@ class NetworkManager {
     ///
     //MARK: - crUd
     ///
-    
+    //MARK: - Increase or decrease price for all product in a category
     func increaseDecreasePrice(for category: String, by price: Int, success: @escaping() -> Void, failure: @escaping(Error) -> Void) {
         let path = db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).whereField(NavigationCases.ProductCases.productCategory.rawValue, isEqualTo: category)
         path.getDocuments { (querySnapshot, error) in

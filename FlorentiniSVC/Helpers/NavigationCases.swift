@@ -40,14 +40,15 @@ class NavigationCases {
     enum FirstCollectionRow: String, CaseIterable {
         
         case employee
+        case employeeMessages
         case productInfo
         case imageCollection
         case order
         case archivedOrderDescription
         case archivedOrder
         case deletedOrder
-        case employeeMessages
-        
+        case searchProduct
+    
     }
     
     //MARK: - For Employee
@@ -93,8 +94,11 @@ class NavigationCases {
         case productDescription
         case productImageURL
         case stock
-        
-        
+        case productID
+        case searchArray
+        case voteCount
+        case voteAmount
+
     }
     
     //MARK: - For Categories

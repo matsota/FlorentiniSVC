@@ -128,7 +128,6 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
         uid = fetch.uid
         
         cell.fill(name: name, position: position, uid: uid)
-        print(name, position, uid)
         return cell
     }
     

@@ -276,8 +276,8 @@ private extension ProductCustomizeViewController {
     func productCreationConfirms() {
         let price = Int(photoPriceTextField.text!),
         image = addedPhotoImageView,
-        name = self.photoNameTextField.text,
-        description = self.photoDescriptionTextView.text,
+        name = self.photoNameTextField.text!,
+        description = self.photoDescriptionTextView.text!,
         category = self.selectedCategory,
         stock = self.stock
         
@@ -288,16 +288,19 @@ private extension ProductCustomizeViewController {
         }else if image == nil{
             self.present(UIAlertController.classic(title: "Эттеншн", message: "Вы забыли фотографию"), animated: true)
         }else{
-            
-            let dataModel = DatabaseManager.ProductInfo(productName: name!, productPrice: price!, productDescription: description!, productCategory: category, stock: stock)
-            NetworkManager.shared.setupProduct(image: image!, name: name!, dataModel: dataModel, progressIndicator: progressView) {
-                self.present(UIAlertController.completionDoneHalfSec(title: "Готово!", message: "Новый товар добавлен"), animated: true)
-                self.photoNameTextField.text = ""
-                self.photoDescriptionTextView.text = ""
-                self.photoPriceTextField.text = ""
-                self.stockSwitch.isOn = false
-                self.stock = false
-                self.stockConditionLabel.text = "Без акции"
+            NetworkManager.shared.setupProduct(image: image!, productName: name, progressIndicator: progressView, success: {
+                NetworkManager.shared.setupProductDescription(productName: name, productPrice: price ?? 0, productDescription: description, productCategory: category, stock: stock, searchArray: [name]) {
+                    self.present(UIAlertController.completionDoneHalfSec(title: "Готово!", message: "Новый товар добавлен"), animated: true)
+                    self.photoNameTextField.text = ""
+                    self.photoDescriptionTextView.text = ""
+                    self.photoPriceTextField.text = ""
+                    self.stockSwitch.isOn = false
+                    self.stock = false
+                    self.stockConditionLabel.text = "Без акции"
+                }
+            }) { error in
+                print("ERROR: NetworkManager.shared.setupProduct: ", error.localizedDescription)
+                self.present(UIAlertController.classic(title: "Внимание", message: "Произошла ошибка: \(error.localizedDescription)"), animated: true)
             }
         }
     }
