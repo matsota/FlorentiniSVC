@@ -265,8 +265,8 @@ private extension CatalogListViewController {
         
         guard let title = sender.currentTitle, let categories = NavigationCases.ProductCategoriesCases(rawValue: title) else {return}
         switch categories {
-        case .apiece:
-            showOptionsMethod(NavigationCases.ProductCategoriesCases.apiece.rawValue)
+        case .flower:
+            showOptionsMethod(NavigationCases.ProductCategoriesCases.flower.rawValue)
             NetworkManager.shared.downloadApieces(success: { productInfo in
                 self.productInfo = productInfo
                 self.filterButton.isHidden = false

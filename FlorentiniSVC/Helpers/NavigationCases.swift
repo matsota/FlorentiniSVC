@@ -91,6 +91,7 @@ class NavigationCases {
         case productPrice
         case productQuantity
         case productCategory
+        case productSubCategory
         case productDescription
         case productImageURL
         case stock
@@ -98,6 +99,9 @@ class NavigationCases {
         case searchArray
         case voteCount
         case voteAmount
+        
+        // - categories for search product
+        case mainDictionaries
 
     }
     
@@ -168,7 +172,7 @@ class NavigationCases {
     //MARK: - About Categories
     enum ProductCategoriesCases: String, CaseIterable {
         
-        case apiece = "Поштучно"
+        case flower = "Цветы"
         case gift = "Подарки"
         case bouquet = "Букеты"
         case stock = "Акции"

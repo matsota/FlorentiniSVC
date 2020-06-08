@@ -21,27 +21,6 @@ class ProfileViewController: UIViewController {
         
     }
     
-    //MARK: - Transition menu tapped
-    @IBAction private func transitionMenuTapped(_ sender: UIButton) {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissedBy: transitionDismissButton)
-    }
-    
-    //MARK: - Transition confirm
-    @IBAction func transitionConfirm(_ sender: UIButton) {
-        guard let title = sender.currentTitle,
-               let view = transitionView,
-               let constraint = transitionViewLeftConstraint,
-               let button = transitionDismissButton else {return}
-               
-        transitionPerform(by: title, for: view, with: constraint, dismiss: button)
-    }
-    
-    
-    //MARK: - Transition dismiss
-    @IBAction private func transitionMenuDismiss(_ sender: UIButton) {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissedBy: transitionDismissButton)
-    }
-    
     //MARK: - New password tapped
     @IBAction private func changePasswordTapped(_ sender: DesignButton) {
         passwordView.isHidden = !passwordView.isHidden
@@ -57,12 +36,10 @@ class ProfileViewController: UIViewController {
     
     //MARK: View
     @IBOutlet private weak var passwordView: UIView!
-    @IBOutlet private weak var transitionView: UIView!
     
     //MARK: Button Outlet
 
     @IBOutlet private var adminButtons: [DesignButton]!
-    @IBOutlet private weak var transitionDismissButton: UIButton!
     
     
     //MARK: Label Outlet
@@ -75,7 +52,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet private weak var reNewPassword: UITextField!
     
     //MARK: Constraint
-    @IBOutlet private weak var transitionViewLeftConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var transitionBottomConstraint: NSLayoutConstraint!
     
 }
 
