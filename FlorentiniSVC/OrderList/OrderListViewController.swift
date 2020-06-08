@@ -24,8 +24,10 @@ class OrderListViewController: UIViewController {
         if segue.identifier == "orderList_OrderDetail", let OrderDetailVC = segue.destination as? OrderDetailListTableViewController, let index = tableView.indexPathsForSelectedRows?.first?.row {
             let detail = order[index]
             OrderDetailVC.orderRef = detail.orderID
+            print(detail.orderID)
         }
     }
+    //UFbueiDXpvZo6B82n8We
     
     //MARK: - Transition menu tapped
     @IBAction private func transitionMenuTapped(_ sender: UIButton) {
@@ -126,9 +128,9 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
         feedbackOption = fetch.feedbackOption,
         mark = fetch.mark,
         orderTime = Date.asString(fetch.timeStamp)(),
-        orderID = fetch.currentDeviceID,
+        orderID = fetch.orderID,
         deliveryPerson = fetch.deliveryPerson
-        
+        print(orderID)
         cell.delegate = self
         
         cell.fill(bill: bill, orderKey: orderKey, phoneNumber: phoneNumber, adress: adress, name: name, feedbackOption: feedbackOption, orderTime: orderTime, mark: mark, deliveryPerson: deliveryPerson, orderID: orderID)
@@ -136,6 +138,12 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+//    
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.IDVC.OrdersListTVCell.rawValue, for: indexPath) as! OrderListTableViewCell,
+//        orderID = cell.orderID
+//        print(orderID)
+//    }
     // - archive
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         if employeePosition == NavigationCases.EmployeeCases.admin.rawValue || employeePosition == NavigationCases.EmployeeCases.operator.rawValue {
