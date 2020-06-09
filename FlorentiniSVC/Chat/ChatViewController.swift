@@ -45,7 +45,7 @@ class ChatViewController: UIViewController {
     //MARK: - New Message
     @IBAction private func typeMessage(_ sender: UIButton) {
         guard name != "" else {
-            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка Аутентификации"), animated: true)
+            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Ошибка Аутентификации"), animated: true)
             return
         }
         if let content = self.chatTextView.text {
@@ -108,7 +108,7 @@ private extension ChatViewController {
             self.tableView.reloadData()
         }) { error in
             print("ERROR: ChatViewController/viewDidLoad/fetchChat: ",error.localizedDescription)
-            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Произошла ошибка. Возможно пропал интеренет"), animated: true)
+            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Произошла ошибка. Возможно пропал интеренет"), animated: true)
         }
         
         //MARK: Обновление чата

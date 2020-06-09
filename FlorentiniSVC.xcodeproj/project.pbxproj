@@ -296,10 +296,10 @@
 		8FC00BCE244330A300C80B45 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				8F98FA3C24434266003C8759 /* DatabaseManager.swift */,
 				8F98FA3A24434259003C8759 /* NetworkManager.swift */,
-				8FC00BD2244332A200C80B45 /* AuthenticationManager.swift */,
 				8F98FA3424434210003C8759 /* CoreDataManager.swift */,
+				8FC00BD2244332A200C80B45 /* AuthenticationManager.swift */,
+				8F98FA3C24434266003C8759 /* DatabaseManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";

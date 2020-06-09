@@ -11,8 +11,10 @@ import FirebaseFirestore
 import FirebaseUI
 
 class NetworkManager {
+    
     static let shared = NetworkManager()
     let db = Firestore.firestore()
+    
 }
 
 

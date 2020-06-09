@@ -13,122 +13,16 @@ protocol DocumentSerializable {
     init?(dictionary: [String: Any])
 }
 
+//MARK: - Class
 class DatabaseManager {
+    
     static let shared = DatabaseManager()
+    
 }
 
-//MARK: - Extensions
-
-//MARK: - About Employees
+//MARK: - For ORDER
 extension DatabaseManager {
-    struct EmployeeDataStruct {
-        var name: String
-        var phone: String
-        var position: String
-        var uid: String
-        var success: Int
-        var failure: Int
-        
-        var dictionary: [String: Any]{
-            return [
-                NavigationCases.EmployeeCases.name.rawValue: name,
-                NavigationCases.EmployeeCases.phone.rawValue: phone,
-                NavigationCases.EmployeeCases.position.rawValue: position,
-                NavigationCases.EmployeeCases.uid.rawValue: uid,
-                NavigationCases.EmployeeCases.success.rawValue: success,
-                NavigationCases.EmployeeCases.failure.rawValue: failure
-            ]
-        }
-    }
-}
-extension DatabaseManager.EmployeeDataStruct: DocumentSerializable {
-    init?(dictionary: [String: Any]) {
-        guard let name = dictionary[NavigationCases.EmployeeCases.name.rawValue] as? String,
-            let phone = dictionary[NavigationCases.EmployeeCases.phone.rawValue] as? String,
-            let position = dictionary[NavigationCases.EmployeeCases.position.rawValue] as? String,
-            let uid = dictionary[NavigationCases.EmployeeCases.uid.rawValue] as? String,
-            let success = dictionary[NavigationCases.EmployeeCases.success.rawValue] as? Int,
-            let failure = dictionary[NavigationCases.EmployeeCases.failure.rawValue] as? Int else {return nil}
-        self.init(name: name, phone: phone, position: position, uid: uid, success: success, failure: failure)
-    }
-}
-
-//MARK: - About Chat
-extension DatabaseManager {
-    struct ChatMessages {
-        var name: String
-        var content: String
-        var position: String
-        var uid: String
-        var timeStamp: Date
-        
-        var dictionary: [String: Any] {
-            return [
-                NavigationCases.MessagesCases.name.rawValue: name,
-                NavigationCases.MessagesCases.content.rawValue: content,
-                NavigationCases.EmployeeCases.position.rawValue: position,
-                NavigationCases.MessagesCases.uid.rawValue: uid,
-                NavigationCases.MessagesCases.timeStamp.rawValue: timeStamp
-            ]
-        }
-    }
-}
-extension DatabaseManager.ChatMessages: DocumentSerializable {
-    init?(dictionary: [String: Any]) {
-        guard let name = dictionary[NavigationCases.MessagesCases.name.rawValue] as? String,
-            let content = dictionary[NavigationCases.MessagesCases.content.rawValue] as? String,
-            let position = dictionary[NavigationCases.EmployeeCases.position.rawValue] as? String,
-            let uid = dictionary[NavigationCases.MessagesCases.uid.rawValue] as? String,
-            let timeStamp = (dictionary[NavigationCases.MessagesCases.timeStamp.rawValue] as? Timestamp)?.dateValue() else {return nil}
-        self.init(name: name, content: content, position: position, uid: uid, timeStamp: timeStamp)
-    }
-}
-
-//MARK: - About Product
-extension DatabaseManager {
-    struct ProductInfo {
-        var productName: String
-        var productPrice: Int
-        var productDescription: String
-        var productCategory: String
-        var stock: Bool
-        var productID: String
-        var searchArray: [String]
-        var voteCount: Int
-        var voteAmount: Int
-        
-        var dictionary: [String: Any]{
-            return [
-                NavigationCases.ProductCases.productName.rawValue: productName,
-                NavigationCases.ProductCases.productPrice.rawValue: productPrice,
-                NavigationCases.ProductCases.productDescription.rawValue: productDescription,
-                NavigationCases.ProductCases.productCategory.rawValue: productCategory,
-                NavigationCases.ProductCases.stock.rawValue: stock,
-                NavigationCases.ProductCases.productID.rawValue: productID,
-                NavigationCases.ProductCases.searchArray.rawValue: searchArray,
-                NavigationCases.ProductCases.voteCount.rawValue: voteCount,
-                NavigationCases.ProductCases.voteAmount.rawValue: voteAmount
-            ]
-        }
-    }
-}
-extension DatabaseManager.ProductInfo: DocumentSerializable {
-    init?(dictionary: [String: Any]) {
-        guard let productName = dictionary[NavigationCases.ProductCases.productName.rawValue] as? String,
-            let productPrice = dictionary[NavigationCases.ProductCases.productPrice.rawValue] as? Int,
-            let productDescription = dictionary[NavigationCases.ProductCases.productDescription.rawValue] as? String,
-            let productCategory = dictionary[NavigationCases.ProductCases.productCategory.rawValue] as? String,
-            let stock = dictionary[NavigationCases.ProductCases.stock.rawValue] as? Bool,
-            let productID = dictionary[NavigationCases.ProductCases.productID.rawValue] as? String,
-            let searchArray = dictionary[NavigationCases.ProductCases.searchArray.rawValue] as? [String],
-            let voteCount = dictionary[NavigationCases.ProductCases.voteCount.rawValue] as? Int,
-            let voteAmount = dictionary[NavigationCases.ProductCases.voteAmount.rawValue] as? Int else {return nil}
-        self.init(productName: productName, productPrice: productPrice, productDescription: productDescription, productCategory: productCategory, stock: stock, productID: productID, searchArray: searchArray, voteCount: voteCount, voteAmount: voteAmount)
-    }
-}
-
-//MARK: - About Order
-extension DatabaseManager {
+    
     struct Order {
         var totalPrice: Int64
         var name: String
@@ -156,8 +50,10 @@ extension DatabaseManager {
             ]
         }
     }
+    
 }
 extension DatabaseManager.Order: DocumentSerializable {
+    
     init?(dictionary: [String: Any]) {
         guard let totalPrice = dictionary[NavigationCases.OrderCases.totalPrice.rawValue] as? Int64,
             let userName = dictionary[NavigationCases.OrderCases.name.rawValue] as? String,
@@ -171,10 +67,12 @@ extension DatabaseManager.Order: DocumentSerializable {
             let orderID = dictionary[NavigationCases.OrderCases.orderID.rawValue] as? String else {return nil}
         self.init(totalPrice: totalPrice, name: userName, adress: userAdress, cellphone: userCellphone, feedbackOption: feedbackOption, mark: userMark, timeStamp: timeStamp, currentDeviceID: currentDeviceID, deliveryPerson: deliveryPerson, orderID: orderID)
     }
+    
 }
 
-//MARK: About Order's additions
+//MARK: For ORDER ADDITIONS
 extension DatabaseManager {
+    
     struct OrderAddition {
         var productCategory: String
         var productName: String
@@ -192,8 +90,10 @@ extension DatabaseManager {
             ]
         }
     }
+    
 }
 extension DatabaseManager.OrderAddition: DocumentSerializable {
+    
     init?(dictionary: [String: Any]) {
         guard let productCategory = dictionary[NavigationCases.ProductCases.productCategory.rawValue] as? String,
             let productName = dictionary[NavigationCases.ProductCases.productName.rawValue] as? String,
@@ -202,10 +102,59 @@ extension DatabaseManager.OrderAddition: DocumentSerializable {
             let productQuantity = dictionary[NavigationCases.ProductCases.productQuantity.rawValue] as? Int else {return nil}
         self.init(productCategory: productCategory, productName: productName, stock: stock, productPrice: productPrice, productQuantity: productQuantity)
     }
+    
 }
 
-//MARK: - About Categories
+//MARK: - For PRODUCT
 extension DatabaseManager {
+    
+    struct ProductInfo {
+        var productName: String
+        var productPrice: Int
+        var productDescription: String
+        var productCategory: String
+        var stock: Bool
+        var productID: String
+        var searchArray: [String]
+        var voteCount: Int
+        var voteAmount: Int
+        
+        var dictionary: [String: Any]{
+            return [
+                NavigationCases.ProductCases.productName.rawValue: productName,
+                NavigationCases.ProductCases.productPrice.rawValue: productPrice,
+                NavigationCases.ProductCases.productDescription.rawValue: productDescription,
+                NavigationCases.ProductCases.productCategory.rawValue: productCategory,
+                NavigationCases.ProductCases.stock.rawValue: stock,
+                NavigationCases.ProductCases.productID.rawValue: productID,
+                NavigationCases.ProductCases.searchArray.rawValue: searchArray,
+                NavigationCases.ProductCases.voteCount.rawValue: voteCount,
+                NavigationCases.ProductCases.voteAmount.rawValue: voteAmount
+            ]
+        }
+    }
+    
+}
+extension DatabaseManager.ProductInfo: DocumentSerializable {
+    
+    init?(dictionary: [String: Any]) {
+        guard let productName = dictionary[NavigationCases.ProductCases.productName.rawValue] as? String,
+            let productPrice = dictionary[NavigationCases.ProductCases.productPrice.rawValue] as? Int,
+            let productDescription = dictionary[NavigationCases.ProductCases.productDescription.rawValue] as? String,
+            let productCategory = dictionary[NavigationCases.ProductCases.productCategory.rawValue] as? String,
+            let stock = dictionary[NavigationCases.ProductCases.stock.rawValue] as? Bool,
+            let productID = dictionary[NavigationCases.ProductCases.productID.rawValue] as? String,
+            let searchArray = dictionary[NavigationCases.ProductCases.searchArray.rawValue] as? [String],
+            let voteCount = dictionary[NavigationCases.ProductCases.voteCount.rawValue] as? Int,
+            let voteAmount = dictionary[NavigationCases.ProductCases.voteAmount.rawValue] as? Int else {return nil}
+        self.init(productName: productName, productPrice: productPrice, productDescription: productDescription, productCategory: productCategory, stock: stock, productID: productID, searchArray: searchArray, voteCount: voteCount, voteAmount: voteAmount)
+    }
+    
+}
+
+//MARK: - For CATEGORIES
+extension DatabaseManager {
+    
     struct CategoryDescription {
         var bouquet: [String]
         var flower: [String]
@@ -219,12 +168,91 @@ extension DatabaseManager {
             ]
         }
     }
+    
 }
 extension DatabaseManager.CategoryDescription: DocumentSerializable {
+    
     init?(dictionary: [String: Any]) {
         guard let bouquet = dictionary[NavigationCases.ProductCategoriesCases.bouquet.rawValue] as? [String],
             let flower = dictionary[NavigationCases.ProductCategoriesCases.flower.rawValue] as? [String],
             let gift = dictionary[NavigationCases.ProductCategoriesCases.gift.rawValue] as? [String] else {return nil}
         self.init(bouquet: bouquet, flower: flower, gift: gift)
     }
+    
 }
+
+//MARK: - For EMPLOYEES
+extension DatabaseManager {
+    
+    struct EmployeeDataStruct {
+        var name: String
+        var phone: String
+        var position: String
+        var uid: String
+        var success: Int
+        var failure: Int
+        
+        var dictionary: [String: Any]{
+            return [
+                NavigationCases.EmployeeCases.name.rawValue: name,
+                NavigationCases.EmployeeCases.phone.rawValue: phone,
+                NavigationCases.EmployeeCases.position.rawValue: position,
+                NavigationCases.EmployeeCases.uid.rawValue: uid,
+                NavigationCases.EmployeeCases.success.rawValue: success,
+                NavigationCases.EmployeeCases.failure.rawValue: failure
+            ]
+        }
+    }
+    
+}
+extension DatabaseManager.EmployeeDataStruct: DocumentSerializable {
+    
+    init?(dictionary: [String: Any]) {
+        guard let name = dictionary[NavigationCases.EmployeeCases.name.rawValue] as? String,
+            let phone = dictionary[NavigationCases.EmployeeCases.phone.rawValue] as? String,
+            let position = dictionary[NavigationCases.EmployeeCases.position.rawValue] as? String,
+            let uid = dictionary[NavigationCases.EmployeeCases.uid.rawValue] as? String,
+            let success = dictionary[NavigationCases.EmployeeCases.success.rawValue] as? Int,
+            let failure = dictionary[NavigationCases.EmployeeCases.failure.rawValue] as? Int else {return nil}
+        self.init(name: name, phone: phone, position: position, uid: uid, success: success, failure: failure)
+    }
+    
+}
+
+//MARK: - For CHAT
+extension DatabaseManager {
+    
+    struct ChatMessages {
+        var name: String
+        var content: String
+        var position: String
+        var uid: String
+        var timeStamp: Date
+        
+        var dictionary: [String: Any] {
+            return [
+                NavigationCases.MessagesCases.name.rawValue: name,
+                NavigationCases.MessagesCases.content.rawValue: content,
+                NavigationCases.EmployeeCases.position.rawValue: position,
+                NavigationCases.MessagesCases.uid.rawValue: uid,
+                NavigationCases.MessagesCases.timeStamp.rawValue: timeStamp
+            ]
+        }
+    }
+    
+}
+extension DatabaseManager.ChatMessages: DocumentSerializable {
+    
+    init?(dictionary: [String: Any]) {
+        guard let name = dictionary[NavigationCases.MessagesCases.name.rawValue] as? String,
+            let content = dictionary[NavigationCases.MessagesCases.content.rawValue] as? String,
+            let position = dictionary[NavigationCases.EmployeeCases.position.rawValue] as? String,
+            let uid = dictionary[NavigationCases.MessagesCases.uid.rawValue] as? String,
+            let timeStamp = (dictionary[NavigationCases.MessagesCases.timeStamp.rawValue] as? Timestamp)?.dateValue() else {return nil}
+        self.init(name: name, content: content, position: position, uid: uid, timeStamp: timeStamp)
+    }
+    
+}
+
+
+

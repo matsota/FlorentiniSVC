@@ -290,7 +290,7 @@ private extension ProductCustomizeViewController {
         }else{
             NetworkManager.shared.uploadProductToBackEnd(image: image!, productName: name, progressIndicator: progressView, success: {
                 NetworkManager.shared.uploadProductDescriptionToBackEnd(productName: name, productPrice: price ?? 0, productDescription: description, productCategory: category, stock: stock, searchArray: [name]) {
-                    self.present(UIAlertController.completionDoneHalfSec(title: "Готово!", message: "Новый товар добавлен"), animated: true)
+                    self.present(UIAlertController.alertAppearanceForHalfSec(title: "Готово!", message: "Новый товар добавлен"), animated: true)
                     self.photoNameTextField.text = ""
                     self.photoDescriptionTextView.text = ""
                     self.photoPriceTextField.text = ""

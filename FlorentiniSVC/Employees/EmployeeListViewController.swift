@@ -135,7 +135,7 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let uid = CoreDataManager.shared.fetchEmployeeUID { (error) in
             print("ERROR: EmployeeListViewController/TableView/trailingSwipeActionsConfigurationForRowAt: ",error.localizedDescription)
-            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Произошла ошибка"), animated: true)
+            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Произошла ошибка"), animated: true)
         }
         if uid == AuthenticationManager.shared.uidAdmin {
             let delete = deleteAction(at: indexPath)
@@ -156,17 +156,17 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
             failure = fetch.failure
             
             if uid == AuthenticationManager.shared.uidAdmin {
-                self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Невозможно удалить данного Администратора"), animated: true)
+                self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Невозможно удалить данного Администратора"), animated: true)
                 complition(false)
             }else{
-                self.present(UIAlertController.confirmAction(message: "Подтвердите, что вы хотите удалить сотрудника под именем: '\(name)'", confirm: {
+                self.present(UIAlertController.confirmAnyAction(message: "Подтвердите, что вы хотите удалить сотрудника под именем: '\(name)'", confirm: {
                     NetworkManager.shared.deleteEmployeeData(uid: uid, name: name, phone: phone, position: position, successed: success, fails: failure, {
-                        self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Сотрудник удачно Удалён"), animated: true)
+                        self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Сотрудник удачно Удалён"), animated: true)
                         self.employeeData.remove(at: indexPath.row)
                         self.tableView.deleteRows(at: [indexPath], with: .automatic)
                     }) { (error) in
                         print("ERROR: EmployeeListViewController/Table View/deleteAction: ", error.localizedDescription)
-                        self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Произошла Ошибка. Нет связи с сервером"), animated: true)
+                        self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Произошла Ошибка. Нет связи с сервером"), animated: true)
                     }
                 }), animated: true)
                 complition(true)
@@ -197,11 +197,11 @@ private extension EmployeeListViewController {
             self.tableView.reloadData()
         }) { (error) in
             print("ERROR: EmployeeListViewController/viewDidLoad/fetchEmployeeData: ", error.localizedDescription)
-            self.present(UIAlertController.completionDoneTwoSec(title: "", message: ""), animated: true)
+            self.present(UIAlertController.alertAppearanceForTwoSec(title: "", message: ""), animated: true)
         }
         
         position = CoreDataManager.shared.fetchEmployeePosition { (error) in
-            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка Аутентификации"), animated: true)
+            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Ошибка Аутентификации"), animated: true)
         }
         
         if position != NavigationCases.EmployeeCases.admin.rawValue {
@@ -278,7 +278,7 @@ private extension EmployeeListViewController {
         if position == "Не выбрана" {
             self.present(UIAlertController.classic(title: "Внимание", message: "Вы забыли выбрать должность"), animated: true)
         }else if position == NavigationCases.EmployeeCases.admin.rawValue {
-            self.present(UIAlertController.confrimAdminCreation {
+            self.present(UIAlertController.adminCreationConfirmation {
                 AuthenticationManager.shared.signUp(name: name, email: email, phone: phone, position: position, failure: { error in
                     self.present(UIAlertController.classic(title: "Эттеншн", message: error.localizedDescription), animated: true)
                 })

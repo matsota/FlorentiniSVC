@@ -129,14 +129,14 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
         orderID = fetch.orderID,
         
         action = UIContextualAction(style: .destructive, title: "Архив") { (action, view, complition) in
-            self.present(UIAlertController.confirmAction(message: "", confirm: {
+            self.present(UIAlertController.confirmAnyAction(message: "", confirm: {
                 let dataModel =  DatabaseManager.Order(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, currentDeviceID: currentDeviceID, deliveryPerson: deliveryPerson, orderID: orderID)
                 NetworkManager.shared.archiveOrder(dataModel: dataModel, orderKey: orderID)
                 self.orderCount -= 1
                 self.order.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)
                 self.viewDidLoad()
-                self.present(UIAlertController.completionDoneTwoSec(title: "Эттеншн", message: "Заказ успершно архивирован"), animated: true)
+                self.present(UIAlertController.alertAppearanceForTwoSec(title: "Эттеншн", message: "Заказ успершно архивирован"), animated: true)
                 complition(true)
             }), animated: true)
         }
@@ -169,14 +169,14 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
         orderID = fetch.orderID,
         
         action = UIContextualAction(style: .destructive, title: "Удалить") { (action, view, complition) in
-            self.present(UIAlertController.confirmAction(message: "", confirm: {
+            self.present(UIAlertController.confirmAnyAction(message: "", confirm: {
                 let dataModel =  DatabaseManager.Order(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, currentDeviceID: currentDeviceID, deliveryPerson: deliveryPerson, orderID: orderID)
                 NetworkManager.shared.deleteOrder(dataModel: dataModel, orderID: dataModel.orderID)
                 self.orderCount -= 1
                 self.order.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)
                 self.viewDidLoad()
-                self.present(UIAlertController.completionDoneTwoSec(title: "Эттеншн", message: "Заказ успершно удален"), animated: true)
+                self.present(UIAlertController.alertAppearanceForTwoSec(title: "Эттеншн", message: "Заказ успершно удален"), animated: true)
                 complition(true)
             }), animated: true)
         }
@@ -194,7 +194,7 @@ extension OrderListViewController: OrdersListTableViewCellDelegate {
             
             self.present(UIAlertController.editDeliveryPerson(confirm: { (deliveryPerson) in
                 guard let id = cell.orderID else {
-                    self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ссылка не найдена"), animated: true)
+                    self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Ссылка не найдена"), animated: true)
                     return
                 }
                 NetworkManager.shared.editDeliveryPerson(orderID: id, deliveryPerson: deliveryPerson)
@@ -202,7 +202,7 @@ extension OrderListViewController: OrdersListTableViewCellDelegate {
             }), animated:  true)
             self.tableView.reloadData()
         }else{
-            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "У Вас недостаточно пользовательсих прав для назначения Курьера"), animated: true)
+            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "У Вас недостаточно пользовательсих прав для назначения Курьера"), animated: true)
         }
     }
     

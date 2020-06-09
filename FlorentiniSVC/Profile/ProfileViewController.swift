@@ -78,7 +78,7 @@ private extension ProfileViewController {
             let position = data.map({$0.position}).first,
             let uid = data.map({$0.uid}).first else {
                 print("ERROR: Profile/CoreDataManager.shared.fetchEmployeeData/guard_let_else")
-                self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка Аунтификации. Выйдите и перезагрузите приложение"), animated: true)
+                self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Ошибка Аунтификации. Выйдите и перезагрузите приложение"), animated: true)
                 return
             }
             if position == NavigationCases.EmployeeCases.admin.rawValue && uid == AuthenticationManager.shared.uidAdmin {
@@ -91,7 +91,7 @@ private extension ProfileViewController {
             self.positionLabel.text = position
         }) { (error) in
             print("ERROR: Profile/CoreDataManager.shared.fetchEmployeeData: ", error.localizedDescription)
-            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ошибка Аунтификации. Выйдите и перезагрузите приложение"), animated: true)
+            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Ошибка Аунтификации. Выйдите и перезагрузите приложение"), animated: true)
         }
     }
     
@@ -111,7 +111,7 @@ private extension ProfileViewController{
         }else if newPass == "" || reNewPass == "" {
             self.present(UIAlertController.classic(title: "Внимание", message: "Для смены пароля необходимо заполнить все поля"), animated: true)
         }else{
-            self.present(UIAlertController.updatePassword({
+            self.present(UIAlertController.updatePasswordConfirmation({
                 AuthenticationManager.shared.updatePassword(newPass) {
                     self.transitionToExit(title: "Успех!", message: "Перезайдите в приложение")
                 }

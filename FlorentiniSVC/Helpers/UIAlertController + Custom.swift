@@ -8,6 +8,7 @@
 
 import UIKit
 
+//MARK: - COMMON
 extension UIAlertController {
     
     //MARK: - Classic Alert с одной кнопкой "ОК" c возможностью кастомизировать Tittle&Message
@@ -29,7 +30,7 @@ extension UIAlertController {
     }
     
     //MARK: - Confirm Any Action
-    static func confirmAction(message: String, confirm: @escaping() -> Void) -> (UIAlertController) {
+    static func confirmAnyAction(message: String, confirm: @escaping() -> Void) -> (UIAlertController) {
         let alert = UIAlertController(title: "Внимание", message: message, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Подтвердить", style: .default, handler: { _ in
             confirm()
@@ -38,14 +39,9 @@ extension UIAlertController {
         
         return alert
     }
-    
-    ///
-    //MARK: - Crud
-    ///
-    
-    //MARK: - Success
-    //MARK: Half sec
-    static func completionDoneHalfSec(title: String, message: String) -> (UIAlertController){
+
+    //MARK:
+    static func alertAppearanceForHalfSec(title: String, message: String) -> (UIAlertController){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
             alert.dismiss(animated: true, completion: nil)
@@ -53,8 +49,8 @@ extension UIAlertController {
         return alert
     }
     
-    //MARK: Two sec
-    static func completionDoneTwoSec(title: String, message: String) -> (UIAlertController){
+    //MARK: -
+    static func alertAppearanceForTwoSec(title: String, message: String) -> (UIAlertController){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
             alert.dismiss(animated: true, completion: nil)
@@ -62,8 +58,8 @@ extension UIAlertController {
         return alert
     }
     
-    //MARK: - Alert Image from URL
-    static func confrimAdminCreation(confirm: @escaping() -> Void) -> (UIAlertController) {
+    //MARK: -
+    static func adminCreationConfirmation(confirm: @escaping() -> Void) -> (UIAlertController) {
         let alert = UIAlertController(title: "Внимание!", message: "Вы уверенны в том, что хотите создать нового админа? У него будут почти все теже права, что и у Вас. За исключением: 1) Удалять сотрудников; 2) Удалять товары; 3) Удалять заказы, но он сможет их архивировать", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Подтвердить", style: .default, handler: { (action: UIAlertAction) in
@@ -72,8 +68,8 @@ extension UIAlertController {
         return alert
     }
     
-    //MARK: - Sign in
-    static func saveSignIn(_ indicator: UIActivityIndicatorView,success: @escaping() -> Void) -> (UIAlertController) {
+    //MARK: -
+    static func saveSignInConfirmation(_ indicator: UIActivityIndicatorView,success: @escaping() -> Void) -> (UIAlertController) {
         let alert = UIAlertController(title: "Внимание", message: "Ваши данные для аутентификации будут автоматически сохранены", preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Подтвердить", style: .default, handler: { _ in
             success()
@@ -85,7 +81,7 @@ extension UIAlertController {
         return (alert)
     }
     
-    //MARK: - Alert Image from URL
+    //MARK: -
     static func uploadImageURL(confirm: @escaping(String) -> Void) -> (UIAlertController) {
         let alert = UIAlertController(title: "Добавить Изображение по Ссылке", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
@@ -99,11 +95,8 @@ extension UIAlertController {
         return alert
     }
     
-    ///
-    //MARK: - crUd
-    ///
-    //MARK: - Password change
-    static func updatePassword(_ confirm: @escaping() -> Void) -> (UIAlertController) {
+   //MARK: -
+    static func updatePasswordConfirmation(_ confirm: @escaping() -> Void) -> (UIAlertController) {
         let alert = UIAlertController(title: "Внимание", message: "Подтвердите смену пароля", preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Подтвердить", style: .default, handler: { _ in
             confirm()
@@ -113,26 +106,10 @@ extension UIAlertController {
         return (alert)
     }
     
-    //MARK: - Price editor
-    static func editProductPrice(name: String, confirm: @escaping(Int) -> Void) -> (UIAlertController) {
-        let alert = UIAlertController(title: "Внимание", message: "Введите новую цену для этого продукта", preferredStyle: .alert)
-            
-        alert.addTextField { (text:UITextField) in
-            text.keyboardType = .numberPad
-            text.placeholder = "Введите сообщение"
-        }
-        
-        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "Отправить", style: .default, handler: { (action: UIAlertAction) in
-            guard let newPrice = Int((alert.textFields?.first?.text)!)  else {return}
-            NetworkManager.shared.editPriceOfCertainProduct(name: name, newPrice: newPrice)
-            confirm(newPrice)
-        }))
-        return alert
-    }
     
-    //MARK: - Stock editor
-    static func editStockCondition(name: String, stock: Bool, text: UILabel, confirm: @escaping() -> Void, cancel: @escaping() -> Void) -> (UIAlertController) {
+    
+    //MARK: -
+    static func confirmOrDenyAnyWithTwoBlocks(confirm: @escaping() -> Void, cancel: @escaping() -> Void) -> (UIAlertController) {
         let alert = UIAlertController(title: "Внимание", message: "Подтвердите изменение наличия АКЦИИ", preferredStyle: .alert)
 
         alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: { (_) in
@@ -140,20 +117,12 @@ extension UIAlertController {
         }))
             
         alert.addAction(UIAlertAction(title: "Подтвердить", style: .default, handler: { (_) in
-            NetworkManager.shared.editStockCondition(name: name, stock: stock)
-            if stock == true {
-                text.text = "Акционный товар"
-                text.textColor = .red
-            }else{
-                text.text = "Акция отсутствует"
-                text.textColor = .black
-            }
             confirm()
         }))
         return alert
     }
     
-    //MARK: - Delivery editor
+    //MARK: -
     static func editDeliveryPerson(confirm: @escaping(String) -> Void) -> (UIAlertController) {
         let alert = UIAlertController(title: "Внимание", message: "Введите Имя человека, который будет доставлять этот заказ", preferredStyle: .alert)
             
@@ -169,8 +138,7 @@ extension UIAlertController {
         return alert
     }
     
-    //MARK: - Price editor
-    static func setNumber(present message: String, confirm: @escaping(Int) -> Void) -> (UIAlertController) {
+    static func setNewNumber(message: String, confirm: @escaping(Int) -> Void) -> (UIAlertController) {
         let alert = UIAlertController(title: "Внимание", message: message, preferredStyle: .alert)
             
         alert.addTextField { (text:UITextField) in
@@ -186,11 +154,8 @@ extension UIAlertController {
         return alert
     }
     
-    ///
-    //MARK: - cruD
-    ///
-    //MARK: - Sign Out Method
-    static func signOut(confirm: @escaping() -> Void) -> (UIAlertController) {
+    //MARK: -
+    static func signOutConfirmation(confirm: @escaping() -> Void) -> (UIAlertController) {
         let alert = UIAlertController(title: "Внимание", message: "Подтвердите, что вы нажали на \"Выход\" неслучайно", preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Отмена", style: .destructive, handler: nil))
         alert.addAction(UIAlertAction(title: "Подтвердить", style: .default, handler: { _ in

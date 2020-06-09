@@ -38,16 +38,6 @@
             </objects>
             <point key="canvasLocation" x="2134" y="4732"/>
         </scene>
-        <!--Chat-->
-        <scene sceneID="1E7-Oo-lkl">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Chat" id="pQp-tV-SFx" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="asg-9Y-dEX"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="nzu-9c-b1g" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2134" y="5146"/>
-        </scene>
     </scenes>
     <resources>
         <image name="florentiniLogoImage" width="1280" height="714"/>

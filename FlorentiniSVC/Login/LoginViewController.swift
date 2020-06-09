@@ -24,7 +24,7 @@ class LoginViewController: UIViewController {
             }
         }) { (error) in
             print(error.localizedDescription)
-            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Произошла ошибка с пользовательской информацией: \(error.localizedDescription)"), animated: true)
+            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Произошла ошибка с пользовательской информацией: \(error.localizedDescription)"), animated: true)
         }
         
         hideKeyboardWhenTappedAround()
@@ -46,7 +46,7 @@ class LoginViewController: UIViewController {
                 //firebase have not an opportunity to delete certain user by admin. Firebase Admin SDK is not working with Swift yet
                 if let name = employeeData.map({$0.name}).first,
                     let position = employeeData.map({$0.position}).first {
-                    self.present(UIAlertController.saveSignIn(self.activityIndicator, success: {
+                    self.present(UIAlertController.saveSignInConfirmation(self.activityIndicator, success: {
                         CoreDataManager.shared.saveEmployee(name: name, position: position, email: email, password: password, uid: uid) {
                             self.activityIndicator.stopAnimating()
                             self.signInTransition()
@@ -54,12 +54,12 @@ class LoginViewController: UIViewController {
                     }), animated: true)
                 }else{
                     self.activityIndicator.stopAnimating()
-                    self.present(UIAlertController.completionDoneTwoSec(title: "Внимание!", message: "Проблема с интернетом. Аунтефикация не произошла"), animated: true)
+                    self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание!", message: "Проблема с интернетом. Аунтефикация не произошла"), animated: true)
                 }
             }) { (error) in
                 self.activityIndicator.stopAnimating()
                 print(error.localizedDescription)
-                self.present(UIAlertController.completionDoneTwoSec(title: "Внимание!", message: "Проблема с интернетом. Аунтефикация не произошла"), animated: true)
+                self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание!", message: "Проблема с интернетом. Аунтефикация не произошла"), animated: true)
             }
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 15) {
                 self.activityIndicator.stopAnimating()
@@ -68,7 +68,7 @@ class LoginViewController: UIViewController {
         }) { error in
             self.activityIndicator.stopAnimating()
             print(error.localizedDescription)
-            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание!", message: "Проблема с интернетом. Аунтефикация не произошла"), animated: true)
+            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание!", message: "Проблема с интернетом. Аунтефикация не произошла"), animated: true)
         }
     }
     
@@ -95,7 +95,7 @@ private extension LoginViewController {
     func signInTransition() {
         let orderListStoryboard = UIStoryboard(name: "TabBar", bundle: Bundle.main)
         guard let destinationVC = orderListStoryboard.instantiateInitialViewController() else {
-            self.present(UIAlertController.completionDoneTwoSec(title: "Attention", message: "Navigation error"), animated: true)
+            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Attention", message: "Navigation error"), animated: true)
             return}
         
         self.navigationController?.pushViewController(destinationVC, animated: true)

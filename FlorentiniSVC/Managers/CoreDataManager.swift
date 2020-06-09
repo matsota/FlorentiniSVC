@@ -13,10 +13,17 @@ class CoreDataManager {
     
     static let shared = CoreDataManager()
     
-    ///
-    // - Crud
-    ///
-    //MARK: - Save employee's enter
+}
+
+
+
+
+///
+//MARK: - Crud
+///
+extension CoreDataManager {
+    
+    //MARK: - For EMPLOYEE & EMPLOYER
     func saveEmployee(name: String, position: String, email: String, password: String, uid: String, success: @escaping() -> Void) {
         let employee = EmployeeData(context: PersistenceService.context)
         
@@ -29,12 +36,15 @@ class CoreDataManager {
         success()
     }
     
-    ///
-    // - cRud
-    ///
+}
+
+///
+//MARK: - cRud
+///
+extension CoreDataManager {
     
-    //MARK: - Fetch all employee data
-    @objc func fetchEmployeeData(success: @escaping([EmployeeData]) -> (Void), failure: @escaping(NSError) -> Void) {
+    //MARK: - For EMPLOYEE & EMPLOYER
+    func fetchEmployeeData(success: @escaping([EmployeeData]) -> (Void), failure: @escaping(NSError) -> Void) {
         let fetchRequest: NSFetchRequest<EmployeeData> = EmployeeData.fetchRequest()
         
         do {
@@ -44,11 +54,8 @@ class CoreDataManager {
             failure(error)
         }
     }
-    
-    //MARK: - Fetch employee name
     func fetchEmployeeName(failure: @escaping(NSError) -> Void) -> String{
         var name: String?
-        
         fetchEmployeeData(success: { (data) -> (Void) in
             name = data.map({$0.name!}).first
         }) { (error) in
@@ -56,11 +63,8 @@ class CoreDataManager {
         }
         return name ?? ""
     }
-    
-    //MARK: - Fetch employee position
     func fetchEmployeePosition(failure: @escaping(NSError) -> Void) -> String{
         var position: String?
-        
         fetchEmployeeData(success: { (data) -> (Void) in
             position = data.map({$0.position!}).first
         }) { (error) in
@@ -68,8 +72,6 @@ class CoreDataManager {
         }
         return position ?? ""
     }
-    
-    //MARK: - Fetch employee email
     func fetchEmployeeEmail(failure: @escaping(NSError) -> Void) -> String{
         var email: String?
         
@@ -80,11 +82,8 @@ class CoreDataManager {
         }
         return email ?? ""
     }
-    
-    //MARK: - Fetch employee uid
     func fetchEmployeeUID(failure: @escaping(NSError) -> Void) -> String{
         var uid: String?
-        
         fetchEmployeeData(success: { (data) -> (Void) in
             uid = data.map({$0.uid!}).first
         }) { (error) in
@@ -93,12 +92,15 @@ class CoreDataManager {
         return uid ?? ""
     }
     
-    ///
-    // - cruD
-    ///
+}
+
+///
+//MARK: - cruD
+///
+extension CoreDataManager {
     
-    //MARK: - Delete by entity name
-    func deleteAllData(for entity: String, success: @escaping() -> Void, failure: @escaping(NSError) -> Void) {
+    //MARK: - COMMON
+    func deleteCertainEntity(for entity: String, success: @escaping() -> Void, failure: @escaping(NSError) -> Void) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
         fetchRequest.returnsObjectsAsFaults = false
         
@@ -115,4 +117,5 @@ class CoreDataManager {
             failure(error)
         }
     }
+    
 }

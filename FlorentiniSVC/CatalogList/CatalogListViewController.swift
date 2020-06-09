@@ -27,7 +27,7 @@ class CatalogListViewController: UIViewController {
             self.productInfo = productInfo
             self.catalogTableView.reloadData()
         }) { error in
-            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Скорее всего произошла потеря соединения"), animated: true)
+            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Скорее всего произошла потеря соединения"), animated: true)
             print("ERROR: CatalogViewController: viewDidLoad: downloadProductInfo ", error.localizedDescription)
         }
         NetworkManager.shared.downloadDictForFilteringTableView(success: { (data) in
@@ -36,7 +36,7 @@ class CatalogListViewController: UIViewController {
                                filterTVStruct(opened: false, title: NavigationCases.ProductCategoriesCases.gift.rawValue, sectionData: data.gift)]
             self.filterTableView.reloadData()
         }) { (error) in
-            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Скорее всего произошла потеря соединения"), animated: true)
+            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Скорее всего произошла потеря соединения"), animated: true)
             print("ERROR: CatalogViewController: viewDidLoad: downloadFilteringDict ", error.localizedDescription)
         }
         
@@ -201,7 +201,7 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource 
             
             cell.fill(name: name, price: price, category: category, description: description, stock: stock, employeePosition: position, failure: { error in
                 print("ERROR: CatalogListViewController/tableView/imageRef: ",error.localizedDescription)
-                self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Не все изображения сейчас могут подтянуться"), animated: true)
+                self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Не все изображения сейчас могут подтянуться"), animated: true)
             })
             return cell
         }else{
@@ -249,7 +249,7 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource 
                             self.catalogTableView.reloadData()
                         }
                     }) { error in
-                        self.present(UIAlertController.completionDoneTwoSec(title: "", message: ""), animated: true)
+                        self.present(UIAlertController.alertAppearanceForTwoSec(title: "", message: ""), animated: true)
                         print("ERROR: CatalogViewController: tableView/didSelectRowAt: downloadByCategory", error.localizedDescription)
                     }
                 }else{
@@ -265,7 +265,7 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource 
                             self.catalogTableView.reloadData()
                         }
                     }) { (error) in
-                        self.present(UIAlertController.completionDoneTwoSec(title: "", message: ""), animated: true)
+                        self.present(UIAlertController.alertAppearanceForTwoSec(title: "", message: ""), animated: true)
                         print("ERROR: CatalogViewController: didSelectRowAt: downloadBySubCategory: ", error.localizedDescription)
                     }
                 }
@@ -293,13 +293,13 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource 
             guard let fetch = self.productInfo?[indexPath.row] else {return}
             let name = fetch.productName,
             uid = CoreDataManager.shared.fetchEmployeeUID { (error) in
-                self.present(UIAlertController.completionDoneTwoSec(title: "Эттеншн!", message: error.localizedDescription), animated: true)
+                self.present(UIAlertController.alertAppearanceForTwoSec(title: "Эттеншн!", message: error.localizedDescription), animated: true)
             }
             
             if uid == AuthenticationManager.shared.uidAdmin {
-                self.present(UIAlertController.confirmAction(message: "Подтвердите, что вы хотите удалить продукт под названием '\(name)'", confirm: {
+                self.present(UIAlertController.confirmAnyAction(message: "Подтвердите, что вы хотите удалить продукт под названием '\(name)'", confirm: {
                     NetworkManager.shared.deleteProduct(name: name)
-                    self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Продукт удачно Удалён"), animated: true)
+                    self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Продукт удачно Удалён"), animated: true)
                     self.productInfo?.remove(at: indexPath.row)
                     self.catalogTableView.deleteRows(at: [indexPath], with: .automatic)
                 }), animated: true)
@@ -325,9 +325,10 @@ extension CatalogListViewController: CatalogListTableViewCellDelegate {
         if AuthenticationManager.shared.uidAdmin == AuthenticationManager.shared.currentUser?.uid {
             cell.productPriceButton.isUserInteractionEnabled = true
             
-            self.present(UIAlertController.editProductPrice(name: name, confirm: { newPrice in
-                cell.productPriceButton.setTitle("\(newPrice) грн", for: .normal)
-            }),animated: true)
+            self.present(UIAlertController.setNewNumber(message: "Введите новую цену для этого продукта"){ newNumber in
+                NetworkManager.shared.editPriceOfCertainProduct(name: name, newPrice: newNumber)
+                cell.productPriceButton.setTitle("\(newNumber) грн", for: .normal)
+            },animated: true)
         }else{
             cell.productPriceButton.isUserInteractionEnabled = false
         }
@@ -339,23 +340,25 @@ extension CatalogListViewController: CatalogListTableViewCellDelegate {
         guard let name = cell.productNameLabel.text else {return}
         
         if cell.stockSwitch.isOn == true {
-            self.present(UIAlertController.editStockCondition(name: name, stock: true, text: text, confirm: {
+            self.present(UIAlertController.confirmOrDenyAnyWithTwoBlocks(confirm: {
+                NetworkManager.shared.editStockCondition(name: name, stock: true)
+                text.text = "Акционный товар"
+                text.textColor = .red
                 self.productInfo?.remove(at: cell.tag)
                 self.catalogTableView.reloadData()
             }, cancel: {
-                UIView.animate(withDuration: 0.3) {
-                    switcher.setOn(true, animated: true)
-                }
+                switcher.setOn(true, animated: true)
             }), animated: true)
         }else{
-            self.present(UIAlertController.editStockCondition(name: name, stock: false, text: text, confirm: {
+            self.present(UIAlertController.confirmOrDenyAnyWithTwoBlocks(confirm: {
+                NetworkManager.shared.editStockCondition(name: name, stock: false)
+                text.text = "Акция отсутствует"
+                text.textColor = .black
+                
                 self.productInfo?.remove(at: cell.tag)
                 self.catalogTableView.reloadData()
             }, cancel: {
-                UIView.animate(withDuration: 0.3) {
-                    switcher.setOn(false, animated: true)
-                }
-                
+                switcher.setOn(false, animated: true)
             }), animated: true)
         }
     }
@@ -370,24 +373,24 @@ private extension CatalogListViewController {
         guard let title = sender.currentTitle,
             let cases = NavigationCases.MinusPlus(rawValue: title),
             let category = selectedCategory else {
-                self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Вы не выбрали категорию, где необходимо изменить цены"), animated: true)
+                self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Вы не выбрали категорию, где необходимо изменить цены"), animated: true)
                 return
         }
         switch cases {
         case .minus:
-            self.present(UIAlertController.setNumber(present: "Введите сумму, которую вы хотите ОТНЯТЬ от всех товаров в данной категории", confirm: { (x) in
+            self.present(UIAlertController.setNewNumber(message: "Введите сумму, которую вы хотите ОТНЯТЬ от всех товаров в данной категории", confirm: { (x) in
                 NetworkManager.shared.increaseDecreaseAllPricesByCategory(for: category, by: -x, success: {
-                    self.present(UIAlertController.completionDoneHalfSec(title: "Готово!", message: "Стоимости изменены"), animated: true)
+                    self.present(UIAlertController.alertAppearanceForTwoSec(title: "Готово!", message: "Стоимости изменены"), animated: true)
                 }) { (error) in
-                    self.present(UIAlertController.completionDoneTwoSec(title: "ERROR", message: error.localizedDescription), animated: true)
+                    self.present(UIAlertController.alertAppearanceForTwoSec(title: "ERROR", message: error.localizedDescription), animated: true)
                 }
             }), animated: true)
         case .plus:
-            self.present(UIAlertController.setNumber(present: "Введите сумму, которую вы хотите ДОБАВИТЬ ко всем товарам в данной категории", confirm: { (x) in
+            self.present(UIAlertController.setNewNumber(message: "Введите сумму, которую вы хотите ДОБАВИТЬ ко всем товарам в данной категории", confirm: { (x) in
                 NetworkManager.shared.increaseDecreaseAllPricesByCategory(for: category, by: x, success: {
-                    self.present(UIAlertController.completionDoneHalfSec(title: "Готово!", message: "Стоимости изменены"), animated: true)
+                    self.present(UIAlertController.alertAppearanceForHalfSec(title: "Готово!", message: "Стоимости изменены"), animated: true)
                 }) { (error) in
-                    self.present(UIAlertController.completionDoneTwoSec(title: "ERROR", message: error.localizedDescription), animated: true)
+                    self.present(UIAlertController.alertAppearanceForHalfSec(title: "ERROR", message: error.localizedDescription), animated: true)
                 }
             }), animated: true)
         }

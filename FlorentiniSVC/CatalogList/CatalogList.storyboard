@@ -24,7 +24,7 @@
                                 </connections>
                             </button>
                             <searchBar contentMode="redraw" placeholder="Начните поиск" translatesAutoresizingMaskIntoConstraints="NO" id="DTB-Fq-8Nj">
-                                <rect key="frame" x="56.333333333333343" y="58" width="304.66666666666663" height="56"/>
+                                <rect key="frame" x="56" y="58" width="305" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="ilt-bP-f8l" id="SoH-OM-b01"/>
@@ -263,16 +263,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vsG-RJ-RJx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-7911" y="3497"/>
-        </scene>
-        <!--Chat-->
-        <scene sceneID="3D3-HM-MPw">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Chat" id="0fr-0z-TN7" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="wnp-G9-aTq"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="YYX-Sc-ihV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-7911" y="3932"/>
         </scene>
         <!--Каталог-->
         <scene sceneID="7xm-dP-gBL">
