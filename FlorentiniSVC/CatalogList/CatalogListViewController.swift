@@ -297,7 +297,7 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource 
             }
             
             if uid == AuthenticationManager.shared.uidAdmin {
-                self.present(UIAlertController.confirmAnyAction(message: "Подтвердите, что вы хотите удалить продукт под названием '\(name)'", confirm: {
+                self.present(UIAlertController.confirmAnyStyleActionSheet(message: "Подтвердите, что вы хотите удалить продукт под названием '\(name)'", confirm: {
                     NetworkManager.shared.deleteProduct(name: name)
                     self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Продукт удачно Удалён"), animated: true)
                     self.productInfo?.remove(at: indexPath.row)
@@ -321,11 +321,10 @@ extension CatalogListViewController: CatalogListTableViewCellDelegate {
     // - Price
     func editPrice(_ cell: CatalogListTableViewCell){
         guard let name = cell.productNameLabel.text else {return}
-        
         if AuthenticationManager.shared.uidAdmin == AuthenticationManager.shared.currentUser?.uid {
             cell.productPriceButton.isUserInteractionEnabled = true
             
-            self.present(UIAlertController.setNewNumber(message: "Введите новую цену для этого продукта"){ newNumber in
+            self.present(UIAlertController.setNewInteger(message: "Введите новую цену для этого продукта"){ newNumber in
                 NetworkManager.shared.editPriceOfCertainProduct(name: name, newPrice: newNumber)
                 cell.productPriceButton.setTitle("\(newNumber) грн", for: .normal)
             },animated: true)
@@ -340,7 +339,7 @@ extension CatalogListViewController: CatalogListTableViewCellDelegate {
         guard let name = cell.productNameLabel.text else {return}
         
         if cell.stockSwitch.isOn == true {
-            self.present(UIAlertController.confirmOrDenyAnyWithTwoBlocks(confirm: {
+            self.present(UIAlertController.confirmAnyStyleAlert(message: "Подтвердите изменение наличия АКЦИИ", confirm: {
                 NetworkManager.shared.editStockCondition(name: name, stock: true)
                 text.text = "Акционный товар"
                 text.textColor = .red
@@ -350,7 +349,7 @@ extension CatalogListViewController: CatalogListTableViewCellDelegate {
                 switcher.setOn(true, animated: true)
             }), animated: true)
         }else{
-            self.present(UIAlertController.confirmOrDenyAnyWithTwoBlocks(confirm: {
+            self.present(UIAlertController.confirmAnyStyleAlert(message: "Подтвердите изменение наличия АКЦИИ", confirm: {
                 NetworkManager.shared.editStockCondition(name: name, stock: false)
                 text.text = "Акция отсутствует"
                 text.textColor = .black
@@ -378,7 +377,7 @@ private extension CatalogListViewController {
         }
         switch cases {
         case .minus:
-            self.present(UIAlertController.setNewNumber(message: "Введите сумму, которую вы хотите ОТНЯТЬ от всех товаров в данной категории", confirm: { (x) in
+            self.present(UIAlertController.setNewInteger(message: "Введите сумму, которую вы хотите ОТНЯТЬ от всех товаров в данной категории", confirm: { (x) in
                 NetworkManager.shared.increaseDecreaseAllPricesByCategory(for: category, by: -x, success: {
                     self.present(UIAlertController.alertAppearanceForTwoSec(title: "Готово!", message: "Стоимости изменены"), animated: true)
                 }) { (error) in
@@ -386,7 +385,7 @@ private extension CatalogListViewController {
                 }
             }), animated: true)
         case .plus:
-            self.present(UIAlertController.setNewNumber(message: "Введите сумму, которую вы хотите ДОБАВИТЬ ко всем товарам в данной категории", confirm: { (x) in
+            self.present(UIAlertController.setNewInteger(message: "Введите сумму, которую вы хотите ДОБАВИТЬ ко всем товарам в данной категории", confirm: { (x) in
                 NetworkManager.shared.increaseDecreaseAllPricesByCategory(for: category, by: x, success: {
                     self.present(UIAlertController.alertAppearanceForHalfSec(title: "Готово!", message: "Стоимости изменены"), animated: true)
                 }) { (error) in

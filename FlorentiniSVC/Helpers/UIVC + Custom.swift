@@ -147,9 +147,9 @@ extension UIViewController {
             }
         case .exit:
             self.slideInTransitionMenu(for: view, constraint: constraint, dismissedBy: button)
-            self.present(UIAlertController.signOutConfirmation {
+            self.present(UIAlertController.confirmAnyStyleActionSheet(message: "Подтвердите выход", confirm: {
                 self.transitionToExit(title: "Удачи!", message: "Выход выполнен")
-            }, animated: true)
+            }), animated: true)
         }
     }
     

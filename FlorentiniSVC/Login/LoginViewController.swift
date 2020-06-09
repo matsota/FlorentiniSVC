@@ -46,7 +46,7 @@ class LoginViewController: UIViewController {
                 //firebase have not an opportunity to delete certain user by admin. Firebase Admin SDK is not working with Swift yet
                 if let name = employeeData.map({$0.name}).first,
                     let position = employeeData.map({$0.position}).first {
-                    self.present(UIAlertController.saveSignInConfirmation(self.activityIndicator, success: {
+                    self.present(UIAlertController.confirmAnyStyleActionSheet(message: "Ваши данные для аутентификации будут автоматически сохранены", confirm: {
                         CoreDataManager.shared.saveEmployee(name: name, position: position, email: email, password: password, uid: uid) {
                             self.activityIndicator.stopAnimating()
                             self.signInTransition()

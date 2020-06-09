@@ -159,7 +159,7 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
                 self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Невозможно удалить данного Администратора"), animated: true)
                 complition(false)
             }else{
-                self.present(UIAlertController.confirmAnyAction(message: "Подтвердите, что вы хотите удалить сотрудника под именем: '\(name)'", confirm: {
+                self.present(UIAlertController.confirmAnyStyleActionSheet(message: "Подтвердите, что вы хотите удалить сотрудника под именем: '\(name)'", confirm: {
                     NetworkManager.shared.deleteEmployeeData(uid: uid, name: name, phone: phone, position: position, successed: success, fails: failure, {
                         self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Сотрудник удачно Удалён"), animated: true)
                         self.employeeData.remove(at: indexPath.row)
@@ -278,11 +278,11 @@ private extension EmployeeListViewController {
         if position == "Не выбрана" {
             self.present(UIAlertController.classic(title: "Внимание", message: "Вы забыли выбрать должность"), animated: true)
         }else if position == NavigationCases.EmployeeCases.admin.rawValue {
-            self.present(UIAlertController.adminCreationConfirmation {
+            self.present(UIAlertController.confirmAnyStyleAlert(message: "Вы уверенны в том, что хотите создать нового администратора? У него будут почти все теже права, что и у Вас. За исключением: 1) Удалять сотрудников; 2) Удалять товары; 3) Удалять заказы, но он сможет их архивировать", confirm: {
                 AuthenticationManager.shared.signUp(name: name, email: email, phone: phone, position: position, failure: { error in
                     self.present(UIAlertController.classic(title: "Эттеншн", message: error.localizedDescription), animated: true)
                 })
-            }, animated: true)
+            }), animated: true)
         }else{
             AuthenticationManager.shared.signUp(name: name, email: email, phone: phone, position: position, failure: { error in
                 self.present(UIAlertController.classic(title: "Эттеншн", message: error.localizedDescription), animated: true)

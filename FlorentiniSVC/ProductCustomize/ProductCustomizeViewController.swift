@@ -257,7 +257,7 @@ extension ProductCustomizeViewController: UINavigationControllerDelegate, UIImag
 private extension ProductCustomizeViewController {
     
     func downloadByURL() {
-        self.present(UIAlertController.uploadImageURL { url in
+        self.present(UIAlertController.setNewString(message: "Введите ссылку от куда возможно загрузить изображение", confirm: { url in
             self.imageActivityIndicator.isHidden = false
             self.imageActivityIndicator.startAnimating()
             NetworkManager.shared.downloadImageByURL(url: url) { image in
@@ -265,7 +265,7 @@ private extension ProductCustomizeViewController {
                 self.imageActivityIndicator.isHidden = true
                 self.imageActivityIndicator.stopAnimating()
             }
-        }, animated: true)
+        }), animated: true)
     }
     
 }

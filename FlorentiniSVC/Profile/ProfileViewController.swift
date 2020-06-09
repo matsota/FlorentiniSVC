@@ -111,7 +111,7 @@ private extension ProfileViewController{
         }else if newPass == "" || reNewPass == "" {
             self.present(UIAlertController.classic(title: "Внимание", message: "Для смены пароля необходимо заполнить все поля"), animated: true)
         }else{
-            self.present(UIAlertController.updatePasswordConfirmation({
+            self.present(UIAlertController.confirmAnyStyleActionSheet(message: "Подтвердите смену пароля", confirm: {
                 AuthenticationManager.shared.updatePassword(newPass) {
                     self.transitionToExit(title: "Успех!", message: "Перезайдите в приложение")
                 }

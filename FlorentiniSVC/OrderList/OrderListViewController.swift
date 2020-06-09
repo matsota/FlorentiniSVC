@@ -129,7 +129,7 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
         orderID = fetch.orderID,
         
         action = UIContextualAction(style: .destructive, title: "Архив") { (action, view, complition) in
-            self.present(UIAlertController.confirmAnyAction(message: "", confirm: {
+            self.present(UIAlertController.confirmAnyStyleActionSheet(message: "", confirm: {
                 let dataModel =  DatabaseManager.Order(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, currentDeviceID: currentDeviceID, deliveryPerson: deliveryPerson, orderID: orderID)
                 NetworkManager.shared.archiveOrder(dataModel: dataModel, orderKey: orderID)
                 self.orderCount -= 1
@@ -169,7 +169,7 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
         orderID = fetch.orderID,
         
         action = UIContextualAction(style: .destructive, title: "Удалить") { (action, view, complition) in
-            self.present(UIAlertController.confirmAnyAction(message: "", confirm: {
+            self.present(UIAlertController.confirmAnyStyleActionSheet(message: "", confirm: {
                 let dataModel =  DatabaseManager.Order(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, currentDeviceID: currentDeviceID, deliveryPerson: deliveryPerson, orderID: orderID)
                 NetworkManager.shared.deleteOrder(dataModel: dataModel, orderID: dataModel.orderID)
                 self.orderCount -= 1
@@ -192,7 +192,7 @@ extension OrderListViewController: OrdersListTableViewCellDelegate {
     func deliveryPerson(_ cell: OrderListTableViewCell) {
         if employeePosition == NavigationCases.EmployeeCases.admin.rawValue || employeePosition == NavigationCases.EmployeeCases.operator.rawValue {
             
-            self.present(UIAlertController.editDeliveryPerson(confirm: { (deliveryPerson) in
+            self.present(UIAlertController.setNewString(message: "Введите Имя человека, который будет доставлять этот заказ", confirm: { (deliveryPerson) in
                 guard let id = cell.orderID else {
                     self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Ссылка не найдена"), animated: true)
                     return
