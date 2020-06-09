@@ -25,6 +25,7 @@
 		8F77678E2449FF8600745A22 /* Employees.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F77678D2449FF8600745A22 /* Employees.storyboard */; };
 		8F776790244A012800745A22 /* EmployeeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F77678F244A012800745A22 /* EmployeeListViewController.swift */; };
 		8F776792244A014800745A22 /* EmloyeeListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F776791244A014800745A22 /* EmloyeeListTableViewCell.swift */; };
+		8F792D91248F9AE9008ADF77 /* TabBarSource.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F792D90248F9AE9008ADF77 /* TabBarSource.storyboard */; };
 		8F98FA2B244341DE003C8759 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98FA2A244341DE003C8759 /* ChatViewController.swift */; };
 		8F98FA2D244341F7003C8759 /* UIAlertController + Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98FA2C244341F7003C8759 /* UIAlertController + Custom.swift */; };
 		8F98FA2F244341FB003C8759 /* String + Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98FA2E244341FB003C8759 /* String + Custom.swift */; };
@@ -67,6 +68,7 @@
 		8F77678D2449FF8600745A22 /* Employees.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Employees.storyboard; sourceTree = "<group>"; };
 		8F77678F244A012800745A22 /* EmployeeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListViewController.swift; sourceTree = "<group>"; };
 		8F776791244A014800745A22 /* EmloyeeListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmloyeeListTableViewCell.swift; sourceTree = "<group>"; };
+		8F792D90248F9AE9008ADF77 /* TabBarSource.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabBarSource.storyboard; sourceTree = "<group>"; };
 		8F98FA2A244341DE003C8759 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		8F98FA2C244341F7003C8759 /* UIAlertController + Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController + Custom.swift"; sourceTree = "<group>"; };
 		8F98FA2E244341FB003C8759 /* String + Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + Custom.swift"; sourceTree = "<group>"; };
@@ -263,6 +265,7 @@
 				8FC00BC0244328A700C80B45 /* Info.plist */,
 				8FC00BB8244328A400C80B45 /* FlorentiniSVC.xcdatamodeld */,
 				8FC00BC824432C6600C80B45 /* GoogleService-Info.plist */,
+				8F792D90248F9AE9008ADF77 /* TabBarSource.storyboard */,
 			);
 			path = FlorentiniSVC;
 			sourceTree = "<group>";
@@ -398,6 +401,7 @@
 				8F98FA542443487E003C8759 /* OrderDetailList.storyboard in Resources */,
 				8FC00BBC244328A700C80B45 /* Assets.xcassets in Resources */,
 				8FD887EC24462D8700A1EF37 /* TransitionMenu.storyboard in Resources */,
+				8F792D91248F9AE9008ADF77 /* TabBarSource.storyboard in Resources */,
 				8F98FA432443449E003C8759 /* Chat.storyboard in Resources */,
 				8F98FA5A244348A8003C8759 /* FAQ.storyboard in Resources */,
 			);
