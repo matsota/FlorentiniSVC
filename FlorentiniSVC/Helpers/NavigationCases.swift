@@ -13,10 +13,9 @@ class NavigationCases {
     //MARK: -
     
     //MARK: - For VCs
-    enum IDVC: String, CaseIterable {
+    enum Transition: String, CaseIterable {
     
-        
-        // - VC
+        // - VCs
         case LoginVC
         case TabBarVC
         case CatalogListVC
@@ -34,8 +33,11 @@ class NavigationCases {
         case ChatTVCell
         case EmloyeeListTVCell
         case FilterTVCell
+        case CategoryListTVCell
         
-        // - sugue
+        // - Segues
+        case orderList_OrderDetail
+        
     }
     
     //MARK: - First Collection path in Firebase

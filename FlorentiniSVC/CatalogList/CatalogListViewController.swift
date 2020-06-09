@@ -140,7 +140,7 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if tableView == self.catalogTableView {
-            let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.IDVC.CatalogListTVCell.rawValue, for: indexPath) as! CatalogListTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.Transition.CatalogListTVCell.rawValue, for: indexPath) as! CatalogListTableViewCell
             
             cell.delegate = self
             cell.tag = indexPath.row
@@ -168,7 +168,7 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource 
             
             return cell
         }else{
-            let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.IDVC.FilterTVCell.rawValue, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.Transition.FilterTVCell.rawValue, for: indexPath)
             if indexPath.row == 0 {
                 cell.textLabel?.text = filterData[indexPath.section].title
                 cell.textLabel?.textColor = UIColor.pinkColorOfEnterprise

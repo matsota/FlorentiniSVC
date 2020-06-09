@@ -12,8 +12,9 @@ import FirebaseUI
 class OrderDetailListTableViewController: UITableViewController {
     
     //MARK: - Implementation
+    var order: DatabaseManager.Order?
     private var orderAddition = [DatabaseManager.OrderAddition]()
-    var orderRef: String?
+    
     
     //MARK: - Table View
     @IBOutlet private var orderDetailTableView: UITableView!
@@ -24,16 +25,13 @@ class OrderDetailListTableViewController: UITableViewController {
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        guard let orderRef = orderRef else {
-            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Произошла ошибка. Не можем найти необходимый заказ"), animated: true)
-            return
-        }
-        NetworkManager.shared.fetchOrderAdditions(orderRef: orderRef,success: { (orders) in
-            self.orderAddition = orders
-            self.orderDetailTableView.reloadData()
-        }) { error in
-            print(error.localizedDescription)
+        if let orderID = order?.orderID {
+            NetworkManager.shared.fetchOrderAdditions(orderRef: orderID,success: { (orders) in
+                self.orderAddition = orders
+                self.orderDetailTableView.reloadData()
+            }) { error in
+                print(error.localizedDescription)
+            }
         }
         
     }
@@ -45,7 +43,7 @@ class OrderDetailListTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.IDVC.OrdersDetailListTVCell.rawValue, for: indexPath) as! OrderDetailListViewCell,
+        let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.Transition.OrdersDetailListTVCell.rawValue, for: indexPath) as! OrderDetailListViewCell,
         fetch = orderAddition[indexPath.row],
         name  = fetch.productName,
         quantity = fetch.productQuantity,

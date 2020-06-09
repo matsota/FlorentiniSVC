@@ -19,32 +19,12 @@ class OrderListViewController: UIViewController {
     
     //MARK: - Prepare for Order Detail
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "orderList_OrderDetail", let OrderDetailVC = segue.destination as? OrderDetailListTableViewController, let index = tableView.indexPathsForSelectedRows?.first?.row {
-            let detail = order[index]
-            OrderDetailVC.orderRef = detail.orderID
-            print(detail.orderID)
+        if segue.identifier == NavigationCases.Transition.orderList_OrderDetail.rawValue, let orderDetailVC = segue.destination as? OrderDetailListTableViewController, let index = tableView.indexPathsForSelectedRows?.first {
+            
+            orderDetailVC.order = order[index.row]
+            tableView.reloadData()
+            print(order[index.row])
         }
-    }
-    //UFbueiDXpvZo6B82n8We
-    
-    //MARK: - Transition menu tapped
-    @IBAction private func transitionMenuTapped(_ sender: UIButton) {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissedBy: transitionDismissButton)
-    }
-    
-    //MARK: - Transition confirm
-    @IBAction func transitionConfim(_ sender: UIButton) {
-        guard let title = sender.currentTitle,
-            let view = transitionView,
-            let constraint = transitionViewLeftConstraint,
-            let button = transitionDismissButton else {return}
-        
-        transitionPerform(by: title, for: view, with: constraint, dismiss: button)
-    }
-    
-    //MARK: - Transition dismiss
-    @IBAction private func transitionDismiss(_ sender: UIButton) {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissedBy: transitionDismissButton)
     }
     
     //MARK: - Private Implementation
@@ -55,17 +35,9 @@ class OrderListViewController: UIViewController {
     //MARK: TableView
     @IBOutlet private weak var tableView: UITableView!
     
-    //MARK: View
-    @IBOutlet private weak var transitionView: UIView!
-    
-    //MARK: Button
-    @IBOutlet private weak var transitionDismissButton: UIButton!
-    
     //MARK: Label
     @IBOutlet private weak var ordersCountLabel: UILabel!
     
-    //MARK: Constraint
-    @IBOutlet private weak var transitionViewLeftConstraint: NSLayoutConstraint!
 }
 
 
@@ -97,7 +69,7 @@ private extension OrderListViewController {
         NetworkManager.shared.updateOrders { newOrder in
             self.order.insert(newOrder, at: 0)
             self.orderCount += 1
-            self.viewDidLoad()
+            self.tableView.reloadData()
         }
         
         self.employeePosition = CoreDataManager.shared.fetchEmployeePosition(failure: { _ in
@@ -116,7 +88,7 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.IDVC.OrdersListTVCell.rawValue, for: indexPath) as! OrderListTableViewCell,
+        let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.Transition.OrdersListTVCell.rawValue, for: indexPath) as! OrderListTableViewCell,
         fetch = order[indexPath.row],
         bill = Int(fetch.totalPrice),
         orderKey = fetch.currentDeviceID,
@@ -128,7 +100,6 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
         orderTime = Date.asString(fetch.timeStamp)(),
         orderID = fetch.orderID,
         deliveryPerson = fetch.deliveryPerson
-        print(orderID)
         cell.delegate = self
         
         cell.fill(bill: bill, orderKey: orderKey, phoneNumber: phoneNumber, adress: adress, name: name, feedbackOption: feedbackOption, orderTime: orderTime, mark: mark, deliveryPerson: deliveryPerson, orderID: orderID)

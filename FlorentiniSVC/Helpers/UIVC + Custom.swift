@@ -50,7 +50,7 @@ extension UIViewController {
     func transitionToOrderStoryboard(success: @escaping() -> Void) {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
             let storyboard = UIStoryboard(name: "OrderList", bundle: Bundle.main)
-            guard let destination = storyboard.instantiateViewController(withIdentifier: NavigationCases.IDVC.OrderListVC.rawValue) as? OrderListViewController else {
+            guard let destination = storyboard.instantiateViewController(withIdentifier: NavigationCases.Transition.OrderListVC.rawValue) as? OrderListViewController else {
                 self.present(UIAlertController.completionDoneTwoSec(title: "Attention", message: "Navigation error"), animated: true)
                 return
             }
@@ -63,7 +63,7 @@ extension UIViewController {
     func transitionToCatalogStoryboard(success: @escaping() -> Void) {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
             let storyboard = UIStoryboard(name: "CatalogList", bundle: Bundle.main)
-            guard let destination = storyboard.instantiateViewController(withIdentifier: NavigationCases.IDVC.CatalogListVC.rawValue) as? CatalogListViewController else {
+            guard let destination = storyboard.instantiateViewController(withIdentifier: NavigationCases.Transition.CatalogListVC.rawValue) as? CatalogListViewController else {
                 self.present(UIAlertController.completionDoneTwoSec(title: "Attention", message: "Navigation error"), animated: true)
                 return
             }
@@ -76,7 +76,7 @@ extension UIViewController {
     func transitionToProfileStoryboard(success: @escaping() -> Void) {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
             let storyboard = UIStoryboard(name: "Profile", bundle: Bundle.main)
-            guard let destination = storyboard.instantiateViewController(withIdentifier: NavigationCases.IDVC.ProfileVC.rawValue) as? ProfileViewController else {
+            guard let destination = storyboard.instantiateViewController(withIdentifier: NavigationCases.Transition.ProfileVC.rawValue) as? ProfileViewController else {
                 self.present(UIAlertController.completionDoneTwoSec(title: "Attention", message: "Navigation error"), animated: true)
                 return
             }
@@ -89,7 +89,7 @@ extension UIViewController {
     func transitionToFAQStoryboard(success: @escaping() -> Void) {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
             let storyboard = UIStoryboard(name: "FAQ", bundle: Bundle.main)
-            guard let destination = storyboard.instantiateViewController(withIdentifier: NavigationCases.IDVC.FAQVC.rawValue) as? FAQViewController else {
+            guard let destination = storyboard.instantiateViewController(withIdentifier: NavigationCases.Transition.FAQVC.rawValue) as? FAQViewController else {
                 self.present(UIAlertController.completionDoneTwoSec(title: "Attention", message: "Navigation error"), animated: true)
                 return
             }
@@ -105,7 +105,7 @@ extension UIViewController {
                 self.present(UIAlertController.completionDoneHalfSec(title: title, message: message), animated: true)
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0) {
                     let storyboard = UIStoryboard(name: "Login", bundle: Bundle.main)
-                    guard let destination = storyboard.instantiateViewController(withIdentifier: NavigationCases.IDVC.LoginVC.rawValue) as? LoginViewController else {
+                    guard let destination = storyboard.instantiateViewController(withIdentifier: NavigationCases.Transition.LoginVC.rawValue) as? LoginViewController else {
                         self.present(UIAlertController.completionDoneTwoSec(title: "Attention", message: "Navigation error"), animated: true)
                         return
                     }

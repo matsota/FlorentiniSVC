@@ -220,7 +220,7 @@
                                             <outlet property="nameLabel" destination="M3o-Ef-95C" id="hGv-Fr-hoc"/>
                                             <outlet property="orderTimeLabel" destination="TAE-ea-LKX" id="P7M-ij-PgB"/>
                                             <outlet property="phoneNumberLabel" destination="Ise-IU-6OF" id="Qns-y6-x1f"/>
-                                            <segue destination="eUe-W3-1IM" kind="presentation" identifier="orderList_OrderDetail" id="Rg6-gr-xuw"/>
+                                            <segue destination="eUe-W3-1IM" kind="presentation" identifier="orderList_OrderDetail" modalTransitionStyle="flipHorizontal" id="Rg6-gr-xuw"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -258,19 +258,19 @@
         <!--OrderDetailList-->
         <scene sceneID="fj2-bC-NK7">
             <objects>
-                <viewControllerPlaceholder storyboardName="OrderDetailList" id="eUe-W3-1IM" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="OrderDetailList" id="eUe-W3-1IM" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="UhK-J7-t7b"/>
+                </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RQF-U2-fNs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1557" y="3108"/>
+            <point key="canvasLocation" x="1654" y="3107"/>
         </scene>
         <!--В ожидании-->
         <scene sceneID="VTW-dN-xLo">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="Oyf-QK-dd1" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" toolbarHidden="NO" id="Oyf-QK-dd1" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="В ожидании" image="bookmark" catalog="system" selectedImage="bookmark.fill" id="dkS-mT-LLJ"/>
                     <toolbarItems/>
-                    <nil key="simulatedTopBarMetrics"/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="aHn-bK-VQi">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -282,16 +282,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ueT-tQ-aMS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1655" y="1955"/>
-        </scene>
-        <!--Chat-->
-        <scene sceneID="aN1-LT-YTe">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Chat" id="T77-QJ-VwQ" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="v48-Dy-dkk"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="IQE-lP-LaA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1396" y="3108"/>
         </scene>
     </scenes>
     <resources>

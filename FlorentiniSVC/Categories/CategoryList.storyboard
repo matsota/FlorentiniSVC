@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Gxl-MZ-Ubf">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="l3g-ph-0Kx">
+            <objects>
+                <viewController id="Gxl-MZ-Ubf" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="vsX-rQ-Ntm">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i15-hc-lWh">
+                                <rect key="frame" x="14" y="58" width="386" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="RqU-fk-3du"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                <state key="normal" title="Добавить Новую категорию">
+                                    <color key="titleColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="IdZ-50-Exy">
+                                <rect key="frame" x="14" y="106" width="386" height="742"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CategoryListTVCell" id="5jU-VE-1xl">
+                                        <rect key="frame" x="0.0" y="28" width="386" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5jU-VE-1xl" id="tq0-Wx-nAV">
+                                            <rect key="frame" x="0.0" y="0.0" width="386" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Epd-N7-y6W" firstAttribute="trailing" secondItem="IdZ-50-Exy" secondAttribute="trailing" constant="14" id="2ZY-XA-UHJ"/>
+                            <constraint firstItem="IdZ-50-Exy" firstAttribute="leading" secondItem="Epd-N7-y6W" secondAttribute="leading" constant="14" id="Act-Us-lYb"/>
+                            <constraint firstItem="Epd-N7-y6W" firstAttribute="trailing" secondItem="i15-hc-lWh" secondAttribute="trailing" constant="14" id="Dt9-5h-aE9"/>
+                            <constraint firstItem="i15-hc-lWh" firstAttribute="leading" secondItem="Epd-N7-y6W" secondAttribute="leading" constant="14" id="T2O-5O-O0Q"/>
+                            <constraint firstItem="Epd-N7-y6W" firstAttribute="bottom" secondItem="IdZ-50-Exy" secondAttribute="bottom" constant="14" id="dTV-ZO-erp"/>
+                            <constraint firstItem="IdZ-50-Exy" firstAttribute="top" secondItem="i15-hc-lWh" secondAttribute="bottom" constant="14" id="qJy-qv-D9Y"/>
+                            <constraint firstItem="i15-hc-lWh" firstAttribute="top" secondItem="Epd-N7-y6W" secondAttribute="top" constant="14" id="u92-hy-5XA"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Epd-N7-y6W"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Z3i-Ov-oGs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="139" y="101"/>
+        </scene>
+    </scenes>
+</document>

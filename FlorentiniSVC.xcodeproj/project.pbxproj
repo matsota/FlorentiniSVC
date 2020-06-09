@@ -57,6 +57,7 @@
 		8FC00BBF244328A700C80B45 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FC00BBD244328A700C80B45 /* LaunchScreen.storyboard */; };
 		8FC00BC924432C6600C80B45 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8FC00BC824432C6600C80B45 /* GoogleService-Info.plist */; };
 		8FC00BD3244332A200C80B45 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC00BD2244332A200C80B45 /* AuthenticationManager.swift */; };
+		8FE0D2F6248FC3CE00652499 /* CategoryList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FE0D2F5248FC3CE00652499 /* CategoryList.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -113,6 +114,7 @@
 		8FC00BC0244328A700C80B45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8FC00BC824432C6600C80B45 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8FC00BD2244332A200C80B45 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
+		8FE0D2F5248FC3CE00652499 /* CategoryList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CategoryList.storyboard; sourceTree = "<group>"; };
 		9C305ACAD9134474147066F2 /* Pods-FlorentiniSVC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlorentiniSVC.release.xcconfig"; path = "Target Support Files/Pods-FlorentiniSVC/Pods-FlorentiniSVC.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -262,6 +264,7 @@
 		8FC00BAE244328A400C80B45 /* FlorentiniSVC */ = {
 			isa = PBXGroup;
 			children = (
+				8FE0D2F4248FC3B900652499 /* Categories */,
 				8FC11D1F24477C2D00607347 /* CoreData Models */,
 				8FC00BAF244328A400C80B45 /* AppDelegate.swift */,
 				8FC00BB1244328A400C80B45 /* SceneDelegate.swift */,
@@ -321,6 +324,14 @@
 			children = (
 			);
 			path = "CoreData Models";
+			sourceTree = "<group>";
+		};
+		8FE0D2F4248FC3B900652499 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				8FE0D2F5248FC3CE00652499 /* CategoryList.storyboard */,
+			);
+			path = Categories;
 			sourceTree = "<group>";
 		};
 		95EF32C5042D9E40938B4E30 /* Frameworks */ = {
@@ -408,6 +419,7 @@
 				8F98FA582443489B003C8759 /* Profile.storyboard in Resources */,
 				8F98FA5E244348E0003C8759 /* ProductCustomize.storyboard in Resources */,
 				8F98FA5224434870003C8759 /* OrderList.storyboard in Resources */,
+				8FE0D2F6248FC3CE00652499 /* CategoryList.storyboard in Resources */,
 				8F98FA562443488D003C8759 /* CatalogList.storyboard in Resources */,
 				8F98FA502443485B003C8759 /* Login.storyboard in Resources */,
 				8F98FA542443487E003C8759 /* OrderDetailList.storyboard in Resources */,

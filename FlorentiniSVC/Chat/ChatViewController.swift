@@ -146,7 +146,7 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.IDVC.ChatTVCell.rawValue, for: indexPath) as! ChatTableViewCell,
+        let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.Transition.ChatTVCell.rawValue, for: indexPath) as! ChatTableViewCell,
         message = messagesArray[indexPath.row],
         date = Date.asString(message.timeStamp)(),
         position = message.position

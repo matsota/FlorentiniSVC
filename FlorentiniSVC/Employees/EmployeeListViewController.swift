@@ -110,7 +110,7 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.IDVC.EmloyeeListTVCell.rawValue, for: indexPath) as! EmloyeeListTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.Transition.EmloyeeListTVCell.rawValue, for: indexPath) as! EmloyeeListTableViewCell
         
         cell.tag = indexPath.row
         cell.delegate = self
