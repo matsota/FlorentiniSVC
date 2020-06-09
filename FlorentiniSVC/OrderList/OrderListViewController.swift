@@ -20,10 +20,8 @@ class OrderListViewController: UIViewController {
     //MARK: - Prepare for Order Detail
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == NavigationCases.Transition.orderList_OrderDetail.rawValue, let orderDetailVC = segue.destination as? OrderDetailListTableViewController, let index = tableView.indexPathsForSelectedRows?.first {
-            
             orderDetailVC.order = order[index.row]
             tableView.reloadData()
-            print(order[index.row])
         }
     }
     
@@ -56,7 +54,7 @@ private extension OrderListViewController {
     //MARK: for ViewDidLoad
     func forViewDidLoad() {
         
-        NetworkManager.shared.fetchOrders(success: { (orders) in
+        NetworkManager.shared.downloadOrders(success: { (orders) in
             self.order = orders
             self.orderCount = orders.count
             self.ordersCountLabel.text = "Orders: \(self.orderCount)"
@@ -66,7 +64,7 @@ private extension OrderListViewController {
             self.present(UIAlertController.classic(title: "Attention", message: error.localizedDescription), animated: true)
         }
         
-        NetworkManager.shared.updateOrders { newOrder in
+        NetworkManager.shared.orderListener { newOrder in
             self.order.insert(newOrder, at: 0)
             self.orderCount += 1
             self.tableView.reloadData()
@@ -199,7 +197,7 @@ extension OrderListViewController: OrdersListTableViewCellDelegate {
                     self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Ссылка не найдена"), animated: true)
                     return
                 }
-                NetworkManager.shared.editDeliveryMan(orderID: id, deliveryPerson: deliveryPerson)
+                NetworkManager.shared.editDeliveryPerson(orderID: id, deliveryPerson: deliveryPerson)
                 cell.deliveryPersonButton.setTitle(deliveryPerson, for: .normal)
             }), animated:  true)
             self.tableView.reloadData()

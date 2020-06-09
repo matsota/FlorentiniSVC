@@ -102,7 +102,7 @@ private extension ChatViewController {
     //MARK: Для ViewDidLoad
     func forViewDidLoad() {        
         
-        NetworkManager.shared.fetchEmployeeChat(success: { messages in
+        NetworkManager.shared.downloadEmployeeChat(success: { messages in
             self.messagesArray = messages
             self.messagesArray.reverse()
             self.tableView.reloadData()
@@ -112,7 +112,7 @@ private extension ChatViewController {
         }
         
         //MARK: Обновление чата
-        NetworkManager.shared.updateChat { newMessages in
+        NetworkManager.shared.chatListener { newMessages in
             self.messagesArray.insert(newMessages, at: 0)
             
             //            let messageFrom = newMessages.name,

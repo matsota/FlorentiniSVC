@@ -41,7 +41,7 @@ class LoginViewController: UIViewController {
         AuthenticationManager.shared.signIn(email: email, password: password, success: { result in
             let uid = result.user.uid
             
-            NetworkManager.shared.fetchDataOfCertainEmployee(uid: uid, success: { (employeeData) in
+            NetworkManager.shared.downloadDataOfCertainEmployee(uid: uid, success: { (employeeData) in
                 //crash if uid is not exist in employees database path
                 //firebase have not an opportunity to delete certain user by admin. Firebase Admin SDK is not working with Swift yet
                 if let name = employeeData.map({$0.name}).first,

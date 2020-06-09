@@ -195,7 +195,7 @@ private extension StoreStaticticViewController {
     
     //MARK: Для ViewDidLoad
     func forViewDidLoad() {
-        NetworkManager.shared.fetchArchivedOrders(time: time, success: { (receipts, additions, deletedData)  in
+        NetworkManager.shared.downloadArchivedOrders(time: time, success: { (receipts, additions, deletedData)  in
             //Total Amount
             self.forStatsByTotalAmount(additions: additions)
             
@@ -206,7 +206,7 @@ private extension StoreStaticticViewController {
             self.forStatsByCustomers(receipts: receipts)
             
             //for Receipts
-            NetworkManager.shared.fetchArchivedOrdersByReceipts(overThan: self.overSomePrice, lessThan: self.lessSomePrice, success: { (over, less)  in
+            NetworkManager.shared.downloadArchivedOrdersByReceipts(overThan: self.overSomePrice, lessThan: self.lessSomePrice, success: { (over, less)  in
                 self.forStatsByReceipts(receipts: receipts, over: over, less: less)
             }) { (error) in
                 print("Error occured in fetchArchivedOrdersByReceipts",error.localizedDescription)
@@ -221,7 +221,7 @@ private extension StoreStaticticViewController {
         }
         
         //Based on category
-        NetworkManager.shared.fetchArchivedOrdersByCategory(success: { (bouquetData, apeiceData, giftData, stockData) in
+        NetworkManager.shared.downloadArchivedOrdersByCategory(success: { (bouquetData, apeiceData, giftData, stockData) in
             // - By Frequency
             self.forStatsByCategoryFrequency(bouquetData: bouquetData, apeiceData: apeiceData, giftData: giftData, stockData: stockData)
             

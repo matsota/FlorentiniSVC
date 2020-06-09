@@ -11,69 +11,23 @@ import FirebaseFirestore
 import FirebaseUI
 
 class NetworkManager {
-    
-    //MARK: - Системные переменные
     static let shared = NetworkManager()
     let db = Firestore.firestore()
+}
+
+
+
+
+///
+//MARK: - Crud
+///
+extension NetworkManager {
     
-    
-    ///
-    //MARK: - Crud
-    ///
-    
-    //MARK: - Prepare product description for setup in Firebase
-    func setupProductDescription(productName: String, productPrice: Int, productDescription: String, productCategory: String, stock: Bool, searchArray: [String], success: @escaping() -> Void) {
-        let ref = db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).document(),
-        dataModel = DatabaseManager.ProductInfo(productName: productName, productPrice: productPrice, productDescription: productDescription, productCategory: productCategory, stock: stock, productID: ref.documentID, searchArray: searchArray, voteCount: 0, voteAmount: 0)
-            ref.setData(dataModel.dictionary)
-        success()
-    }
-    
-    //MARK: - Setup new product in Firebase
-    func setupProduct(image: UIImageView, productName: String, progressIndicator: UIProgressView, success: @escaping() -> Void, failure: @escaping(Error) -> Void) {
-        progressIndicator.isHidden = false
-        guard AuthenticationManager.shared.uidAdmin == AuthenticationManager.shared.currentUser?.uid, let imageData = image.image?.jpegData(compressionQuality: 0.75) else {return}
-        let uploadRef = Storage.storage().reference(withPath: "\(NavigationCases.FirstCollectionRow.imageCollection.rawValue)/\(productName)"),
-        uploadMetadata = StorageMetadata.init()
-        
-        uploadMetadata.contentType = "image/jpg"
-        
-        let taskRef = uploadRef.putData(imageData, metadata: uploadMetadata) { (downloadMetadata, error) in
-            if let error = error {
-                print("Oh no! \(error.localizedDescription)")
-                return
-            }
-        }
-        
-        taskRef.observe(.progress){ (snapshot) in
-            guard let pctThere = snapshot.progress?.fractionCompleted else {return}
-            progressIndicator.progress = Float(pctThere)
-        }
-        
-        taskRef.observe(.success) { i in
-            if let error = i.error {
-                failure(error)
-            }else{
-                progressIndicator.isHidden = true
-                success()
-            }
-        }
-        
-    }
-    
-    //MARK: - New Employee
-    
-    func createNewEmpoyee(dataModel: DatabaseManager.EmployeeDataStruct, uid: String) {
-        db.collection(NavigationCases.FirstCollectionRow.employee.rawValue).document(uid).setData(dataModel.dictionary)
-    }
-    
-    //MARK: - Archive order
+    //MARK: - For ORDERS
     func archiveOrder(dataModel: DatabaseManager.Order, orderKey: String){
         db.collection(NavigationCases.FirstCollectionRow.archivedOrder.rawValue).addDocument(data: dataModel.dictionary)
         archiveOrderAddition(orderID: orderKey)
     }
-    
-    //MARK: Archive order addition
     func archiveOrderAddition(orderID: String) {
         var addition = [DatabaseManager.OrderAddition](),
         jsonArray: [[String: Any]] = []
@@ -95,7 +49,49 @@ class NetworkManager {
         deleteOrderAddition(collection: docRef.collection(NavigationCases.OrderCases.orderDescription.rawValue))
     }
     
-    //MARK: - New chat message
+    //MARK: - For PRODUCTS 
+    func uploadProductDescriptionToBackEnd(productName: String, productPrice: Int, productDescription: String, productCategory: String, stock: Bool, searchArray: [String], success: @escaping() -> Void) {
+        let ref = db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).document(),
+        dataModel = DatabaseManager.ProductInfo(productName: productName, productPrice: productPrice, productDescription: productDescription, productCategory: productCategory, stock: stock, productID: ref.documentID, searchArray: searchArray, voteCount: 0, voteAmount: 0)
+        ref.setData(dataModel.dictionary)
+        success()
+    }
+    
+    func uploadProductToBackEnd(image: UIImageView, productName: String, progressIndicator: UIProgressView, success: @escaping() -> Void, failure: @escaping(Error) -> Void) {
+        progressIndicator.isHidden = false
+        guard AuthenticationManager.shared.uidAdmin == AuthenticationManager.shared.currentUser?.uid, let imageData = image.image?.jpegData(compressionQuality: 0.75) else {return}
+        let uploadRef = Storage.storage().reference(withPath: "\(NavigationCases.FirstCollectionRow.imageCollection.rawValue)/\(productName)"),
+        uploadMetadata = StorageMetadata.init()
+        
+        uploadMetadata.contentType = "image/jpg"
+        
+        let taskRef = uploadRef.putData(imageData, metadata: uploadMetadata) { (_, error) in
+            if let error = error {
+                print("Oh no! \(error.localizedDescription)")
+                return
+            }
+        }
+        
+        taskRef.observe(.progress){ (snapshot) in
+            guard let pctThere = snapshot.progress?.fractionCompleted else {return}
+            progressIndicator.progress = Float(pctThere)
+        }
+        
+        taskRef.observe(.success) { i in
+            if let error = i.error {
+                failure(error)
+            }else{
+                progressIndicator.isHidden = true
+                success()
+            }
+        }
+        
+    }
+
+    //MARK: - For EMPLOYEE & EMPLOYER
+    func createNewEmpoyee(dataModel: DatabaseManager.EmployeeDataStruct, uid: String) {
+        db.collection(NavigationCases.FirstCollectionRow.employee.rawValue).document(uid).setData(dataModel.dictionary)
+    }
     func newChatMessage(name: String, content: String, position: String) {
         let newMessage = DatabaseManager.ChatMessages(name: name, content: content, position: position, uid: AuthenticationManager.shared.currentUser!.uid, timeStamp: Date())
         var ref: DocumentReference? = nil
@@ -109,13 +105,35 @@ class NetworkManager {
         }
     }
     
+}
+
+
+
+///
+//MARK: - cRud
+///
+extension NetworkManager {
     
-    ///
-    //MARK: - cRud
-    ///
+    //MARK: - For ORDERS
+    func downloadOrders(success: @escaping([DatabaseManager.Order]) -> Void, failure: @escaping(Error) -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.order.rawValue).getDocuments(completion: {
+            (querySnapshot, _) in
+            let orders = querySnapshot!.documents.compactMap{DatabaseManager.Order(dictionary: $0.data())}
+            success(orders)
+        })
+    }
     
-    //MARK: - Down load data for catolog
-    func downloadFilteringDict(success: @escaping(DatabaseManager.CategoryDescription) -> Void, failure: @escaping(Error) -> Void) {
+    func downloadOrderAdditions(orderRef: String, success: @escaping([DatabaseManager.OrderAddition]) -> Void, failure: @escaping(Error) -> Void) {
+        let docRef = db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderRef)
+        docRef.collection(NavigationCases.OrderCases.orderDescription.rawValue).getDocuments(completion: {
+            (querySnapshot, _) in
+            let addition = querySnapshot!.documents.compactMap{DatabaseManager.OrderAddition(dictionary: $0.data())}
+            success(addition)
+        })
+    }
+    
+    //MARK: - For PRODUCTS
+    func downloadDictForFilteringTableView(success: @escaping(DatabaseManager.CategoryDescription) -> Void, failure: @escaping(Error) -> Void) {
         db.collection(NavigationCases.FirstCollectionRow.searchProduct.rawValue).document(NavigationCases.ProductCases.mainDictionaries.rawValue).getDocument { (documentSnapshot, error) in
             if let error = error {
                 failure(error)
@@ -125,24 +143,21 @@ class NetworkManager {
             }
         }
     }
-    
-    func downloadProductInfo(success: @escaping([DatabaseManager.ProductInfo]) -> Void, failure: @escaping(Error) -> Void) {
+    func downloadProducts(success: @escaping([DatabaseManager.ProductInfo]) -> Void, failure: @escaping(Error) -> Void) {
         db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).getDocuments(completion: {
             (querySnapshot, _) in
             let productInfo = querySnapshot!.documents.compactMap{DatabaseManager.ProductInfo(dictionary: $0.data())}
             success(productInfo)
         })
     }
-    
-    func downloadProductWithStock(success: @escaping([DatabaseManager.ProductInfo]) -> Void, failure: @escaping(Error) -> Void) {
+    func downloadProductsWithStock(success: @escaping([DatabaseManager.ProductInfo]) -> Void, failure: @escaping(Error) -> Void) {
         db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).whereField(NavigationCases.ProductCases.stock.rawValue, isEqualTo: true).getDocuments(completion: {
             (querySnapshot, _) in
             let productInfo = querySnapshot!.documents.compactMap{DatabaseManager.ProductInfo(dictionary: $0.data())}
             success(productInfo)
         })
     }
-    
-    func downloadByCategory(category: String, success: @escaping(_ productInfo: [DatabaseManager.ProductInfo]) -> Void, failure: @escaping(Error) -> Void) {
+    func downloadProductsByCategory(category: String, success: @escaping([DatabaseManager.ProductInfo]) -> Void, failure: @escaping(Error) -> Void) {
         db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).whereField(NavigationCases.ProductCases.productCategory.rawValue, isEqualTo: category).getDocuments(completion: {
             (querySnapshot, error) in
             if let error = error {
@@ -153,9 +168,8 @@ class NetworkManager {
             }
         })
     }
-    
-    func downloadBySubCategory(category: String, subCategory: String, success: @escaping([DatabaseManager.ProductInfo]) -> Void, failure: @escaping(Error) -> Void) {
-        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).whereField(NavigationCases.ProductCases.productCategory.rawValue, isEqualTo: category).whereField(NavigationCases.ProductCases.productSubCategory.rawValue, isEqualTo: subCategory).getDocuments(completion: {
+    func downloadProductsBySubCategory(subCategory: String, success: @escaping([DatabaseManager.ProductInfo]) -> Void, failure: @escaping(Error) -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).whereField(NavigationCases.ProductCases.productSubCategory.rawValue, isEqualTo: subCategory).getDocuments(completion: {
             (querySnapshot, error) in
             if let error = error {
                 failure(error)
@@ -166,9 +180,8 @@ class NetworkManager {
         })
     }
     
-    //MARK: - Fetch employee data
-    func fetchEmployeeData(success: @escaping([DatabaseManager.EmployeeDataStruct]) -> Void, failure: @escaping(Error) -> Void) {
-        
+    //MARK: - For EMPLOYEE & EMPLOYER
+    func downloadEmployeeData(success: @escaping([DatabaseManager.EmployeeDataStruct]) -> Void, failure: @escaping(Error) -> Void) {
         db.collection(NavigationCases.FirstCollectionRow.employee.rawValue).getDocuments { (querySnapshot, error) in
             if let error = error {
                 failure(error)
@@ -178,9 +191,7 @@ class NetworkManager {
             }
         }
     }
-    
-    //MARK: - Fetch employee data
-    func fetchDataOfCertainEmployee(uid: String, success: @escaping([DatabaseManager.EmployeeDataStruct]) -> Void, failure: @escaping(Error) -> Void) {
+    func downloadDataOfCertainEmployee(uid: String, success: @escaping([DatabaseManager.EmployeeDataStruct]) -> Void, failure: @escaping(Error) -> Void) {
         if uid == "" {
             let error = NetworkManagerError.employeeUIDDoesNotExist
             failure(error)
@@ -191,9 +202,20 @@ class NetworkManager {
             }
         }
     }
+    func downloadEmployeeChat(success: @escaping([DatabaseManager.ChatMessages]) -> Void, failure: @escaping(Error) -> Void) {
+        if AuthenticationManager.shared.currentUser?.uid == nil {
+            failure(NetworkManagerError.employeeNotSignedIn)
+        }else{
+            db.collection(NavigationCases.FirstCollectionRow.employeeMessages.rawValue).whereField(NavigationCases.MessagesCases.timeStamp.rawValue, isLessThan: Date()).getDocuments(completion: {
+                (querySnapshot, _) in
+                let messages = querySnapshot!.documents.compactMap{DatabaseManager.ChatMessages(dictionary: $0.data())}
+                success(messages)
+            })
+        }
+    }
     
-    //MARK: - Fetch archive main data
-    func fetchArchivedOrders(time: Date, success: @escaping(_ receipts: [DatabaseManager.Order],_ additions: [DatabaseManager.OrderAddition], _ deleted: [DatabaseManager.Order]) -> Void, failure: @escaping(Error) -> Void) {
+    //MARK: - For STATISTICS
+    func downloadArchivedOrders(time: Date, success: @escaping(_ receipts: [DatabaseManager.Order],_ additions: [DatabaseManager.OrderAddition], _ deleted: [DatabaseManager.Order]) -> Void, failure: @escaping(Error) -> Void) {
         //  - first fetch
         db.collection(NavigationCases.FirstCollectionRow.archivedOrder.rawValue).getDocuments {
             (querySnapshot, error) in
@@ -222,18 +244,7 @@ class NetworkManager {
             }
         }
     }
-    
-    //MARK: - Fetch archive data for statistics by regular sutomers
-    func fetchRegularCustomers(currentDeviceID: String, success: @escaping([DatabaseManager.Order]) -> Void) {
-        self.db.collection(NavigationCases.FirstCollectionRow.archivedOrder.rawValue).whereField(NavigationCases.OrderCases.currentDeviceID.rawValue, isEqualTo: currentDeviceID).getDocuments{
-            (querySnapshot, _) in
-            let reguralCustomersData = querySnapshot!.documents.compactMap{DatabaseManager.Order(dictionary: $0.data())}
-            success(reguralCustomersData)
-        }
-    }
-    
-    //MARK: - Fetch archive data for statistics by category
-    func fetchArchivedOrdersByCategory(success: @escaping(_ bouquets: [DatabaseManager.OrderAddition],_ apiece: [DatabaseManager.OrderAddition], _ gifts: [DatabaseManager.OrderAddition], _ stocks: [DatabaseManager.OrderAddition]) -> Void, failure: @escaping(Error) -> Void) {
+    func downloadArchivedOrdersByCategory(success: @escaping(_ bouquets: [DatabaseManager.OrderAddition],_ apiece: [DatabaseManager.OrderAddition], _ gifts: [DatabaseManager.OrderAddition], _ stocks: [DatabaseManager.OrderAddition]) -> Void, failure: @escaping(Error) -> Void) {
         //  - first fetch
         db.collection(NavigationCases.FirstCollectionRow.archivedOrderDescription.rawValue).whereField(NavigationCases.ProductCases.productCategory.rawValue, isEqualTo: NavigationCases.ProductCategoriesCases.bouquet.rawValue).getDocuments { (querySnapshot, _) in
             let bouquetsData = querySnapshot!.documents.compactMap{DatabaseManager.OrderAddition(dictionary: $0.data())}
@@ -254,9 +265,7 @@ class NetworkManager {
             }
         }
     }
-    
-    //MARK: - Fetch archive data for statistics by receipts
-    func fetchArchivedOrdersByReceipts(overThan: Int, lessThan: Int, success: @escaping(_ bigger: [DatabaseManager.Order], _ smaller: [DatabaseManager.Order]) -> Void, failure: @escaping(Error) -> Void) {
+    func downloadArchivedOrdersByReceipts(overThan: Int, lessThan: Int, success: @escaping(_ bigger: [DatabaseManager.Order], _ smaller: [DatabaseManager.Order]) -> Void, failure: @escaping(Error) -> Void) {
         //  - first fetch
         db.collection(NavigationCases.FirstCollectionRow.archivedOrder.rawValue).whereField(NavigationCases.OrderCases.totalPrice.rawValue, isGreaterThan: overThan).getDocuments {
             (querySnapshot, _) in
@@ -271,8 +280,8 @@ class NetworkManager {
             }
         }
     }
-    
-    //MARK: - Download image by URL
+
+    //MARK: - For PRODUCT CUSTOMIZE
     func downloadImageByURL(url: String, success: @escaping(UIImage) -> Void) {
         if let url = URL(string: url){
             do {
@@ -285,43 +294,29 @@ class NetworkManager {
         }
     }
     
-    //MARK: - Download order
-    func fetchOrders(success: @escaping([DatabaseManager.Order]) -> Void, failure: @escaping(Error) -> Void) {
-        db.collection(NavigationCases.FirstCollectionRow.order.rawValue).getDocuments(completion: {
-            (querySnapshot, _) in
-            let orders = querySnapshot!.documents.compactMap{DatabaseManager.Order(dictionary: $0.data())}
-            success(orders)
-        })
-    }
+}
+
+///
+//MARK: - crUd
+///
+extension NetworkManager {
     
-    //MARK: - Download order addition
-    func fetchOrderAdditions(orderRef: String, success: @escaping([DatabaseManager.OrderAddition]) -> Void, failure: @escaping(Error) -> Void) {        
-        let docRef = db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderRef)
-        docRef.collection(NavigationCases.OrderCases.orderDescription.rawValue).getDocuments(completion: {
-            (querySnapshot, _) in
-            let addition = querySnapshot!.documents.compactMap{DatabaseManager.OrderAddition(dictionary: $0.data())}
-            success(addition)
-        })
-    }
-    
-    //MARK: - Download employee's chat
-    func fetchEmployeeChat(success: @escaping([DatabaseManager.ChatMessages]) -> Void, failure: @escaping(Error) -> Void) {
-        if AuthenticationManager.shared.currentUser?.uid == nil {
-            failure(NetworkManagerError.employeeNotSignedIn)
-        }else{
-            db.collection(NavigationCases.FirstCollectionRow.employeeMessages.rawValue).whereField(NavigationCases.MessagesCases.timeStamp.rawValue, isLessThan: Date()).getDocuments(completion: {
-                (querySnapshot, _) in
-                let messages = querySnapshot!.documents.compactMap{DatabaseManager.ChatMessages(dictionary: $0.data())}
-                success(messages)
-            })
+    //MARK: - For ORDERS
+    func orderListener(success: @escaping(DatabaseManager.Order) -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.order.rawValue).whereField(NavigationCases.MessagesCases.timeStamp.rawValue, isGreaterThan: Date()).addSnapshotListener { (querySnapshot, error) in
+            guard let snapshot = querySnapshot else {return}
+            
+            snapshot.documentChanges.forEach { diff in
+                if diff.type == .added {
+                    guard let newOrder = DatabaseManager.Order(dictionary: diff.document.data()) else {return}
+                    success(newOrder)
+                }
+            }
         }
     }
     
-    ///
-    //MARK: - crUd
-    ///
-    //MARK: - Increase or decrease price for all product in a category
-    func increaseDecreasePrice(for category: String, by price: Int, success: @escaping() -> Void, failure: @escaping(Error) -> Void) {
+    //MARK: - For PRODUCTS
+    func increaseDecreaseAllPricesByCategory(for category: String, by price: Int, success: @escaping() -> Void, failure: @escaping(Error) -> Void) {
         let path = db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).whereField(NavigationCases.ProductCases.productCategory.rawValue, isEqualTo: category)
         path.getDocuments { (querySnapshot, error) in
             if let error = error {
@@ -339,27 +334,21 @@ class NetworkManager {
             }
         }
     }
-    
-    //MARK: - Edit product price
-    func editProductPrice(name: String, newPrice: Int) {
+    func editPriceOfCertainProduct(name: String, newPrice: Int) {
         let path = db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).document(name)
         path.updateData([NavigationCases.ProductCases.productPrice.rawValue : newPrice])
     }
-    
-    //MARK: - Edit stock condition
     func editStockCondition(name: String, stock: Bool) {
         let path = db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).document(name)
         path.updateData([NavigationCases.ProductCases.stock.rawValue : stock])
     }
-    
-    //MARK: - Set delivery person
-    func editDeliveryMan(orderID: String, deliveryPerson: String) {
+    func editDeliveryPerson(orderID: String, deliveryPerson: String) {
         let path = db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderID)
         path.updateData([NavigationCases.OrderCases.deliveryPerson.rawValue : deliveryPerson])
     }
     
-    //MARK: - Chat listener
-    func updateChat(success: @escaping(DatabaseManager.ChatMessages) -> Void) {
+    //MARK: - For EMPLOYEE & EMPLOYER
+    func chatListener(success: @escaping(DatabaseManager.ChatMessages) -> Void) {
         db.collection(NavigationCases.FirstCollectionRow.employeeMessages.rawValue).whereField(NavigationCases.MessagesCases.timeStamp.rawValue, isGreaterThan: Date()).addSnapshotListener { (querySnapshot, error) in
             guard let snapshot = querySnapshot else {return}
             
@@ -372,25 +361,42 @@ class NetworkManager {
         }
     }
     
-    //MARK: - Orders listener
-    func updateOrders(success: @escaping(DatabaseManager.Order) -> Void) {
-        db.collection(NavigationCases.FirstCollectionRow.order.rawValue).whereField(NavigationCases.MessagesCases.timeStamp.rawValue, isGreaterThan: Date()).addSnapshotListener { (querySnapshot, error) in
-            guard let snapshot = querySnapshot else {return}
+}
+
+///
+//MARK: - cruD
+///
+extension NetworkManager {
+    
+    //MARK: - For ORDERS
+    func deleteOrder(dataModel: DatabaseManager.Order, orderID: String) {
+        
+        var docRef: DocumentReference?
+        
+        docRef = db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderID)
+        docRef?.delete { (error) in
+            if let error = error {
+                print(error.localizedDescription)
+            }else{
+                self.db.collection(NavigationCases.FirstCollectionRow.deletedOrder.rawValue).addDocument(data: dataModel.dictionary)
+                self.deleteOrderAddition(collection: docRef!.collection(NavigationCases.OrderCases.orderDescription.rawValue))
+            }
+        }
+    }
+    func deleteOrderAddition(collection: CollectionReference, batchSize: Int = 100) {
+        collection.limit(to: batchSize).getDocuments { (docs, error) in
+            let docs = docs,
+            batch = collection.firestore.batch()
             
-            snapshot.documentChanges.forEach { diff in
-                if diff.type == .added {
-                    guard let newOrder = DatabaseManager.Order(dictionary: diff.document.data()) else {return}
-                    success(newOrder)
-                }
+            docs?.documents.forEach { batch.deleteDocument($0.reference) }
+            
+            batch.commit { _ in
+                self.deleteOrderAddition(collection: collection, batchSize: batchSize)
             }
         }
     }
     
-    ///
-    //MARK: - cruD
-    ///
-    
-    //MARK: - Delete product from Firebase
+    //MARK: - For PRODUCTS
     func deleteProduct(name: String){
         db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).document(name).delete() { err in
             if let err = err {
@@ -408,37 +414,7 @@ class NetworkManager {
         }
     }
     
-    //MARK: - Delete order addition
-    func deleteOrderAddition(collection: CollectionReference, batchSize: Int = 100) {
-        collection.limit(to: batchSize).getDocuments { (docs, error) in
-            let docs = docs,
-            batch = collection.firestore.batch()
-            
-            docs?.documents.forEach { batch.deleteDocument($0.reference) }
-            
-            batch.commit { _ in
-                self.deleteOrderAddition(collection: collection, batchSize: batchSize)
-            }
-        }
-    }
-    
-    //MARK: - Delete order
-    func deleteOrder(dataModel: DatabaseManager.Order, orderID: String) {
-        
-        var docRef: DocumentReference?
-        
-        docRef = db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderID)
-        docRef?.delete { (error) in
-            if let error = error {
-                print(error.localizedDescription)
-            }else{
-                self.db.collection(NavigationCases.FirstCollectionRow.deletedOrder.rawValue).addDocument(data: dataModel.dictionary)
-                self.deleteOrderAddition(collection: docRef!.collection(NavigationCases.OrderCases.orderDescription.rawValue))
-            }
-        }
-    }
-    
-    //MARK: - Delete Employee Data
+    //MARK: - For EMPLOYEE & EMPLOYER
     func deleteEmployeeData(uid: String, name: String, phone: String, position: String, successed: Int, fails: Int, _ success: @escaping() -> Void, _ failure: @escaping(Error) -> Void) {
         db.collection(NavigationCases.FirstCollectionRow.employee.rawValue).document(uid).delete { (error) in
             if let error = error{
@@ -450,12 +426,15 @@ class NetworkManager {
             }
         }
     }
+    
 }
 
-//MARK: - Extensions
+//MARK: - Error Enum
 extension NetworkManager {
+    
     enum NetworkManagerError: Error {
         case employeeNotSignedIn
         case employeeUIDDoesNotExist
     }
+    
 }

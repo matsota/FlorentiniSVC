@@ -19,7 +19,41 @@ class CatalogListViewController: UIViewController {
     //MARK: - Override
     override func viewDidLoad() {
         super.viewDidLoad()
-        forViewDidLoad()
+        // - activity indicator
+        categoryChangesActivityIndicator.stopAnimating()
+        
+        // - Network data
+        NetworkManager.shared.downloadProducts(success: { productInfo in
+            self.productInfo = productInfo
+            self.catalogTableView.reloadData()
+        }) { error in
+            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Скорее всего произошла потеря соединения"), animated: true)
+            print("ERROR: CatalogViewController: viewDidLoad: downloadProductInfo ", error.localizedDescription)
+        }
+        NetworkManager.shared.downloadDictForFilteringTableView(success: { (data) in
+            self.filterData = [filterTVStruct(opened: false, title: NavigationCases.ProductCategoriesCases.flower.rawValue, sectionData: data.flower),
+                               filterTVStruct(opened: false, title: NavigationCases.ProductCategoriesCases.bouquet.rawValue, sectionData: data.bouquet),
+                               filterTVStruct(opened: false, title: NavigationCases.ProductCategoriesCases.gift.rawValue, sectionData: data.gift)]
+            self.filterTableView.reloadData()
+        }) { (error) in
+            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Скорее всего произошла потеря соединения"), animated: true)
+            print("ERROR: CatalogViewController: viewDidLoad: downloadFilteringDict ", error.localizedDescription)
+        }
+        
+        // - Core data
+        employeePosition = CoreDataManager.shared.fetchEmployeePosition(failure: { (_) in
+            self.transitionToExit(title: "Внимание", message: "Ошибка Аунтификации. Перезагрузите приложение")
+        })
+        if employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
+            plusMinusStackView.isHidden = false
+        }
+        
+        // - keyboard
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardDidShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        hideKeyboardWhenTappedAround()
+        
+        
     }
     
     @IBAction func filterTapped(_ sender: UIButton) {
@@ -36,11 +70,17 @@ class CatalogListViewController: UIViewController {
     
     
     //MARK: - Private Implementation
-    private var productInfo = [DatabaseManager.ProductInfo]()
+    private var productInfo: [DatabaseManager.ProductInfo]?
+    private var filteredProductInfoBySearchBar: [DatabaseManager.ProductInfo]?
+    private var searchActivity = false
     private var filterData = [filterTVStruct]()
     private var employeePosition: String?
     private var selectedCategory: String?
+    private var selectedSubCategory: String?
     
+    
+    //MARK: Searchbar
+    @IBOutlet private weak var searchBar: UISearchBar!
     
     //MARK: TableView
     @IBOutlet private weak var catalogTableView: UITableView!
@@ -49,7 +89,6 @@ class CatalogListViewController: UIViewController {
     //MARK: Button
     @IBOutlet private weak var filterButton: UIButton!
     @IBOutlet private weak var hideFilterButton: UIButton!
-    
     
     //MARK: Stack View
     @IBOutlet private weak var plusMinusStackView: UIStackView!
@@ -73,44 +112,37 @@ class CatalogListViewController: UIViewController {
 
 //MARK: - Extention:
 
-//MARK: - For Overrides
-private extension CatalogListViewController {
+//MARK: - Search Result
+extension CatalogListViewController: UISearchBarDelegate {
     
-    // - for view did load
-    func forViewDidLoad() {
-        categoryChangesActivityIndicator.stopAnimating()
-        
-        NetworkManager.shared.downloadProductInfo(success: { productInfo in
-            self.productInfo = productInfo
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText != "" {
+            filteredProductInfoBySearchBar = productInfo?.filter({ (data) -> Bool in
+                searchActivity = true
+                return data.searchArray.contains { (string) -> Bool in
+                    string.prefix(searchText.count).lowercased() == searchText.lowercased()
+                }
+            })
             self.catalogTableView.reloadData()
-        }) { error in
-            print(error.localizedDescription)
+        }else{
+            searchBar.placeholder = "Начните поиск"
+            self.searchActivity = false
+            self.catalogTableView.reloadData()
         }
-        
-        employeePosition = CoreDataManager.shared.fetchEmployeePosition(failure: { (_) in
-            self.transitionToExit(title: "Внимание", message: "Ошибка Аунтификации. Перезагрузите приложение")
-        })
-        if employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
-            plusMinusStackView.isHidden = false
-        }
-        
-        NetworkManager.shared.downloadFilteringDict(success: { (data) in
-            self.filterData = [filterTVStruct(opened: false, title: NavigationCases.ProductCategoriesCases.flower.rawValue, sectionData: data.flower),
-                               filterTVStruct(opened: false, title: NavigationCases.ProductCategoriesCases.bouquet.rawValue, sectionData: data.bouquet),
-                               filterTVStruct(opened: false, title: NavigationCases.ProductCategoriesCases.gift.rawValue, sectionData: data.gift)]
-            self.filterTableView.reloadData()
-        }) { (error) in
-            self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Скорее всего произошла потеря соединения"), animated: true)
-            print("ERROR: CatalogViewController: viewWillAppear: downloadFilteringDict ", error.localizedDescription)
-        }
-        
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        searchBar.placeholder = "Начните поиск"
+        catalogTableView.reloadData()
     }
     
 }
 
-//MARK: - TableView Extention
+//MARK: - TableView
 extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource {
     
+    // - Number Of Sections
     func numberOfSections(in tableView: UITableView) -> Int {
         if tableView == filterTableView {
             return filterData.count
@@ -119,13 +151,13 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource 
         }
     }
     
-    // - table view filling
+    // - Number Of Rows In Section
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView == self.catalogTableView {
-            //            if searchActivity {
-            //                return filteredProductsBySearchController?.count ?? 0
-            //            }
-            return productInfo.count
+        if tableView == catalogTableView {
+            if searchActivity {
+                return filteredProductInfoBySearchBar?.count ?? 0
+            }
+            return productInfo?.count ?? 0
         }else{
             if filterData[section].opened == true {
                 let count = filterData[section].sectionData.count + 1
@@ -134,24 +166,30 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource 
                 return 1
             }
         }
-        
     }
     
+    // - Cell For Row
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        if tableView == self.catalogTableView {
+        if tableView == catalogTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.Transition.CatalogListTVCell.rawValue, for: indexPath) as! CatalogListTableViewCell
             
             cell.delegate = self
             cell.tag = indexPath.row
             
-            let fetch = productInfo[cell.tag],
-            name = fetch.productName,
-            price = fetch.productPrice,
-            category = fetch.productCategory,
-            description = fetch.productDescription,
-            stock = fetch.stock,
-            position = employeePosition ?? ""
+            var fetch: DatabaseManager.ProductInfo?
+            
+            if searchActivity {
+                fetch = self.filteredProductInfoBySearchBar?[cell.tag]
+            }else{
+                fetch = self.productInfo?[cell.tag]
+            }
+            
+            guard let name = fetch?.productName,
+                let price = fetch?.productPrice,
+                let category = fetch?.productCategory,
+                let description = fetch?.productDescription,
+                let stock = fetch?.stock else {return cell}
+            let position = employeePosition ?? ""
             
             if self.employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
                 cell.stockSwitch.isHidden = false
@@ -165,7 +203,6 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource 
                 print("ERROR: CatalogListViewController/tableView/imageRef: ",error.localizedDescription)
                 self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Не все изображения сейчас могут подтянуться"), animated: true)
             })
-            
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.Transition.FilterTVCell.rawValue, for: indexPath)
@@ -184,9 +221,9 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource 
                 return cell
             }
         }
-        
     }
     
+    // - Did Select Row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == filterTableView {
             if indexPath.row == 0  {
@@ -199,7 +236,10 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource 
                 sectionData = filterData[indexPath.section].sectionData[dataIndex]
                 
                 if sectionData == "Все"{
-                    NetworkManager.shared.downloadByCategory(category: title, success: { data in
+                    NetworkManager.shared.downloadProductsByCategory(category: title, success: { data in
+                        self.selectedCategory = title
+                        self.selectedSubCategory = nil
+                        
                         self.filterTableViewAppearceConstraint.constant = self.hideUnhideFilter()
                         UIView.animate(withDuration: 0.3) {
                             self.view.layoutIfNeeded()
@@ -213,8 +253,9 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource 
                         print("ERROR: CatalogViewController: tableView/didSelectRowAt: downloadByCategory", error.localizedDescription)
                     }
                 }else{
-                    
-                    NetworkManager.shared.downloadBySubCategory(category: title, subCategory: sectionData, success: { (data) in
+                    NetworkManager.shared.downloadProductsBySubCategory(subCategory: sectionData, success: { (data) in
+                        self.selectedCategory = nil
+                        self.selectedSubCategory = sectionData
                         self.filterTableViewAppearceConstraint.constant = self.hideUnhideFilter()
                         UIView.animate(withDuration: 0.3) {
                             self.view.layoutIfNeeded()
@@ -232,7 +273,7 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource 
         }
     }
     
-    // - delete action
+    // - UISwipeActions trailing
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         if tableView == self.catalogTableView {
             if self.employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
@@ -246,10 +287,11 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource 
         }
     }
     
+    // - delete method
     func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .destructive, title: "Удалить") { (action, view, complition) in
-            let fetch = self.productInfo[indexPath.row],
-            name = fetch.productName,
+            guard let fetch = self.productInfo?[indexPath.row] else {return}
+            let name = fetch.productName,
             uid = CoreDataManager.shared.fetchEmployeeUID { (error) in
                 self.present(UIAlertController.completionDoneTwoSec(title: "Эттеншн!", message: error.localizedDescription), animated: true)
             }
@@ -258,7 +300,7 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource 
                 self.present(UIAlertController.confirmAction(message: "Подтвердите, что вы хотите удалить продукт под названием '\(name)'", confirm: {
                     NetworkManager.shared.deleteProduct(name: name)
                     self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Продукт удачно Удалён"), animated: true)
-                    self.productInfo.remove(at: indexPath.row)
+                    self.productInfo?.remove(at: indexPath.row)
                     self.catalogTableView.deleteRows(at: [indexPath], with: .automatic)
                 }), animated: true)
                 complition(true)
@@ -276,7 +318,7 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource 
 //MARK: - Cell delegate
 extension CatalogListViewController: CatalogListTableViewCellDelegate {
     
-    // -
+    // - Price
     func editPrice(_ cell: CatalogListTableViewCell){
         guard let name = cell.productNameLabel.text else {return}
         
@@ -292,13 +334,13 @@ extension CatalogListViewController: CatalogListTableViewCellDelegate {
         self.catalogTableView.reloadData()
     }
     
-    // -
+    // - Stock
     func editStockCondition(_ cell: CatalogListTableViewCell, _ text: UILabel, _ switcher: UISwitch) {
         guard let name = cell.productNameLabel.text else {return}
         
         if cell.stockSwitch.isOn == true {
             self.present(UIAlertController.editStockCondition(name: name, stock: true, text: text, confirm: {
-                self.productInfo.remove(at: cell.tag)
+                self.productInfo?.remove(at: cell.tag)
                 self.catalogTableView.reloadData()
             }, cancel: {
                 UIView.animate(withDuration: 0.3) {
@@ -307,7 +349,7 @@ extension CatalogListViewController: CatalogListTableViewCellDelegate {
             }), animated: true)
         }else{
             self.present(UIAlertController.editStockCondition(name: name, stock: false, text: text, confirm: {
-                self.productInfo.remove(at: cell.tag)
+                self.productInfo?.remove(at: cell.tag)
                 self.catalogTableView.reloadData()
             }, cancel: {
                 UIView.animate(withDuration: 0.3) {
@@ -320,84 +362,10 @@ extension CatalogListViewController: CatalogListTableViewCellDelegate {
     
 }
 
-//MARK: - Product filtration methods
-//private extension CatalogListViewController {
-
-// - hide unHide buttons
-//    func showOptionsMethod(_ option: String) {
-//        selectedCategory = option
-//        allFilterButtonsCollection.forEach { (buttons) in
-//            self.filterButton.isHidden = !self.buttonsView.isHidden
-//            buttons.isHidden = !buttons.isHidden
-//            UIView.animate(withDuration: 0.3) {
-//                self.buttonsView.layoutIfNeeded()
-//            }
-//            filterButton.setTitle(option, for: .normal)
-//        }
-//    }
-
-//    // - filtraiton
-//    func selectionMethod(_ class: UIViewController, _ sender: UIButton) {
-//        categoryChangesActivityIndicator.startAnimating()
-//
-//        guard let title = sender.currentTitle, let categories = NavigationCases.ProductCategoriesCases(rawValue: title) else {return}
-//        switch categories {
-//        case .flower:
-//            showOptionsMethod(NavigationCases.ProductCategoriesCases.flower.rawValue)
-//            NetworkManager.shared.downloadApieces(success: { productInfo in
-//                self.productInfo = productInfo
-//                self.filterButton.isHidden = false
-//                self.tableView.reloadData()
-//                self.categoryChangesActivityIndicator.stopAnimating()
-//            }) { error in
-//                print(error.localizedDescription)
-//                self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Неожиданная потеря соединения"), animated: true)
-//                self.categoryChangesActivityIndicator.stopAnimating()
-//            }
-//        case .gift:
-//            showOptionsMethod(NavigationCases.ProductCategoriesCases.gift.rawValue)
-//            NetworkManager.shared.downloadGifts(success: { productInfo in
-//                self.productInfo = productInfo
-//                self.filterButton.isHidden = false
-//                self.tableView.reloadData()
-//                self.categoryChangesActivityIndicator.stopAnimating()
-//            }) { error in
-//                print(error.localizedDescription)
-//                self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Неожиданная потеря соединения"), animated: true)
-//                self.categoryChangesActivityIndicator.stopAnimating()
-//            }
-//        case .bouquet:
-//            showOptionsMethod(NavigationCases.ProductCategoriesCases.bouquet.rawValue)
-//            NetworkManager.shared.downloadBouquets(success: { productInfo in
-//                self.productInfo = productInfo
-//                self.filterButton.isHidden = false
-//                self.tableView.reloadData()
-//                self.categoryChangesActivityIndicator.stopAnimating()
-//            }) { error in
-//                print(error.localizedDescription)
-//                self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Неожиданная потеря соединения"), animated: true)
-//                self.categoryChangesActivityIndicator.stopAnimating()
-//            }
-//        case .stock:
-//            showOptionsMethod(NavigationCases.ProductCategoriesCases.stock.rawValue)
-//            NetworkManager.shared.downloadStocks(success: { productInfo in
-//                self.productInfo = productInfo
-//                self.filterButton.isHidden = false
-//                self.tableView.reloadData()
-//                self.categoryChangesActivityIndicator.stopAnimating()
-//            }) { error in
-//                print(error.localizedDescription)
-//                self.present(UIAlertController.completionDoneTwoSec(title: "Внимание", message: "Неожиданная потеря соединения"), animated: true)
-//                self.categoryChangesActivityIndicator.stopAnimating()
-//            }
-//        }
-//    }
-//
-//}
-
 //MARK: - Plus or minus to product prices: depends on category.
 private extension CatalogListViewController {
     
+    // - All prices by category
     func editPricesByCategory(_ sender: UIButton) {
         guard let title = sender.currentTitle,
             let cases = NavigationCases.MinusPlus(rawValue: title),
@@ -408,7 +376,7 @@ private extension CatalogListViewController {
         switch cases {
         case .minus:
             self.present(UIAlertController.setNumber(present: "Введите сумму, которую вы хотите ОТНЯТЬ от всех товаров в данной категории", confirm: { (x) in
-                NetworkManager.shared.increaseDecreasePrice(for: category, by: -x, success: {
+                NetworkManager.shared.increaseDecreaseAllPricesByCategory(for: category, by: -x, success: {
                     self.present(UIAlertController.completionDoneHalfSec(title: "Готово!", message: "Стоимости изменены"), animated: true)
                 }) { (error) in
                     self.present(UIAlertController.completionDoneTwoSec(title: "ERROR", message: error.localizedDescription), animated: true)
@@ -416,7 +384,7 @@ private extension CatalogListViewController {
             }), animated: true)
         case .plus:
             self.present(UIAlertController.setNumber(present: "Введите сумму, которую вы хотите ДОБАВИТЬ ко всем товарам в данной категории", confirm: { (x) in
-                NetworkManager.shared.increaseDecreasePrice(for: category, by: x, success: {
+                NetworkManager.shared.increaseDecreaseAllPricesByCategory(for: category, by: x, success: {
                     self.present(UIAlertController.completionDoneHalfSec(title: "Готово!", message: "Стоимости изменены"), animated: true)
                 }) { (error) in
                     self.present(UIAlertController.completionDoneTwoSec(title: "ERROR", message: error.localizedDescription), animated: true)
@@ -424,6 +392,8 @@ private extension CatalogListViewController {
             }), animated: true)
         }
     }
+    
+    // - All prices by Subcategory
     
 }
 
@@ -443,6 +413,14 @@ private extension CatalogListViewController {
             filterTableView.alpha = 0
         }
         return constraint ?? 0
+    }
+    
+    @objc func keyboardWillShow(notification: Notification) {
+        
+    }
+    
+    @objc func keyboardWillHide(notification: Notification) {
+        
     }
     
 }

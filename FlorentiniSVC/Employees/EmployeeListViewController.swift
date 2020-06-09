@@ -192,7 +192,7 @@ extension EmployeeListViewController: EmloyeeListTableViewCellDelegate {
 private extension EmployeeListViewController {
     
     func forViewDidload() {
-        NetworkManager.shared.fetchEmployeeData(success: { (data) in
+        NetworkManager.shared.downloadEmployeeData(success: { (data) in
             self.employeeData = data
             self.tableView.reloadData()
         }) { (error) in

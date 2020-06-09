@@ -26,7 +26,7 @@ class OrderDetailListTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if let orderID = order?.orderID {
-            NetworkManager.shared.fetchOrderAdditions(orderRef: orderID,success: { (orders) in
+            NetworkManager.shared.downloadOrderAdditions(orderRef: orderID,success: { (orders) in
                 self.orderAddition = orders
                 self.orderDetailTableView.reloadData()
             }) { error in

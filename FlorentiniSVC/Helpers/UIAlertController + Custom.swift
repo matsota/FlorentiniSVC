@@ -125,7 +125,7 @@ extension UIAlertController {
         alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Отправить", style: .default, handler: { (action: UIAlertAction) in
             guard let newPrice = Int((alert.textFields?.first?.text)!)  else {return}
-            NetworkManager.shared.editProductPrice(name: name, newPrice: newPrice)
+            NetworkManager.shared.editPriceOfCertainProduct(name: name, newPrice: newPrice)
             confirm(newPrice)
         }))
         return alert
