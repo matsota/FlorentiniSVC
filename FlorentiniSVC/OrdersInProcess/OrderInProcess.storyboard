@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Qmd-kH-Kkg">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Order In Process View Controller-->
+        <scene sceneID="2H2-fA-3lX">
+            <objects>
+                <viewController storyboardIdentifier="OrderInProcessVC" id="wo1-VD-PDX" customClass="OrderInProcessViewController" customModule="FlorentiniSVC" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="NKF-iG-YgJ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="U8U-PX-tKW"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="5iY-3K-qah"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="X6T-2T-kW0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="374" y="529"/>
+        </scene>
+        <!--В работе-->
+        <scene sceneID="VXj-X9-GA6">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Qmd-kH-Kkg" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="В работе" image="paperplane" catalog="system" selectedImage="paperplane.fill" id="DDQ-jk-tb4"/>
+                    <toolbarItems/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="pc1-dB-uiA">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="wo1-VD-PDX" kind="relationship" relationship="rootViewController" id="ebO-6l-FEa"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oDt-9E-gdP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="373.91304347826087" y="-214.28571428571428"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="paperplane" catalog="system" width="128" height="121"/>
+        <image name="paperplane.fill" catalog="system" width="128" height="121"/>
+    </resources>
+</document>

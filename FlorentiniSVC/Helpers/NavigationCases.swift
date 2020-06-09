@@ -14,15 +14,17 @@ class NavigationCases {
     
     //MARK: - For VCs
     enum IDVC: String, CaseIterable {
+    
         
         // - VC
         case LoginVC
-        case TransitionMenuVC
-        case OrderListVC
+        case TabBarVC
         case CatalogListVC
+        case OrderInProcessVC
+        case OrderListVC
+        case ChatVC
         case ProfileVC
         case FAQVC
-        case ChatVC
         case EmployeeListVC
         
         // - Cells
@@ -31,7 +33,7 @@ class NavigationCases {
         case CatalogListTVCell
         case ChatTVCell
         case EmloyeeListTVCell
-        
+        case FilterTVCell
         
         // - sugue
     }

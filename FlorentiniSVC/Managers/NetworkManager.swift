@@ -114,6 +114,58 @@ class NetworkManager {
     //MARK: - cRud
     ///
     
+    //MARK: - Down load data for catolog
+    func downloadFilteringDict(success: @escaping(DatabaseManager.CategoryDescription) -> Void, failure: @escaping(Error) -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.searchProduct.rawValue).document(NavigationCases.ProductCases.mainDictionaries.rawValue).getDocument { (documentSnapshot, error) in
+            if let error = error {
+                failure(error)
+            }else{
+                guard let data = DatabaseManager.CategoryDescription(dictionary: documentSnapshot!.data()!) else {return}
+                success(data)
+            }
+        }
+    }
+    
+    func downloadProductInfo(success: @escaping([DatabaseManager.ProductInfo]) -> Void, failure: @escaping(Error) -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).getDocuments(completion: {
+            (querySnapshot, _) in
+            let productInfo = querySnapshot!.documents.compactMap{DatabaseManager.ProductInfo(dictionary: $0.data())}
+            success(productInfo)
+        })
+    }
+    
+    func downloadProductWithStock(success: @escaping([DatabaseManager.ProductInfo]) -> Void, failure: @escaping(Error) -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).whereField(NavigationCases.ProductCases.stock.rawValue, isEqualTo: true).getDocuments(completion: {
+            (querySnapshot, _) in
+            let productInfo = querySnapshot!.documents.compactMap{DatabaseManager.ProductInfo(dictionary: $0.data())}
+            success(productInfo)
+        })
+    }
+    
+    func downloadByCategory(category: String, success: @escaping(_ productInfo: [DatabaseManager.ProductInfo]) -> Void, failure: @escaping(Error) -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).whereField(NavigationCases.ProductCases.productCategory.rawValue, isEqualTo: category).getDocuments(completion: {
+            (querySnapshot, error) in
+            if let error = error {
+                failure(error)
+            }else{
+                let productInfo = querySnapshot!.documents.compactMap{DatabaseManager.ProductInfo(dictionary: $0.data())}
+                success(productInfo)
+            }
+        })
+    }
+    
+    func downloadBySubCategory(category: String, subCategory: String, success: @escaping([DatabaseManager.ProductInfo]) -> Void, failure: @escaping(Error) -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).whereField(NavigationCases.ProductCases.productCategory.rawValue, isEqualTo: category).whereField(NavigationCases.ProductCases.productSubCategory.rawValue, isEqualTo: subCategory).getDocuments(completion: {
+            (querySnapshot, error) in
+            if let error = error {
+                failure(error)
+            }else{
+                let productInfo = querySnapshot!.documents.compactMap{DatabaseManager.ProductInfo(dictionary: $0.data())}
+                success(productInfo)
+            }
+        })
+    }
+    
     //MARK: - Fetch employee data
     func fetchEmployeeData(success: @escaping([DatabaseManager.EmployeeDataStruct]) -> Void, failure: @escaping(Error) -> Void) {
         
@@ -263,51 +315,6 @@ class NetworkManager {
                 success(messages)
             })
         }
-    }
-    
-    //MARK: - Download products
-    func downloadProducts(success: @escaping([DatabaseManager.ProductInfo]) -> Void, failure: @escaping(Error) -> Void) {
-        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).getDocuments(completion: {
-            (querySnapshot, _) in
-            let productInfo = querySnapshot!.documents.compactMap{DatabaseManager.ProductInfo(dictionary: $0.data())}
-            success(productInfo)
-        })
-    }
-    
-    //MARK: - Download bouquets products
-    func downloadBouquets(success: @escaping([DatabaseManager.ProductInfo]) -> Void, failure: @escaping(Error) -> Void) {
-        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).whereField(NavigationCases.ProductCases.productCategory.rawValue, isEqualTo: NavigationCases.ProductCategoriesCases.bouquet.rawValue).whereField(NavigationCases.ProductCases.stock.rawValue, isEqualTo: false).getDocuments(completion: {
-            (querySnapshot, _) in
-            let productInfo = querySnapshot!.documents.compactMap{DatabaseManager.ProductInfo(dictionary: $0.data())}
-            success(productInfo)
-        })
-    }
-    
-    //MARK: - Download apiece products
-    func downloadApieces(success: @escaping([DatabaseManager.ProductInfo]) -> Void, failure: @escaping(Error) -> Void) {
-        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).whereField(NavigationCases.ProductCases.productCategory.rawValue, isEqualTo: NavigationCases.ProductCategoriesCases.flower.rawValue).whereField(NavigationCases.ProductCases.stock.rawValue, isEqualTo: false).getDocuments(completion: {
-            (querySnapshot, _) in
-            let productInfo = querySnapshot!.documents.compactMap{DatabaseManager.ProductInfo(dictionary: $0.data())}
-            success(productInfo)
-        })
-    }
-    
-    //MARK: - Download gift products
-    func downloadGifts(success: @escaping([DatabaseManager.ProductInfo]) -> Void, failure: @escaping(Error) -> Void) {
-        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).whereField(NavigationCases.ProductCases.productCategory.rawValue, isEqualTo: NavigationCases.ProductCategoriesCases.gift.rawValue).whereField(NavigationCases.ProductCases.stock.rawValue, isEqualTo: false).getDocuments(completion: {
-            (querySnapshot, _) in
-            let productInfo = querySnapshot!.documents.compactMap{DatabaseManager.ProductInfo(dictionary: $0.data())}
-            success(productInfo)
-        })
-    }
-    
-    //MARK: - Download stock products
-    func downloadStocks(success: @escaping([DatabaseManager.ProductInfo]) -> Void, failure: @escaping(Error) -> Void) {
-        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).whereField(NavigationCases.ProductCases.stock.rawValue, isEqualTo: true).getDocuments(completion: {
-            (querySnapshot, _) in
-            let productInfo = querySnapshot!.documents.compactMap{DatabaseManager.ProductInfo(dictionary: $0.data())}
-            success(productInfo)
-        })
     }
     
     ///

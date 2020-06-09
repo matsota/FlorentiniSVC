@@ -25,7 +25,10 @@
 		8F77678E2449FF8600745A22 /* Employees.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F77678D2449FF8600745A22 /* Employees.storyboard */; };
 		8F776790244A012800745A22 /* EmployeeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F77678F244A012800745A22 /* EmployeeListViewController.swift */; };
 		8F776792244A014800745A22 /* EmloyeeListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F776791244A014800745A22 /* EmloyeeListTableViewCell.swift */; };
-		8F792D91248F9AE9008ADF77 /* TabBarSource.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F792D90248F9AE9008ADF77 /* TabBarSource.storyboard */; };
+		8F792D91248F9AE9008ADF77 /* TabBar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F792D90248F9AE9008ADF77 /* TabBar.storyboard */; };
+		8F792D94248F9BEB008ADF77 /* OrderInProcess.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F792D93248F9BEB008ADF77 /* OrderInProcess.storyboard */; };
+		8F792D96248F9BFE008ADF77 /* OrderInProcessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F792D95248F9BFE008ADF77 /* OrderInProcessViewController.swift */; };
+		8F792D99248FA2DB008ADF77 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F792D98248FA2DB008ADF77 /* TabBarViewController.swift */; };
 		8F98FA2B244341DE003C8759 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98FA2A244341DE003C8759 /* ChatViewController.swift */; };
 		8F98FA2D244341F7003C8759 /* UIAlertController + Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98FA2C244341F7003C8759 /* UIAlertController + Custom.swift */; };
 		8F98FA2F244341FB003C8759 /* String + Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98FA2E244341FB003C8759 /* String + Custom.swift */; };
@@ -54,8 +57,6 @@
 		8FC00BBF244328A700C80B45 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FC00BBD244328A700C80B45 /* LaunchScreen.storyboard */; };
 		8FC00BC924432C6600C80B45 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8FC00BC824432C6600C80B45 /* GoogleService-Info.plist */; };
 		8FC00BD3244332A200C80B45 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC00BD2244332A200C80B45 /* AuthenticationManager.swift */; };
-		8FD887EC24462D8700A1EF37 /* TransitionMenu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FD887EB24462D8700A1EF37 /* TransitionMenu.storyboard */; };
-		8FD887EF2447539200A1EF37 /* TransitionMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD887EE2447539200A1EF37 /* TransitionMenuViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,7 +69,10 @@
 		8F77678D2449FF8600745A22 /* Employees.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Employees.storyboard; sourceTree = "<group>"; };
 		8F77678F244A012800745A22 /* EmployeeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListViewController.swift; sourceTree = "<group>"; };
 		8F776791244A014800745A22 /* EmloyeeListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmloyeeListTableViewCell.swift; sourceTree = "<group>"; };
-		8F792D90248F9AE9008ADF77 /* TabBarSource.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabBarSource.storyboard; sourceTree = "<group>"; };
+		8F792D90248F9AE9008ADF77 /* TabBar.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabBar.storyboard; sourceTree = "<group>"; };
+		8F792D93248F9BEB008ADF77 /* OrderInProcess.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = OrderInProcess.storyboard; sourceTree = "<group>"; };
+		8F792D95248F9BFE008ADF77 /* OrderInProcessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderInProcessViewController.swift; sourceTree = "<group>"; };
+		8F792D98248FA2DB008ADF77 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		8F98FA2A244341DE003C8759 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		8F98FA2C244341F7003C8759 /* UIAlertController + Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController + Custom.swift"; sourceTree = "<group>"; };
 		8F98FA2E244341FB003C8759 /* String + Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + Custom.swift"; sourceTree = "<group>"; };
@@ -109,8 +113,6 @@
 		8FC00BC0244328A700C80B45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8FC00BC824432C6600C80B45 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8FC00BD2244332A200C80B45 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
-		8FD887EB24462D8700A1EF37 /* TransitionMenu.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TransitionMenu.storyboard; sourceTree = "<group>"; };
-		8FD887EE2447539200A1EF37 /* TransitionMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionMenuViewController.swift; sourceTree = "<group>"; };
 		9C305ACAD9134474147066F2 /* Pods-FlorentiniSVC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlorentiniSVC.release.xcconfig"; path = "Target Support Files/Pods-FlorentiniSVC/Pods-FlorentiniSVC.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -134,6 +136,24 @@
 				8F77678D2449FF8600745A22 /* Employees.storyboard */,
 			);
 			path = Employees;
+			sourceTree = "<group>";
+		};
+		8F792D92248F9BB2008ADF77 /* OrdersInProcess */ = {
+			isa = PBXGroup;
+			children = (
+				8F792D95248F9BFE008ADF77 /* OrderInProcessViewController.swift */,
+				8F792D93248F9BEB008ADF77 /* OrderInProcess.storyboard */,
+			);
+			path = OrdersInProcess;
+			sourceTree = "<group>";
+		};
+		8F792D97248FA282008ADF77 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				8F792D98248FA2DB008ADF77 /* TabBarViewController.swift */,
+				8F792D90248F9AE9008ADF77 /* TabBar.storyboard */,
+			);
+			path = TabBar;
 			sourceTree = "<group>";
 		};
 		8F98FA2124434119003C8759 /* Login */ = {
@@ -250,13 +270,14 @@
 				8FC00BCE244330A300C80B45 /* Managers */,
 				8FC00BCF244330AD00C80B45 /* Helpers */,
 				8F98FA2124434119003C8759 /* Login */,
-				8FD887ED244752F400A1EF37 /* Transition */,
+				8F792D97248FA282008ADF77 /* TabBar */,
+				8F98FA2424434168003C8759 /* CatalogList */,
+				8F792D92248F9BB2008ADF77 /* OrdersInProcess */,
 				8F98FA2224434130003C8759 /* OrderList */,
 				8F98FA2324434158003C8759 /* OrdersDetailList */,
-				8F98FA2424434168003C8759 /* CatalogList */,
+				8F98FA29244341C3003C8759 /* Chat */,
 				8F98FA252443417A003C8759 /* Profile */,
 				8F98FA28244341BB003C8759 /* FAQ */,
-				8F98FA29244341C3003C8759 /* Chat */,
 				8F98FA272443419D003C8759 /* StoreStatistics */,
 				8F77678C2449FF7300745A22 /* Employees */,
 				8F98FA2624434188003C8759 /* ProductCustomize */,
@@ -265,7 +286,6 @@
 				8FC00BC0244328A700C80B45 /* Info.plist */,
 				8FC00BB8244328A400C80B45 /* FlorentiniSVC.xcdatamodeld */,
 				8FC00BC824432C6600C80B45 /* GoogleService-Info.plist */,
-				8F792D90248F9AE9008ADF77 /* TabBarSource.storyboard */,
 			);
 			path = FlorentiniSVC;
 			sourceTree = "<group>";
@@ -301,15 +321,6 @@
 			children = (
 			);
 			path = "CoreData Models";
-			sourceTree = "<group>";
-		};
-		8FD887ED244752F400A1EF37 /* Transition */ = {
-			isa = PBXGroup;
-			children = (
-				8FD887EE2447539200A1EF37 /* TransitionMenuViewController.swift */,
-				8FD887EB24462D8700A1EF37 /* TransitionMenu.storyboard */,
-			);
-			path = Transition;
 			sourceTree = "<group>";
 		};
 		95EF32C5042D9E40938B4E30 /* Frameworks */ = {
@@ -391,6 +402,7 @@
 			files = (
 				8FC00BBF244328A700C80B45 /* LaunchScreen.storyboard in Resources */,
 				8F98FA5C244348C5003C8759 /* StoreStatistics.storyboard in Resources */,
+				8F792D94248F9BEB008ADF77 /* OrderInProcess.storyboard in Resources */,
 				8F77678E2449FF8600745A22 /* Employees.storyboard in Resources */,
 				8FC00BC924432C6600C80B45 /* GoogleService-Info.plist in Resources */,
 				8F98FA582443489B003C8759 /* Profile.storyboard in Resources */,
@@ -400,8 +412,7 @@
 				8F98FA502443485B003C8759 /* Login.storyboard in Resources */,
 				8F98FA542443487E003C8759 /* OrderDetailList.storyboard in Resources */,
 				8FC00BBC244328A700C80B45 /* Assets.xcassets in Resources */,
-				8FD887EC24462D8700A1EF37 /* TransitionMenu.storyboard in Resources */,
-				8F792D91248F9AE9008ADF77 /* TabBarSource.storyboard in Resources */,
+				8F792D91248F9AE9008ADF77 /* TabBar.storyboard in Resources */,
 				8F98FA432443449E003C8759 /* Chat.storyboard in Resources */,
 				8F98FA5A244348A8003C8759 /* FAQ.storyboard in Resources */,
 			);
@@ -462,6 +473,7 @@
 				8F368AC52443739100BF9EBF /* OrderListViewController.swift in Sources */,
 				8F98FA3D24434266003C8759 /* DatabaseManager.swift in Sources */,
 				8F98FA3724434213003C8759 /* Notifications.swift in Sources */,
+				8F792D96248F9BFE008ADF77 /* OrderInProcessViewController.swift in Sources */,
 				8FC00BBA244328A400C80B45 /* FlorentiniSVC.xcdatamodeld in Sources */,
 				8F98FA2F244341FB003C8759 /* String + Custom.swift in Sources */,
 				8F98FA3B24434259003C8759 /* NetworkManager.swift in Sources */,
@@ -469,7 +481,6 @@
 				8F98FA332443420C003C8759 /* PersistenceService.swift in Sources */,
 				8F368AC02443515300BF9EBF /* StoreStaticticViewController.swift in Sources */,
 				8F3B52F2244C822500D13DB6 /* Date + Custom.swift in Sources */,
-				8FD887EF2447539200A1EF37 /* TransitionMenuViewController.swift in Sources */,
 				8F98FA2B244341DE003C8759 /* ChatViewController.swift in Sources */,
 				8F368ABD2443514800BF9EBF /* ProfileViewController.swift in Sources */,
 				8F98FA2D244341F7003C8759 /* UIAlertController + Custom.swift in Sources */,
@@ -482,6 +493,7 @@
 				8F368ABC2443514300BF9EBF /* CatalogListTableViewCell.swift in Sources */,
 				8FC00BB0244328A400C80B45 /* AppDelegate.swift in Sources */,
 				8F98FA4124434462003C8759 /* ChatTableViewCell.swift in Sources */,
+				8F792D99248FA2DB008ADF77 /* TabBarViewController.swift in Sources */,
 				8F368AC12443515600BF9EBF /* ProductCustomizeViewController.swift in Sources */,
 				8FC00BB2244328A400C80B45 /* SceneDelegate.swift in Sources */,
 				8F98FA3524434210003C8759 /* CoreDataManager.swift in Sources */,

@@ -16,17 +16,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" image="florentiniLogoImage" translatesAutoresizingMaskIntoConstraints="NO" id="hCl-I3-xMT">
-                                <rect key="frame" x="56.333333333333343" y="44" width="262.33333333333326" height="100"/>
+                                <rect key="frame" x="56.333333333333343" y="88" width="262.33333333333326" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="gMD-yN-mQk"/>
                                 </constraints>
                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                             </imageView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CKH-Xd-PWp">
-                                <rect key="frame" x="14" y="144" width="347" height="620"/>
+                                <rect key="frame" x="14" y="188" width="347" height="527"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J7t-KW-Siq">
-                                        <rect key="frame" x="0.0" y="0.0" width="347" height="477"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="347" height="518"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="GEw-Wo-ZRc">
                                                 <rect key="frame" x="14" y="14" width="319" height="65"/>
@@ -95,15 +95,12 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="eEY-P0-qF0">
-                                                <rect key="frame" x="52" y="93" width="243" height="198"/>
+                                                <rect key="frame" x="52" y="93" width="243" height="239"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PB7-eu-6Fs" customClass="DesignButton" customModule="FlorentiniSVC" customModuleProvider="target">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2b4-WZ-wmx" customClass="DesignButton" customModule="FlorentiniSVC" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="243" height="34"/>
                                                         <color key="backgroundColor" red="0.81185215710000003" green="0.71545660499999997" blue="0.82354193929999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="34" id="COp-gc-GdZ"/>
-                                                        </constraints>
-                                                        <state key="normal" title="Новый Товар">
+                                                        <state key="normal" title="Статистика">
                                                             <color key="titleColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         </state>
                                                         <userDefinedRuntimeAttributes>
@@ -112,7 +109,7 @@
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                         <connections>
-                                                            <segue destination="mSV-tC-abE" kind="show" identifier="profile_ProductCustomize" id="4Sf-nh-xEm"/>
+                                                            <segue destination="p8c-ia-6pi" kind="show" id="rVq-XI-4O0"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LnV-1k-yBh" customClass="DesignButton" customModule="FlorentiniSVC" customModuleProvider="target">
@@ -127,23 +124,8 @@
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2b4-WZ-wmx" customClass="DesignButton" customModule="FlorentiniSVC" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="82" width="243" height="34"/>
-                                                        <color key="backgroundColor" red="0.81185215710000003" green="0.71545660499999997" blue="0.82354193929999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <state key="normal" title="Статистика">
-                                                            <color key="titleColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        </state>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="number" keyPath="rounding">
-                                                                <real key="value" value="5"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                        </userDefinedRuntimeAttributes>
-                                                        <connections>
-                                                            <segue destination="p8c-ia-6pi" kind="show" identifier="profile_StoreStatistics" id="L56-R3-aWx"/>
-                                                        </connections>
-                                                    </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ws4-UA-zYc" customClass="DesignButton" customModule="FlorentiniSVC" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="123" width="243" height="34"/>
+                                                        <rect key="frame" x="0.0" y="82" width="243" height="34"/>
                                                         <color key="backgroundColor" red="0.81185215710000003" green="0.71545660499999997" blue="0.82354193929999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <state key="normal" title="Сотрудники">
                                                             <color key="titleColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -154,11 +136,44 @@
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                         <connections>
-                                                            <segue destination="ZB5-jW-Wzn" kind="show" id="d3J-1I-BeZ"/>
+                                                            <segue destination="ZB5-jW-Wzn" kind="show" id="Hro-qa-fxs"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EEr-sf-q61" customClass="DesignButton" customModule="FlorentiniSVC" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="123" width="243" height="34"/>
+                                                        <color key="backgroundColor" red="0.81185215710000003" green="0.71545660499999997" blue="0.82354193929999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <state key="normal" title="FAQ">
+                                                            <color key="titleColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        </state>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="rounding">
+                                                                <real key="value" value="5"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <segue destination="S2o-b9-bC7" kind="show" id="zZA-ZX-LUU"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PB7-eu-6Fs" customClass="DesignButton" customModule="FlorentiniSVC" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="164" width="243" height="34"/>
+                                                        <color key="backgroundColor" red="0.81185215710000003" green="0.71545660499999997" blue="0.82354193929999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="34" id="COp-gc-GdZ"/>
+                                                        </constraints>
+                                                        <state key="normal" title="Новый Товар">
+                                                            <color key="titleColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        </state>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="rounding">
+                                                                <real key="value" value="5"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <segue destination="mSV-tC-abE" kind="show" id="HFX-2m-0vH"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B1K-SB-Cbx" customClass="DesignButton" customModule="FlorentiniSVC" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="164" width="243" height="34"/>
+                                                        <rect key="frame" x="0.0" y="205" width="243" height="34"/>
                                                         <color key="backgroundColor" red="0.81185215710000003" green="0.71545660499999997" blue="0.82354193929999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <state key="normal" title="Сменить Пароль">
                                                             <color key="titleColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -181,12 +196,14 @@
                                                     <constraint firstItem="B1K-SB-Cbx" firstAttribute="width" secondItem="PB7-eu-6Fs" secondAttribute="width" id="O2k-Rn-0hJ"/>
                                                     <constraint firstItem="B1K-SB-Cbx" firstAttribute="height" secondItem="PB7-eu-6Fs" secondAttribute="height" id="OIg-hs-1aW"/>
                                                     <constraint firstItem="Ws4-UA-zYc" firstAttribute="width" secondItem="PB7-eu-6Fs" secondAttribute="width" id="RgS-IP-pqa"/>
+                                                    <constraint firstItem="EEr-sf-q61" firstAttribute="width" secondItem="PB7-eu-6Fs" secondAttribute="width" id="XgR-OL-j1n"/>
                                                     <constraint firstItem="PB7-eu-6Fs" firstAttribute="width" secondItem="eEY-P0-qF0" secondAttribute="width" id="cUb-RW-4PR"/>
+                                                    <constraint firstItem="EEr-sf-q61" firstAttribute="height" secondItem="PB7-eu-6Fs" secondAttribute="height" id="qzp-e0-KBb"/>
                                                     <constraint firstItem="2b4-WZ-wmx" firstAttribute="height" secondItem="PB7-eu-6Fs" secondAttribute="height" id="ssM-Wh-a5z"/>
                                                 </constraints>
                                             </stackView>
                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rds-pN-CdG">
-                                                <rect key="frame" x="14" y="305" width="319" height="158"/>
+                                                <rect key="frame" x="14" y="346" width="319" height="158"/>
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Новый пароль" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Xz2-VF-6cv">
                                                         <rect key="frame" x="14" y="14" width="291" height="34"/>
@@ -267,7 +284,6 @@
                         <viewLayoutGuide key="safeArea" id="zFF-Lw-q8a"/>
                     </view>
                     <navigationItem key="navigationItem" id="3JC-am-nnl"/>
-                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="emailLabel" destination="snM-sD-V9P" id="zkp-wZ-6KU"/>
                         <outlet property="nameLabel" destination="iEV-BL-SC7" id="6v3-WS-gN2"/>
@@ -282,41 +298,26 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ejd-kK-PJJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2133.5999999999999" y="3343.5960591133007"/>
+            <point key="canvasLocation" x="1361" y="4060"/>
         </scene>
-        <!--Item-->
+        <!--Профиль-->
         <scene sceneID="MAO-GP-fsx">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="Toj-kH-lzE" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="lnI-NK-tNI"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="Toj-kH-lzE" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Профиль" image="person" catalog="system" selectedImage="person.fill" id="bUz-CD-JGS"/>
                     <toolbarItems/>
-                    <nil key="simulatedTopBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5ck-W2-BME">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
                         <segue destination="k99-WO-kUx" kind="relationship" relationship="rootViewController" id="pPo-bQ-iQ2"/>
-                        <segue destination="v1i-jl-FWt" kind="presentation" identifier="profile_OrderList" id="hge-oY-ygs"/>
-                        <segue destination="Kgi-uJ-fm4" kind="presentation" identifier="profile_CatalogList" id="hLc-YS-Ft9"/>
-                        <segue destination="rX6-uF-Kcm" kind="presentation" identifier="profile_Profile" id="yeA-zM-XoI"/>
-                        <segue destination="Vl6-lB-t0S" kind="presentation" identifier="profile_FAQ" id="Tag-ZH-PEY"/>
-                        <segue destination="MfR-FN-9hy" kind="show" identifier="profile_Login" id="gKU-iR-Yad"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tf1-7x-KF3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1361" y="3344"/>
-        </scene>
-        <!--CatalogList-->
-        <scene sceneID="JTZ-He-03A">
-            <objects>
-                <viewControllerPlaceholder storyboardName="CatalogList" id="Kgi-uJ-fm4" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="xZP-yB-53u"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="toE-qs-jMg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2800" y="3249"/>
         </scene>
         <!--ProductCustomize-->
         <scene sceneID="TIe-tE-5J0">
@@ -326,7 +327,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lfJ-B3-Fze" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2836" y="3324"/>
+            <point key="canvasLocation" x="1665" y="4493"/>
         </scene>
         <!--StoreStatistics-->
         <scene sceneID="JIY-ec-OaI">
@@ -336,27 +337,17 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wy5-fW-CUL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2817" y="3362"/>
+            <point key="canvasLocation" x="1118" y="4493"/>
         </scene>
         <!--FAQ-->
-        <scene sceneID="aIk-7S-6gO">
+        <scene sceneID="OxJ-Jq-RVw">
             <objects>
-                <viewControllerPlaceholder storyboardName="FAQ" id="Vl6-lB-t0S" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="a1q-60-8Cm"/>
+                <viewControllerPlaceholder storyboardName="FAQ" id="S2o-b9-bC7" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="g7f-9j-uf2"/>
                 </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="JI2-bd-8Th" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7cK-bU-NM7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2772" y="3475"/>
-        </scene>
-        <!--Login-->
-        <scene sceneID="ASd-kA-bdo">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Login" id="MfR-FN-9hy" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="DuI-GX-Yal"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Dej-OW-hja" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2778" y="3517"/>
+            <point key="canvasLocation" x="1460" y="4493"/>
         </scene>
         <!--Employees-->
         <scene sceneID="au4-lD-op1">
@@ -366,40 +357,12 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ff2-Pr-7Cp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2803" y="3401"/>
-        </scene>
-        <!--Profile-->
-        <scene sceneID="AtQ-1k-uL8">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Profile" id="rX6-uF-Kcm" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="367-zM-HeX"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="y2e-m4-Ped" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2784" y="3438"/>
-        </scene>
-        <!--Chat-->
-        <scene sceneID="fp4-sh-0RP">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Chat" id="ZIa-pl-lGu" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="WUh-3h-qyd"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="F74-Ix-86S" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2772" y="3287"/>
-        </scene>
-        <!--OrderList-->
-        <scene sceneID="OzU-6e-Qmy">
-            <objects>
-                <viewControllerPlaceholder storyboardName="OrderList" id="v1i-jl-FWt" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="C9d-73-4s2"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Hhl-ff-AP5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2792" y="3204"/>
+            <point key="canvasLocation" x="1306" y="4493"/>
         </scene>
     </scenes>
     <resources>
         <image name="florentiniLogoImage" width="1280" height="714"/>
+        <image name="person" catalog="system" width="128" height="117"/>
+        <image name="person.fill" catalog="system" width="128" height="120"/>
     </resources>
 </document>

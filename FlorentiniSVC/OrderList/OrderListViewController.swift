@@ -11,8 +11,6 @@ import UIKit
 
 class OrderListViewController: UIViewController {
     
-    weak var transitionVC: TransitionMenuViewController?
-    
     //MARK: - Override
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -93,8 +93,8 @@ class LoginViewController: UIViewController {
 private extension LoginViewController {
     
     func signInTransition() {
-        let orderListStoryboard = UIStoryboard(name: "OrderList", bundle: Bundle.main)
-        guard let destinationVC = orderListStoryboard.instantiateViewController(withIdentifier: NavigationCases.IDVC.OrderListVC.rawValue) as? OrderListViewController else {
+        let orderListStoryboard = UIStoryboard(name: "TabBar", bundle: Bundle.main)
+        guard let destinationVC = orderListStoryboard.instantiateInitialViewController() else {
             self.present(UIAlertController.completionDoneTwoSec(title: "Attention", message: "Navigation error"), animated: true)
             return}
         
