@@ -16,7 +16,35 @@ class ChatViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        forViewDidLoad()
+        // - network
+        NetworkManager.shared.downloadEmployeeChat(success: { messages in
+            self.messagesArray = messages
+            self.messagesArray.reverse()
+            self.tableView.reloadData()
+        }) { error in
+            print("ERROR: ChatViewController/viewDidLoad/fetchChat: ",error.localizedDescription)
+            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Произошла ошибка. Возможно пропал интеренет"), animated: true)
+        }
+        NetworkManager.shared.chatListener { newMessages in
+            self.messagesArray.insert(newMessages, at: 0)
+ //            let messageFrom = newMessages.name,
+ //            messageBody = newMessages.content
+ //            Notifications.shared.newMessage(messageFrom: messageFrom, messageBody: messageBody, messageSender: self.name)
+            self.tableView.reloadData()
+        }
+        
+        // - coredata
+        self.name = CoreDataManager.shared.fetchEmployeeName()
+        self.position = CoreDataManager.shared.fetchEmployeePosition()
+        self.uid = CoreDataManager.shared.fetchEmployeeUID()
+        
+        // - keyboard
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        hideKeyboardWhenTappedAround()
+        
+        // - textview
+        setTextViewPlaceholder(for: chatTextView)
         
     }
     
@@ -39,6 +67,7 @@ class ChatViewController: UIViewController {
     
     private var name = String()
     private var position = String()
+    private var uid = String()
     
     
     
@@ -53,6 +82,7 @@ class ChatViewController: UIViewController {
     
     //MARK: Constraint
     @IBOutlet private weak var forKeyboardBottomConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var textViewHeightConstraint: NSLayoutConstraint!
     
 }
 
@@ -66,47 +96,7 @@ class ChatViewController: UIViewController {
 
 //MARK: - Extensions:
 
-//MARK: - For Overrides
-private extension ChatViewController {
-    
-    //MARK: Для ViewDidLoad
-    func forViewDidLoad() {        
-        
-        NetworkManager.shared.downloadEmployeeChat(success: { messages in
-            self.messagesArray = messages
-            self.messagesArray.reverse()
-            self.tableView.reloadData()
-        }) { error in
-            print("ERROR: ChatViewController/viewDidLoad/fetchChat: ",error.localizedDescription)
-            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Произошла ошибка. Возможно пропал интеренет"), animated: true)
-        }
-        
-        //MARK: Обновление чата
-        NetworkManager.shared.chatListener { newMessages in
-            self.messagesArray.insert(newMessages, at: 0)
-            
-            //            let messageFrom = newMessages.name,
-            //            messageBody = newMessages.content
-            //            Notifications.shared.newMessage(messageFrom: messageFrom, messageBody: messageBody, messageSender: self.name)
-            
-            self.tableView.reloadData()
-        }
-        
-        self.name = CoreDataManager.shared.fetchEmployeeName(failure: { (_) in
-            
-        })
-        self.position = CoreDataManager.shared.fetchEmployeePosition()
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        hideKeyboardWhenTappedAround()
-        
-        setTextViewPlaceholder(for: chatTextView)
-        
-    }
-    
-}
-
-//MARK: - by TableView
+//MARK: - TableView
 extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -114,6 +104,7 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.Transition.ChatTVCell.rawValue, for: indexPath) as! ChatTableViewCell,
         message = messagesArray[indexPath.row],
         date = Date.asString(message.timeStamp)(),
@@ -131,9 +122,11 @@ extension ChatViewController {
     
     // - show keyboard
     @objc func keyboardWillShow(notification: Notification) {
-        guard let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber, let keyboardFrameValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {return}
+        guard let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber, let keyboardFrameValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+        let tabBarHeight = tabBarController?.tabBar.frame.height else {return}
         
-        forKeyboardBottomConstraint.constant = keyboardFrameValue.cgRectValue.height
+        let height = keyboardFrameValue.cgRectValue.height - tabBarHeight + 14
+        forKeyboardBottomConstraint.constant = height
         UIView.animate(withDuration: duration.doubleValue) {
             self.view.layoutIfNeeded()
         }
@@ -142,7 +135,7 @@ extension ChatViewController {
     @objc func keyboardWillHide(notification: Notification) {
         guard let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber else {return}
         
-        forKeyboardBottomConstraint.constant = 0
+        forKeyboardBottomConstraint.constant = 14
         UIView.animate(withDuration: duration.doubleValue) {
             self.view.layoutIfNeeded()
         }
@@ -153,15 +146,15 @@ extension ChatViewController {
 extension ChatViewController: UITextViewDelegate {
     
     private func setTextViewPlaceholder(for textView: UITextView) {
+        textView.delegate = self
         textView.text = "Введите текст"
         textView.textColor = .systemGray4
-        textView.font = UIFont(name: "System", size: 13)
+        textView.font = UIFont(name: "System", size: 15)
         
         textView.layer.borderWidth = 1
         textView.layer.borderColor = UIColor.systemGray4.cgColor
         textView.layer.cornerRadius = 5
         textView.returnKeyType = .done
-        textView.delegate = self
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -175,14 +168,21 @@ extension ChatViewController: UITextViewDelegate {
         if textView.text == "" {
             textView.text = "Введите текст"
             textView.textColor = .systemGray4
+            textViewHeightConstraint.constant = 34
         }
     }
-    
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n" {
-            textView.resignFirstResponder()
+
+    func textViewDidChange(_ textView: UITextView) {
+        let width = textView.frame.size.width,
+        height = textViewHeightConstraint.constant
+        textView.sizeThatFits(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude))
+        if height < 34 * 2.5 {
+            let newSize = textView.sizeThatFits(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude))
+            var newFrame = textView.frame
+            newFrame.size = CGSize(width: max(newSize.width, width), height: newSize.height)
+            textViewHeightConstraint.constant = newFrame.height
+            textView.frame = newFrame
         }
-        return true
     }
     
 }

@@ -16,7 +16,43 @@ class StoreStaticticViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        forViewDidLoad()
+        NetworkManager.shared.downloadArchivedOrders(time: time, success: { (receipts, additions, deletedData)  in
+            //Total Amount
+            self.forStatsByTotalAmount(additions: additions)
+            
+            //Orders total, completed, deleted
+            self.forStatsByOrders(receipts: receipts, deletedData: deletedData)
+            
+            //Customers
+            self.forStatsByCustomers(receipts: receipts)
+            
+            //for Receipts
+            NetworkManager.shared.downloadArchivedOrdersByReceipts(overThan: self.overSomePrice, lessThan: self.lessSomePrice, success: { (over, less)  in
+                self.forStatsByReceipts(receipts: receipts, over: over, less: less)
+            }) { (error) in
+                print("Error occured in fetchArchivedOrdersByReceipts",error.localizedDescription)
+            }
+            
+            //Most/Less popular product
+            self.mostPopularProductLabel.text = self.forStatsByMostPopular(additions: additions)
+            self.lessPopularProductLabel.text = self.forStatsByLessPopular(additions: additions)
+        }) { (error) in
+            print("Error occured in fetchArchivedOrders",error.localizedDescription)
+            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Данные не подтягиваются из сети"), animated: true)
+        }
+        
+        //Based on category
+        NetworkManager.shared.downloadArchivedOrdersByCategory(success: { (bouquetData, apeiceData, giftData, stockData) in
+            // - By Frequency
+            self.forStatsByCategoryFrequency(bouquetData: bouquetData, apeiceData: apeiceData, giftData: giftData, stockData: stockData)
+            
+            // - By Populariy
+            self.forStatsByPopular(bouquetData: bouquetData, apeiceData: apeiceData, giftData: giftData)
+            
+        }) { (error) in
+            print("Error occured in fetchArchivedOrdersByCategory",error.localizedDescription)
+            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Данные не подтягиваются из сети"), animated: true)
+        }
         
     }
     
@@ -169,52 +205,6 @@ class StoreStaticticViewController: UIViewController {
 
 
 //MARK: - Extensions:
-
-//MARK: - For Overrides
-private extension StoreStaticticViewController {
-    
-    //MARK: Для ViewDidLoad
-    func forViewDidLoad() {
-        NetworkManager.shared.downloadArchivedOrders(time: time, success: { (receipts, additions, deletedData)  in
-            //Total Amount
-            self.forStatsByTotalAmount(additions: additions)
-            
-            //Orders total, completed, deleted
-            self.forStatsByOrders(receipts: receipts, deletedData: deletedData)
-            
-            //Customers
-            self.forStatsByCustomers(receipts: receipts)
-            
-            //for Receipts
-            NetworkManager.shared.downloadArchivedOrdersByReceipts(overThan: self.overSomePrice, lessThan: self.lessSomePrice, success: { (over, less)  in
-                self.forStatsByReceipts(receipts: receipts, over: over, less: less)
-            }) { (error) in
-                print("Error occured in fetchArchivedOrdersByReceipts",error.localizedDescription)
-            }
-            
-            //Most/Less popular product
-            self.mostPopularProductLabel.text = self.forStatsByMostPopular(additions: additions)
-            self.lessPopularProductLabel.text = self.forStatsByLessPopular(additions: additions)
-        }) { (error) in
-            print("Error occured in fetchArchivedOrders",error.localizedDescription)
-            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Данные не подтягиваются из сети"), animated: true)
-        }
-        
-        //Based on category
-        NetworkManager.shared.downloadArchivedOrdersByCategory(success: { (bouquetData, apeiceData, giftData, stockData) in
-            // - By Frequency
-            self.forStatsByCategoryFrequency(bouquetData: bouquetData, apeiceData: apeiceData, giftData: giftData, stockData: stockData)
-            
-            // - By Populariy
-            self.forStatsByPopular(bouquetData: bouquetData, apeiceData: apeiceData, giftData: giftData)
-            
-        }) { (error) in
-            print("Error occured in fetchArchivedOrdersByCategory",error.localizedDescription)
-            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Данные не подтягиваются из сети"), animated: true)
-        }
-    }
-    
-}
 
 //MARK: - Statistics
 private extension StoreStaticticViewController{

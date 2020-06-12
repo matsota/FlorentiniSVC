@@ -10,7 +10,6 @@ import UIKit
 
 class ChatTableViewCell: UITableViewCell {
     
-    
     //MARK: View
     @IBOutlet weak var messageView: DesignView!
     
@@ -44,9 +43,7 @@ class ChatTableViewCell: UITableViewCell {
         dateLabel.text = date
         positionLabel.text = position
         
-        if name == CoreDataManager.shared.fetchEmployeeName(failure: { error in
-            print("ERROR in ChatTableViewCell with parametrs: name:\(name), time:\(date)", error.localizedDescription)
-        }) {
+        if name == CoreDataManager.shared.fetchEmployeeName() {
             contentLabel.textColor = UIColor.pinkColorOfEnterprise
             messageView.backgroundColor = UIColor.purpleColorOfEnterprise
             stackViewLeadingConstraint.constant = self.frame.width * 0.33

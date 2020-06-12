@@ -54,12 +54,12 @@ extension CoreDataManager {
             failure(error)
         }
     }
-    func fetchEmployeeName(failure: @escaping(NSError) -> Void) -> String{
+    func fetchEmployeeName() -> String{
         var name: String?
         fetchEmployeeData(success: { (data) -> (Void) in
             name = data.map({$0.name!}).first
         }) { (error) in
-            failure(error)
+//            failure(error)
         }
         return name ?? ""
     }

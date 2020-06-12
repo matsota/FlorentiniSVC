@@ -52,9 +52,9 @@ extension NetworkManager {
     }
     
     //MARK: - For PRODUCTS 
-    func uploadProductDescriptionToBackEnd(productName: String, productPrice: Int, productDescription: String, productCategory: String, stock: Bool, searchArray: [String], success: @escaping() -> Void) {
+    func uploadProductDescriptionToBackEnd(name: String, price: Int, description: String, category: String, subCategory: String, stock: Bool, searchArray: [String], success: @escaping() -> Void) {
         let ref = db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).document(),
-        dataModel = DatabaseManager.ProductInfo(productName: productName, productPrice: productPrice, productDescription: productDescription, productCategory: productCategory, stock: stock, productID: ref.documentID, searchArray: searchArray, voteCount: 0, voteAmount: 0)
+        dataModel = DatabaseManager.ProductInfo(productName: name, productPrice: price, productDescription: description, productCategory: category, productSubCategory: subCategory, stock: stock, productID: ref.documentID, searchArray: searchArray, voteCount: 0, voteAmount: 0)
         ref.setData(dataModel.dictionary)
         success()
     }
@@ -135,6 +135,16 @@ extension NetworkManager {
     }
     
     //MARK: - For PRODUCTS
+    func downloadCategoriesDict(success: @escaping(DatabaseManager.CategoriesDataStruct) -> Void, failure: @escaping(Error) -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.searchProduct.rawValue).document(NavigationCases.ProductCases.productCategory.rawValue).getDocument { (documentSnapshot, error) in
+            if let error = error {
+                failure(error)
+            }else{
+                guard let data = DatabaseManager.CategoriesDataStruct(dictionary: documentSnapshot!.data()!) else {return}
+                success(data)
+            }
+        }
+    }
     func downloadSubCategoriesDict(success: @escaping(DatabaseManager.SubCategoriesDataStruct) -> Void, failure: @escaping(Error) -> Void) {
         db.collection(NavigationCases.FirstCollectionRow.searchProduct.rawValue).document(NavigationCases.ProductCases.productSubCategory.rawValue).getDocument { (documentSnapshot, error) in
             if let error = error {

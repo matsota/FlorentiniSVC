@@ -21,7 +21,7 @@
 		8F368AC52443739100BF9EBF /* OrderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F368AC42443739100BF9EBF /* OrderListViewController.swift */; };
 		8F3B52F2244C822500D13DB6 /* Date + Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3B52F1244C822500D13DB6 /* Date + Custom.swift */; };
 		8F3B52F4244DCD4700D13DB6 /* View + IBDesignable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3B52F3244DCD4700D13DB6 /* View + IBDesignable.swift */; };
-		8F574FF2249238D80075E0F8 /* CatagoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F574FF1249238D80075E0F8 /* CatagoryListViewController.swift */; };
+		8F574FF2249238D80075E0F8 /* CategoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F574FF1249238D80075E0F8 /* CategoryListViewController.swift */; };
 		8F574FF424926FC50075E0F8 /* Array + Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F574FF324926FC50075E0F8 /* Array + Custom.swift */; };
 		8F591C0C244DF7E900F417BA /* UIColor + Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F591C0B244DF7E900F417BA /* UIColor + Custom.swift */; };
 		8F77678E2449FF8600745A22 /* EmployeeList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F77678D2449FF8600745A22 /* EmployeeList.storyboard */; };
@@ -68,7 +68,7 @@
 		8F368AC42443739100BF9EBF /* OrderListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderListViewController.swift; sourceTree = "<group>"; };
 		8F3B52F1244C822500D13DB6 /* Date + Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date + Custom.swift"; sourceTree = "<group>"; };
 		8F3B52F3244DCD4700D13DB6 /* View + IBDesignable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View + IBDesignable.swift"; sourceTree = "<group>"; };
-		8F574FF1249238D80075E0F8 /* CatagoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatagoryListViewController.swift; sourceTree = "<group>"; };
+		8F574FF1249238D80075E0F8 /* CategoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewController.swift; sourceTree = "<group>"; };
 		8F574FF324926FC50075E0F8 /* Array + Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array + Custom.swift"; sourceTree = "<group>"; };
 		8F591C0B244DF7E900F417BA /* UIColor + Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Custom.swift"; sourceTree = "<group>"; };
 		8F77678D2449FF8600745A22 /* EmployeeList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EmployeeList.storyboard; sourceTree = "<group>"; };
@@ -334,7 +334,7 @@
 		8FE0D2F4248FC3B900652499 /* CategoryList */ = {
 			isa = PBXGroup;
 			children = (
-				8F574FF1249238D80075E0F8 /* CatagoryListViewController.swift */,
+				8F574FF1249238D80075E0F8 /* CategoryListViewController.swift */,
 				8FE0D2F5248FC3CE00652499 /* CategoryList.storyboard */,
 			);
 			path = CategoryList;
@@ -501,7 +501,7 @@
 				8F3B52F2244C822500D13DB6 /* Date + Custom.swift in Sources */,
 				8F98FA2B244341DE003C8759 /* ChatViewController.swift in Sources */,
 				8F368ABD2443514800BF9EBF /* ProfileViewController.swift in Sources */,
-				8F574FF2249238D80075E0F8 /* CatagoryListViewController.swift in Sources */,
+				8F574FF2249238D80075E0F8 /* CategoryListViewController.swift in Sources */,
 				8F98FA2D244341F7003C8759 /* UIAlertController + Custom.swift in Sources */,
 				8F591C0C244DF7E900F417BA /* UIColor + Custom.swift in Sources */,
 				8F776792244A014800745A22 /* EmloyeeListTableViewCell.swift in Sources */,

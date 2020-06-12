@@ -113,6 +113,7 @@ extension DatabaseManager {
         var productPrice: Int
         var productDescription: String
         var productCategory: String
+        var productSubCategory: String
         var stock: Bool
         var productID: String
         var searchArray: [String]
@@ -125,6 +126,7 @@ extension DatabaseManager {
                 NavigationCases.ProductCases.productPrice.rawValue: productPrice,
                 NavigationCases.ProductCases.productDescription.rawValue: productDescription,
                 NavigationCases.ProductCases.productCategory.rawValue: productCategory,
+                NavigationCases.ProductCases.productSubCategory.rawValue: productSubCategory,
                 NavigationCases.ProductCases.stock.rawValue: stock,
                 NavigationCases.ProductCases.productID.rawValue: productID,
                 NavigationCases.ProductCases.searchArray.rawValue: searchArray,
@@ -142,12 +144,13 @@ extension DatabaseManager.ProductInfo: DocumentSerializable {
             let productPrice = dictionary[NavigationCases.ProductCases.productPrice.rawValue] as? Int,
             let productDescription = dictionary[NavigationCases.ProductCases.productDescription.rawValue] as? String,
             let productCategory = dictionary[NavigationCases.ProductCases.productCategory.rawValue] as? String,
+            let productSubCategory = dictionary[NavigationCases.ProductCases.productSubCategory.rawValue] as? String,
             let stock = dictionary[NavigationCases.ProductCases.stock.rawValue] as? Bool,
             let productID = dictionary[NavigationCases.ProductCases.productID.rawValue] as? String,
             let searchArray = dictionary[NavigationCases.ProductCases.searchArray.rawValue] as? [String],
             let voteCount = dictionary[NavigationCases.ProductCases.voteCount.rawValue] as? Int,
             let voteAmount = dictionary[NavigationCases.ProductCases.voteAmount.rawValue] as? Int else {return nil}
-        self.init(productName: productName, productPrice: productPrice, productDescription: productDescription, productCategory: productCategory, stock: stock, productID: productID, searchArray: searchArray, voteCount: voteCount, voteAmount: voteAmount)
+        self.init(productName: productName, productPrice: productPrice, productDescription: productDescription, productCategory: productCategory, productSubCategory: productSubCategory, stock: stock, productID: productID, searchArray: searchArray, voteCount: voteCount, voteAmount: voteAmount)
     }
     
 }
@@ -177,6 +180,28 @@ extension DatabaseManager.SubCategoriesDataStruct: DocumentSerializable {
             let flower = dictionary[NavigationCases.ProductCategoriesCases.flower.rawValue] as? [String],
             let gift = dictionary[NavigationCases.ProductCategoriesCases.gift.rawValue] as? [String] else {return nil}
         self.init(bouquet: bouquet, flower: flower, gift: gift)
+    }
+    
+}
+extension DatabaseManager {
+    
+    struct CategoriesDataStruct {
+        var allCategories: [String]
+        
+        
+        var dictionary: [String: Any]{
+            return [
+                NavigationCases.ProductCategoriesCases.allCategories.rawValue: allCategories
+            ]
+        }
+    }
+    
+}
+extension DatabaseManager.CategoriesDataStruct: DocumentSerializable {
+    
+    init?(dictionary: [String: Any]) {
+        guard let allCategories = dictionary[NavigationCases.ProductCategoriesCases.allCategories.rawValue] as? [String] else {return nil}
+        self.init(allCategories: allCategories)
     }
     
 }

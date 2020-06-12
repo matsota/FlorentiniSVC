@@ -10,7 +10,13 @@ import UIKit
 
 //MARK: - Hide Keyboard
 extension UIViewController {
+    //MARK: Connection lost
+    func alertAboutConnectionLost(method name: String, error: Error) {
+        self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Скорее всего произошла потеря соединения"), animated: true)
+        print("ERROR: \(self): \(name) ", error.localizedDescription)
+    }
     
+    //MARK: Keyboard
     @objc func hideKeyboardWhenTappedAround() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         tap.cancelsTouchesInView = false

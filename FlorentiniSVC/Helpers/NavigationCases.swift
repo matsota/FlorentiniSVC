@@ -109,7 +109,7 @@ class NavigationCases {
     //MARK: - For Categories
     enum CategorySwitch: String, CaseIterable{
         
-        case none = "Без Категории"
+        case none = "Выберите категорию"
         case apiece = "Поштучно"
         case gift = "Подарки"
         case bouquet = "Букеты"
@@ -173,6 +173,7 @@ class NavigationCases {
     //MARK: - About Categories
     enum ProductCategoriesCases: String, CaseIterable {
         
+        case allCategories = "Все категории"
         case flower = "Цветы"
         case gift = "Подарки"
         case bouquet = "Букеты"

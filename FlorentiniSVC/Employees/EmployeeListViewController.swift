@@ -14,7 +14,28 @@ class EmployeeListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        forViewDidload()
+        NetworkManager.shared.downloadEmployeeData(success: { (data) in
+                    self.employeeData = data
+                    self.tableView.reloadData()
+                }) { (error) in
+                    print("ERROR: EmployeeListViewController/viewDidLoad/fetchEmployeeData: ", error.localizedDescription)
+                    self.present(UIAlertController.alertAppearanceForTwoSec(title: "", message: ""), animated: true)
+                }
+                
+                position = CoreDataManager.shared.fetchEmployeePosition()
+        //            { (error) in
+        //            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Ошибка Аутентификации"), animated: true)
+        //        }
+                
+                if position != NavigationCases.EmployeeCases.admin.rawValue {
+                    employeeCreationButton.isHidden = true
+                }
+                
+                searchController.searchResultsUpdater = self
+                searchController.obscuresBackgroundDuringPresentation = false
+                searchController.searchBar.placeholder = "Введите имя сотрудника"
+                navigationItem.searchController = searchController
+                definesPresentationContext = true
         
     }
     
@@ -189,36 +210,6 @@ extension EmployeeListViewController: EmloyeeListTableViewCellDelegate {
 }
 
 //MARK: - Private extentions
-
-private extension EmployeeListViewController {
-    
-    func forViewDidload() {
-        NetworkManager.shared.downloadEmployeeData(success: { (data) in
-            self.employeeData = data
-            self.tableView.reloadData()
-        }) { (error) in
-            print("ERROR: EmployeeListViewController/viewDidLoad/fetchEmployeeData: ", error.localizedDescription)
-            self.present(UIAlertController.alertAppearanceForTwoSec(title: "", message: ""), animated: true)
-        }
-        
-        position = CoreDataManager.shared.fetchEmployeePosition()
-//            { (error) in
-//            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Ошибка Аутентификации"), animated: true)
-//        }
-        
-        if position != NavigationCases.EmployeeCases.admin.rawValue {
-            employeeCreationButton.isHidden = true
-        }
-        
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Введите имя сотрудника"
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
-    }
-    
-}
-
 private extension EmployeeListViewController {
     
     func positionConfirmMethod(_ sender: DesignButton) {
