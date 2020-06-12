@@ -20,26 +20,6 @@ class StoreStaticticViewController: UIViewController {
         
     }
     
-    //MARK: - Transition menu tapped
-    @IBAction func transitionMenuTapped(_ sender: UIButton) {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissedBy: transitionDismissButton)
-    }
-    
-    //MARK: - Transition confirm
-    @IBAction func transitionConfirm(_ sender: UIButton) {
-        guard let title = sender.currentTitle,
-               let view = transitionView,
-               let constraint = transitionViewLeftConstraint,
-               let button = transitionDismissButton else {return}
-               
-        transitionPerform(by: title, for: view, with: constraint, dismiss: button)
-    }
-    
-    //MARK: - Transition dismiss
-    @IBAction func transitionDismiss(_ sender: UIButton) {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissedBy: transitionDismissButton)
-    }
-    
     //MARK: - Quantity of receipt for regular customer. Default = 5
     @IBAction private func regularCusmotersTapped(_ sender: UIButton) {
         self.present(UIAlertController.setNewInteger(message:"Введите минимальное число чеков для Постоянного покупателя", confirm: { (number) in

@@ -135,12 +135,12 @@ extension NetworkManager {
     }
     
     //MARK: - For PRODUCTS
-    func downloadDictForFilteringTableView(success: @escaping(DatabaseManager.CategoryDescription) -> Void, failure: @escaping(Error) -> Void) {
-        db.collection(NavigationCases.FirstCollectionRow.searchProduct.rawValue).document(NavigationCases.ProductCases.mainDictionaries.rawValue).getDocument { (documentSnapshot, error) in
+    func downloadSubCategoriesDict(success: @escaping(DatabaseManager.SubCategoriesDataStruct) -> Void, failure: @escaping(Error) -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.searchProduct.rawValue).document(NavigationCases.ProductCases.productSubCategory.rawValue).getDocument { (documentSnapshot, error) in
             if let error = error {
                 failure(error)
             }else{
-                guard let data = DatabaseManager.CategoryDescription(dictionary: documentSnapshot!.data()!) else {return}
+                guard let data = DatabaseManager.SubCategoriesDataStruct(dictionary: documentSnapshot!.data()!) else {return}
                 success(data)
             }
         }
@@ -318,7 +318,7 @@ extension NetworkManager {
     }
     
     //MARK: - For PRODUCTS
-    func increaseDecreaseAllPricesByCategory(for category: String, by price: Int, success: @escaping() -> Void, failure: @escaping(Error) -> Void) {
+    func updateAllPricesByCategory(for category: String, by price: Int, success: @escaping() -> Void, failure: @escaping(Error) -> Void) {
         let path = db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).whereField(NavigationCases.ProductCases.productCategory.rawValue, isEqualTo: category)
         path.getDocuments { (querySnapshot, error) in
             if let error = error {
@@ -336,17 +336,23 @@ extension NetworkManager {
             }
         }
     }
-    func editPriceOfCertainProduct(name: String, newPrice: Int) {
+    func updatePriceOfCertainProduct(name: String, newPrice: Int) {
         let path = db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).document(name)
         path.updateData([NavigationCases.ProductCases.productPrice.rawValue : newPrice])
     }
-    func editStockCondition(name: String, stock: Bool) {
+    func updateStockCondition(name: String, stock: Bool) {
         let path = db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).document(name)
         path.updateData([NavigationCases.ProductCases.stock.rawValue : stock])
     }
-    func editDeliveryPerson(orderID: String, deliveryPerson: String) {
+    func updateDeliveryPerson(orderID: String, deliveryPerson: String) {
         let path = db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderID)
         path.updateData([NavigationCases.OrderCases.deliveryPerson.rawValue : deliveryPerson])
+    }
+    func updateSubCategory(category: String, subCategory: [String]) {
+        let ref = db.collection(NavigationCases.FirstCollectionRow.searchProduct.rawValue).document(NavigationCases.ProductCases.productSubCategory.rawValue)
+        
+        ref.updateData([category : subCategory], completion: nil)
+        
     }
     
     //MARK: - For EMPLOYEE & EMPLOYER

@@ -14,7 +14,25 @@ class OrderListViewController: UIViewController {
     //MARK: - Override
     override func viewDidLoad() {
         super.viewDidLoad()
-        forViewDidLoad()
+        // - network
+        NetworkManager.shared.downloadOrders(success: { (orders) in
+            self.order = orders
+            self.orderCount = orders.count
+            self.navigationController?.navigationBar.topItem?.title = "Заказы: \(self.orderCount)"
+            self.tableView.reloadData()
+            
+        }) { error in
+            self.present(UIAlertController.classic(title: "Attention", message: error.localizedDescription), animated: true)
+        }
+        NetworkManager.shared.orderListener { newOrder in
+            self.order.insert(newOrder, at: 0)
+            self.orderCount += 1
+            self.navigationController?.navigationBar.topItem?.title = "Заказы: \(self.orderCount)"
+            self.tableView.reloadData()
+        }
+        
+        // - coredata
+        self.employeePosition = CoreDataManager.shared.fetchEmployeePosition()
     }
     
     //MARK: - Prepare for Order Detail
@@ -33,9 +51,6 @@ class OrderListViewController: UIViewController {
     //MARK: TableView
     @IBOutlet private weak var tableView: UITableView!
     
-    //MARK: Label
-    @IBOutlet private weak var ordersCountLabel: UILabel!
-    
 }
 
 
@@ -48,37 +63,7 @@ class OrderListViewController: UIViewController {
 
 //MARK: - Extension:
 
-//MARK: - For Overrides
-private extension OrderListViewController {
-    
-    //MARK: for ViewDidLoad
-    func forViewDidLoad() {
-        
-        NetworkManager.shared.downloadOrders(success: { (orders) in
-            self.order = orders
-            self.orderCount = orders.count
-            self.ordersCountLabel.text = "Orders: \(self.orderCount)"
-            self.tableView.reloadData()
-            
-        }) { error in
-            self.present(UIAlertController.classic(title: "Attention", message: error.localizedDescription), animated: true)
-        }
-        
-        NetworkManager.shared.orderListener { newOrder in
-            self.order.insert(newOrder, at: 0)
-            self.orderCount += 1
-            self.tableView.reloadData()
-        }
-        
-        self.employeePosition = CoreDataManager.shared.fetchEmployeePosition(failure: { _ in
-            self.transitionToExit(title: "Внимание", message: "Ошибка Аунтификации. Перезагрузите приложение")
-        })
-    }
-    
-}
-
-
-//MARK: - by TableView
+//MARK: - TableView
 extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -192,12 +177,12 @@ extension OrderListViewController: OrdersListTableViewCellDelegate {
     func deliveryPerson(_ cell: OrderListTableViewCell) {
         if employeePosition == NavigationCases.EmployeeCases.admin.rawValue || employeePosition == NavigationCases.EmployeeCases.operator.rawValue {
             
-            self.present(UIAlertController.setNewString(message: "Введите Имя человека, который будет доставлять этот заказ", confirm: { (deliveryPerson) in
+            self.present(UIAlertController.setNewString(message: "Введите Имя человека, который будет доставлять этот заказ", placeholder: "Введите Имя курьера", confirm: { (deliveryPerson) in
                 guard let id = cell.orderID else {
                     self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Ссылка не найдена"), animated: true)
                     return
                 }
-                NetworkManager.shared.editDeliveryPerson(orderID: id, deliveryPerson: deliveryPerson)
+                NetworkManager.shared.updateDeliveryPerson(orderID: id, deliveryPerson: deliveryPerson)
                 cell.deliveryPersonButton.setTitle(deliveryPerson, for: .normal)
             }), animated:  true)
             self.tableView.reloadData()

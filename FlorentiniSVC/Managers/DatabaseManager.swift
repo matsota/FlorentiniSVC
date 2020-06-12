@@ -155,7 +155,7 @@ extension DatabaseManager.ProductInfo: DocumentSerializable {
 //MARK: - For CATEGORIES
 extension DatabaseManager {
     
-    struct CategoryDescription {
+    struct SubCategoriesDataStruct {
         var bouquet: [String]
         var flower: [String]
         var gift: [String]
@@ -170,7 +170,7 @@ extension DatabaseManager {
     }
     
 }
-extension DatabaseManager.CategoryDescription: DocumentSerializable {
+extension DatabaseManager.SubCategoriesDataStruct: DocumentSerializable {
     
     init?(dictionary: [String: Any]) {
         guard let bouquet = dictionary[NavigationCases.ProductCategoriesCases.bouquet.rawValue] as? [String],

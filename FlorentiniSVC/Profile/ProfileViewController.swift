@@ -17,7 +17,29 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        forViewDidLoad()
+        self.navigationController?.navigationBar.topItem?.title = "Профиль"
+        
+        CoreDataManager.shared.fetchEmployeeData(success: { (data) -> (Void) in
+            guard let name = data.map({$0.name}).first,
+            let email = data.map({$0.email}).first,
+            let position = data.map({$0.position}).first,
+            let uid = data.map({$0.uid}).first else {
+                print("ERROR: Profile/CoreDataManager.shared.fetchEmployeeData/guard_let_else")
+                self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Ошибка Аунтификации. Выйдите и перезагрузите приложение"), animated: true)
+                return
+            }
+            if position == NavigationCases.EmployeeCases.admin.rawValue && uid == AuthenticationManager.shared.uidAdmin {
+                self.adminButtons.forEach { (button) in
+                    button.isHidden = false
+                }
+            }
+            self.nameLabel.text = name
+            self.emailLabel.text = email
+            self.positionLabel.text = position
+        }) { (error) in
+            print("ERROR: Profile/CoreDataManager.shared.fetchEmployeeData: ", error.localizedDescription)
+            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Ошибка Аунтификации. Выйдите и перезагрузите приложение"), animated: true)
+        }
         
     }
     
@@ -65,39 +87,6 @@ class ProfileViewController: UIViewController {
 
 
 //MARK: - Extention:
-
-//MARK: - For Overrides
-private extension ProfileViewController {
-    
-    //MARK: Для ViewDidLoad
-    func forViewDidLoad() {
-        
-        CoreDataManager.shared.fetchEmployeeData(success: { (data) -> (Void) in
-            guard let name = data.map({$0.name}).first,
-            let email = data.map({$0.email}).first,
-            let position = data.map({$0.position}).first,
-            let uid = data.map({$0.uid}).first else {
-                print("ERROR: Profile/CoreDataManager.shared.fetchEmployeeData/guard_let_else")
-                self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Ошибка Аунтификации. Выйдите и перезагрузите приложение"), animated: true)
-                return
-            }
-            if position == NavigationCases.EmployeeCases.admin.rawValue && uid == AuthenticationManager.shared.uidAdmin {
-                self.adminButtons.forEach { (button) in
-                    button.isHidden = false
-                }
-            }
-            self.nameLabel.text = name
-            self.emailLabel.text = email
-            self.positionLabel.text = position
-        }) { (error) in
-            print("ERROR: Profile/CoreDataManager.shared.fetchEmployeeData: ", error.localizedDescription)
-            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Ошибка Аунтификации. Выйдите и перезагрузите приложение"), animated: true)
-        }
-    }
-    
-}
-
-//MARK: -
 
 //MARK: - Change Password
 private extension ProfileViewController{

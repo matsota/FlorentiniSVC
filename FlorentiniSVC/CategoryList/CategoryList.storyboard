@@ -7,10 +7,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Catagory List View Controller-->
         <scene sceneID="l3g-ph-0Kx">
             <objects>
-                <viewController id="Gxl-MZ-Ubf" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CatagoryListVC" id="Gxl-MZ-Ubf" customClass="CatagoryListViewController" customModule="FlorentiniSVC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="vsX-rQ-Ntm">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -24,20 +24,36 @@
                                 <state key="normal" title="Добавить Новую категорию">
                                     <color key="titleColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
+                                <connections>
+                                    <action selector="addSubCategoryTapped:" destination="Gxl-MZ-Ubf" eventType="touchUpInside" id="nqF-tg-pv4"/>
+                                </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="IdZ-50-Exy">
                                 <rect key="frame" x="14" y="106" width="386" height="742"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CategoryListTVCell" id="5jU-VE-1xl">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CategoryListTVCell" textLabel="Oqw-DT-qfW" style="IBUITableViewCellStyleDefault" id="5jU-VE-1xl">
                                         <rect key="frame" x="0.0" y="28" width="386" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5jU-VE-1xl" id="tq0-Wx-nAV">
                                             <rect key="frame" x="0.0" y="0.0" width="386" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Oqw-DT-qfW">
+                                                    <rect key="frame" x="20" y="0.0" width="346" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Gxl-MZ-Ubf" id="qfy-zj-B6Z"/>
+                                    <outlet property="delegate" destination="Gxl-MZ-Ubf" id="LtI-v8-eFn"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -52,6 +68,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Epd-N7-y6W"/>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="IdZ-50-Exy" id="Rf0-Tf-uaH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z3i-Ov-oGs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

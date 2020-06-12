@@ -103,9 +103,6 @@ class NavigationCases {
         case searchArray
         case voteCount
         case voteAmount
-        
-        // - categories for search product
-        case mainDictionaries
 
     }
     

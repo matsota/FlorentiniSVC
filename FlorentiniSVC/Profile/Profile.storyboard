@@ -109,7 +109,7 @@
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                         <connections>
-                                                            <segue destination="p8c-ia-6pi" kind="show" id="rVq-XI-4O0"/>
+                                                            <segue destination="p8c-ia-6pi" kind="show" identifier="profile_Statistics" id="rVq-XI-4O0"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LnV-1k-yBh" customClass="DesignButton" customModule="FlorentiniSVC" customModuleProvider="target">
@@ -123,6 +123,9 @@
                                                                 <real key="value" value="5"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <segue destination="eK3-Tc-EfV" kind="show" identifier="profile_ CategoryList" id="dbs-kf-Uj9"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ws4-UA-zYc" customClass="DesignButton" customModule="FlorentiniSVC" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="82" width="243" height="34"/>
@@ -322,12 +325,12 @@
         <!--ProductCustomize-->
         <scene sceneID="TIe-tE-5J0">
             <objects>
-                <viewControllerPlaceholder storyboardName="ProductCustomize" id="mSV-tC-abE" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardIdentifier="profile_ProductCustomize" storyboardName="ProductCustomize" id="mSV-tC-abE" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="wrB-KX-E4m"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lfJ-B3-Fze" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1546" y="4549"/>
+            <point key="canvasLocation" x="1582" y="4552"/>
         </scene>
         <!--StoreStatistics-->
         <scene sceneID="JIY-ec-OaI">
@@ -337,27 +340,37 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wy5-fW-CUL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1158" y="4549"/>
+            <point key="canvasLocation" x="1062" y="4552"/>
         </scene>
         <!--FAQ-->
         <scene sceneID="OxJ-Jq-RVw">
             <objects>
-                <viewControllerPlaceholder storyboardName="FAQ" id="S2o-b9-bC7" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardIdentifier="profile_FAQ" storyboardName="FAQ" id="S2o-b9-bC7" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="g7f-9j-uf2"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7cK-bU-NM7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1460" y="4490"/>
+            <point key="canvasLocation" x="1487" y="4518"/>
         </scene>
-        <!--Employees-->
+        <!--EmployeeList-->
         <scene sceneID="au4-lD-op1">
             <objects>
-                <viewControllerPlaceholder storyboardName="Employees" id="ZB5-jW-Wzn" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardIdentifier="profile_ EmployeeList" storyboardName="EmployeeList" id="ZB5-jW-Wzn" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="iC1-Sj-bny"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ff2-Pr-7Cp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1261" y="4490"/>
+            <point key="canvasLocation" x="1361" y="4480"/>
+        </scene>
+        <!--CategoryList-->
+        <scene sceneID="8Ef-bu-nu2">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="profile_CategoryList" storyboardName="CategoryList" id="eK3-Tc-EfV" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="ZdG-gx-PNv"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Wq9-4j-Otu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1207" y="4518"/>
         </scene>
     </scenes>
     <resources>

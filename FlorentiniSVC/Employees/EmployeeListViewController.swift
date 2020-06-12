@@ -133,10 +133,11 @@ extension EmployeeListViewController: UITableViewDelegate, UITableViewDataSource
     
     // - Delete action
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let uid = CoreDataManager.shared.fetchEmployeeUID { (error) in
-            print("ERROR: EmployeeListViewController/TableView/trailingSwipeActionsConfigurationForRowAt: ",error.localizedDescription)
-            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Произошла ошибка"), animated: true)
-        }
+        let uid = CoreDataManager.shared.fetchEmployeeUID()
+//        { (error) in
+//            print("ERROR: EmployeeListViewController/TableView/trailingSwipeActionsConfigurationForRowAt: ",error.localizedDescription)
+//            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Произошла ошибка"), animated: true)
+//        }
         if uid == AuthenticationManager.shared.uidAdmin {
             let delete = deleteAction(at: indexPath)
             return UISwipeActionsConfiguration(actions: [delete])
@@ -200,9 +201,10 @@ private extension EmployeeListViewController {
             self.present(UIAlertController.alertAppearanceForTwoSec(title: "", message: ""), animated: true)
         }
         
-        position = CoreDataManager.shared.fetchEmployeePosition { (error) in
-            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Ошибка Аутентификации"), animated: true)
-        }
+        position = CoreDataManager.shared.fetchEmployeePosition()
+//            { (error) in
+//            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Ошибка Аутентификации"), animated: true)
+//        }
         
         if position != NavigationCases.EmployeeCases.admin.rawValue {
             employeeCreationButton.isHidden = true

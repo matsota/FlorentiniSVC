@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct filterTVStruct {
+struct CatalogListForTViewStruct {
     var opened = Bool()
     var title = String()
     var sectionData = [String]()
@@ -30,10 +30,10 @@ class CatalogListViewController: UIViewController {
             self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Скорее всего произошла потеря соединения"), animated: true)
             print("ERROR: CatalogViewController: viewDidLoad: downloadProductInfo ", error.localizedDescription)
         }
-        NetworkManager.shared.downloadDictForFilteringTableView(success: { (data) in
-            self.filterData = [filterTVStruct(opened: false, title: NavigationCases.ProductCategoriesCases.flower.rawValue, sectionData: data.flower),
-                               filterTVStruct(opened: false, title: NavigationCases.ProductCategoriesCases.bouquet.rawValue, sectionData: data.bouquet),
-                               filterTVStruct(opened: false, title: NavigationCases.ProductCategoriesCases.gift.rawValue, sectionData: data.gift)]
+        NetworkManager.shared.downloadSubCategoriesDict(success: { (data) in
+            self.filterData = [CatalogListForTViewStruct(opened: false, title: NavigationCases.ProductCategoriesCases.flower.rawValue, sectionData: data.flower),
+                               CatalogListForTViewStruct(opened: false, title: NavigationCases.ProductCategoriesCases.bouquet.rawValue, sectionData: data.bouquet),
+                               CatalogListForTViewStruct(opened: false, title: NavigationCases.ProductCategoriesCases.gift.rawValue, sectionData: data.gift)]
             self.filterTableView.reloadData()
         }) { (error) in
             self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Скорее всего произошла потеря соединения"), animated: true)
@@ -41,9 +41,7 @@ class CatalogListViewController: UIViewController {
         }
         
         // - Core data
-        employeePosition = CoreDataManager.shared.fetchEmployeePosition(failure: { (_) in
-            self.transitionToExit(title: "Внимание", message: "Ошибка Аунтификации. Перезагрузите приложение")
-        })
+        employeePosition = CoreDataManager.shared.fetchEmployeePosition()
         if employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
             plusMinusStackView.isHidden = false
         }
@@ -52,7 +50,6 @@ class CatalogListViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardDidShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         hideKeyboardWhenTappedAround()
-        
         
     }
     
@@ -73,7 +70,7 @@ class CatalogListViewController: UIViewController {
     private var productInfo: [DatabaseManager.ProductInfo]?
     private var filteredProductInfoBySearchBar: [DatabaseManager.ProductInfo]?
     private var searchActivity = false
-    private var filterData = [filterTVStruct]()
+    private var filterData = [CatalogListForTViewStruct]()
     private var employeePosition: String?
     private var selectedCategory: String?
     private var selectedSubCategory: String?
@@ -292,9 +289,10 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource 
         let action = UIContextualAction(style: .destructive, title: "Удалить") { (action, view, complition) in
             guard let fetch = self.productInfo?[indexPath.row] else {return}
             let name = fetch.productName,
-            uid = CoreDataManager.shared.fetchEmployeeUID { (error) in
-                self.present(UIAlertController.alertAppearanceForTwoSec(title: "Эттеншн!", message: error.localizedDescription), animated: true)
-            }
+            uid = CoreDataManager.shared.fetchEmployeeUID()
+//                { (error) in
+//                self.present(UIAlertController.alertAppearanceForTwoSec(title: "Эттеншн!", message: error.localizedDescription), animated: true)
+//            }
             
             if uid == AuthenticationManager.shared.uidAdmin {
                 self.present(UIAlertController.confirmAnyStyleActionSheet(message: "Подтвердите, что вы хотите удалить продукт под названием '\(name)'", confirm: {
@@ -325,7 +323,7 @@ extension CatalogListViewController: CatalogListTableViewCellDelegate {
             cell.productPriceButton.isUserInteractionEnabled = true
             
             self.present(UIAlertController.setNewInteger(message: "Введите новую цену для этого продукта"){ newNumber in
-                NetworkManager.shared.editPriceOfCertainProduct(name: name, newPrice: newNumber)
+                NetworkManager.shared.updatePriceOfCertainProduct(name: name, newPrice: newNumber)
                 cell.productPriceButton.setTitle("\(newNumber) грн", for: .normal)
             },animated: true)
         }else{
@@ -340,7 +338,7 @@ extension CatalogListViewController: CatalogListTableViewCellDelegate {
         
         if cell.stockSwitch.isOn == true {
             self.present(UIAlertController.confirmAnyStyleAlert(message: "Подтвердите изменение наличия АКЦИИ", confirm: {
-                NetworkManager.shared.editStockCondition(name: name, stock: true)
+                NetworkManager.shared.updateStockCondition(name: name, stock: true)
                 text.text = "Акционный товар"
                 text.textColor = .red
                 self.productInfo?.remove(at: cell.tag)
@@ -350,7 +348,7 @@ extension CatalogListViewController: CatalogListTableViewCellDelegate {
             }), animated: true)
         }else{
             self.present(UIAlertController.confirmAnyStyleAlert(message: "Подтвердите изменение наличия АКЦИИ", confirm: {
-                NetworkManager.shared.editStockCondition(name: name, stock: false)
+                NetworkManager.shared.updateStockCondition(name: name, stock: false)
                 text.text = "Акция отсутствует"
                 text.textColor = .black
                 
@@ -378,7 +376,7 @@ private extension CatalogListViewController {
         switch cases {
         case .minus:
             self.present(UIAlertController.setNewInteger(message: "Введите сумму, которую вы хотите ОТНЯТЬ от всех товаров в данной категории", confirm: { (x) in
-                NetworkManager.shared.increaseDecreaseAllPricesByCategory(for: category, by: -x, success: {
+                NetworkManager.shared.updateAllPricesByCategory(for: category, by: -x, success: {
                     self.present(UIAlertController.alertAppearanceForTwoSec(title: "Готово!", message: "Стоимости изменены"), animated: true)
                 }) { (error) in
                     self.present(UIAlertController.alertAppearanceForTwoSec(title: "ERROR", message: error.localizedDescription), animated: true)
@@ -386,7 +384,7 @@ private extension CatalogListViewController {
             }), animated: true)
         case .plus:
             self.present(UIAlertController.setNewInteger(message: "Введите сумму, которую вы хотите ДОБАВИТЬ ко всем товарам в данной категории", confirm: { (x) in
-                NetworkManager.shared.increaseDecreaseAllPricesByCategory(for: category, by: x, success: {
+                NetworkManager.shared.updateAllPricesByCategory(for: category, by: x, success: {
                     self.present(UIAlertController.alertAppearanceForHalfSec(title: "Готово!", message: "Стоимости изменены"), animated: true)
                 }) { (error) in
                     self.present(UIAlertController.alertAppearanceForHalfSec(title: "ERROR", message: error.localizedDescription), animated: true)

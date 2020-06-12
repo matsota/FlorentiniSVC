@@ -20,28 +20,6 @@ class ChatViewController: UIViewController {
         
     }
     
-    //MARK: - Transition Menu Tapped
-    @IBAction private func transitionMenuTapped(_ sender: UIButton) {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissedBy: transitionDismissButton)
-    }
-    
-    
-    
-    //MARK: - Transition confirm
-    @IBAction func transitionConfirm(_ sender: UIButton) {
-        guard let title = sender.currentTitle,
-            let view = transitionView,
-            let constraint = transitionViewLeftConstraint,
-            let button = transitionDismissButton else {return}
-        
-        transitionPerform(by: title, for: view, with: constraint, dismiss: button)
-    }
-    
-    //MARK: - Transition dismiss
-    @IBAction private func transitionDismissTapped(_ sender: UIButton) {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissedBy: transitionDismissButton)
-    }
-    
     //MARK: - New Message
     @IBAction private func typeMessage(_ sender: UIButton) {
         guard name != "" else {
@@ -70,18 +48,10 @@ class ChatViewController: UIViewController {
     //MARK: TableView Outlet
     @IBOutlet private weak var tableView: UITableView!
     
-    //MARK: View
-    @IBOutlet private weak var transitionView: UIView!
-    
     //MARK: Text View
     @IBOutlet private weak var chatTextView: UITextView!
     
-    
-    //MARK: Button
-    @IBOutlet private weak var transitionDismissButton: UIButton!
-    
     //MARK: Constraint
-    @IBOutlet private weak var transitionViewLeftConstraint: NSLayoutConstraint!
     @IBOutlet private weak var forKeyboardBottomConstraint: NSLayoutConstraint!
     
 }
@@ -125,9 +95,7 @@ private extension ChatViewController {
         self.name = CoreDataManager.shared.fetchEmployeeName(failure: { (_) in
             
         })
-        self.position = CoreDataManager.shared.fetchEmployeePosition(failure: { (_) in
-            
-        })
+        self.position = CoreDataManager.shared.fetchEmployeePosition()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         hideKeyboardWhenTappedAround()

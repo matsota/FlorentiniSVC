@@ -77,11 +77,13 @@ extension UIAlertController {
     }
     
     //MARK: - PENETRATION
-    static func setNewString(message: String, confirm: @escaping(String) -> Void) -> (UIAlertController) {
+    static func setNewString(message: String, placeholder: String, confirm: @escaping(String) -> Void) -> (UIAlertController) {
         let alert = UIAlertController(title: "Внимание", message: message, preferredStyle: .alert)
             
         alert.addTextField { (text:UITextField) in
-            text.placeholder = "Введите строку"
+            text.placeholder = placeholder
+            text.keyboardAppearance = .dark
+            text.keyboardType = .default
         }
         
         alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
@@ -103,6 +105,25 @@ extension UIAlertController {
         alert.addAction(UIAlertAction(title: "Отправить", style: .default, handler: { (action: UIAlertAction) in
             guard let newInteger = Int((alert.textFields?.first?.text)!)  else {return}
             confirm(newInteger)
+        }))
+        return alert
+    }
+    static func addSubCategory(message: String, confirm: @escaping(String) -> Void) -> (UIAlertController) {
+        let alert = UIAlertController(title: "Внимание", message: "Выберите Категорию", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
+        
+        alert.addAction(UIAlertAction(title: "Добавить к Цветам", style: .default, handler: { (action: UIAlertAction) in
+            let string = NavigationCases.ProductCategoriesCases.flower.rawValue
+            confirm (string)
+        }))
+        alert.addAction(UIAlertAction(title: "Добавить к Подаркам", style: .default, handler: { (action: UIAlertAction) in
+            let string = NavigationCases.ProductCategoriesCases.gift.rawValue
+            confirm (string)
+        }))
+        alert.addAction(UIAlertAction(title: "Добавить к Букетам", style: .default, handler: { (action: UIAlertAction) in
+            let string = NavigationCases.ProductCategoriesCases.bouquet.rawValue
+            confirm (string)
         }))
         return alert
     }

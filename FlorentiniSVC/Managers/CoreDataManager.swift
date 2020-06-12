@@ -63,12 +63,13 @@ extension CoreDataManager {
         }
         return name ?? ""
     }
-    func fetchEmployeePosition(failure: @escaping(NSError) -> Void) -> String{
+    func fetchEmployeePosition() -> String{
+        //failure: @escaping(NSError) -> Void
         var position: String?
         fetchEmployeeData(success: { (data) -> (Void) in
             position = data.map({$0.position!}).first
         }) { (error) in
-            failure(error)
+//            failure(error)
         }
         return position ?? ""
     }
@@ -82,12 +83,13 @@ extension CoreDataManager {
         }
         return email ?? ""
     }
-    func fetchEmployeeUID(failure: @escaping(NSError) -> Void) -> String{
+    func fetchEmployeeUID() -> String{
+        //failure: @escaping(NSError) -> Void
         var uid: String?
         fetchEmployeeData(success: { (data) -> (Void) in
             uid = data.map({$0.uid!}).first
         }) { (error) in
-            failure(error)
+//            failure(error)
         }
         return uid ?? ""
     }

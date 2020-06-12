@@ -15,29 +15,14 @@ class ProductCustomizeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        forViewDidLoad()
+        imageActivityIndicator.isHidden = true
         
-    }
-    
-    //MARK: - Transition menu tapped
-    @IBAction func transitionMenuTapped(_ sender: UIButton) {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissedBy: transitionDismissButton)
-    }
-    
-    
-    //MARK: - Transition confirm
-    @IBAction func transitionConfirm(_ sender: UIButton) {
-        guard let title = sender.currentTitle,
-               let view = transitionView,
-               let constraint = transitionViewLeftConstraint,
-               let button = transitionDismissButton else {return}
-               
-        transitionPerform(by: title, for: view, with: constraint, dismiss: button)
-    }
-    
-    //MARK: - Transition dismiss
-    @IBAction func transitionDismiss(_ sender: UIButton) {
-        slideInTransitionMenu(for: transitionView, constraint: transitionViewLeftConstraint, dismissedBy: transitionDismissButton)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        hideKeyboardWhenTappedAround()
+        
+        setTextViewPlaceholder()
+        
     }
     
     //MARK: - Download image by URL
@@ -47,7 +32,7 @@ class ProductCustomizeViewController: UIViewController {
     
     //MARK: - Download from gallery
     @IBAction func galleryTapped(_ sender: UIButton) {
-        downLoadPhoto()
+        downLoadPhotoFromLibrary()
     }
     
     //MARK: - Download by picture shot
@@ -72,25 +57,19 @@ class ProductCustomizeViewController: UIViewController {
     }
     
     //MARK: - Private Implementation
-    private let cases = NavigationCases.CategorySwitch.allCases.map{$0.rawValue}
-    private var selectedCategory = NavigationCases.CategorySwitch.none.rawValue
-    private let storage = Storage.storage()
-    private let storageRef = Storage.storage().reference()
-    private let alert = UIAlertController()
-    private var givenUrl: URL?
-    private var stock = false
+    private let categories = NavigationCases.CategorySwitch.allCases.map{$0.rawValue}
+    
+    private var selectedCategory = NavigationCases.CategorySwitch.none.rawValue,
+    subCategories: [String]?,
+    selectedsubCategories: String?,
+    givenUrl: URL?,
+    stock = false
     
     //MARK: ImageView
     @IBOutlet private weak var addedPhotoImageView: UIImageView!
     
     //MARK: ScrollView
     @IBOutlet private weak var scrollView: UIScrollView!
-    
-    //MARK: View
-    @IBOutlet weak var transitionView: UIView!
-    
-    //MARK: Button
-    @IBOutlet weak var transitionDismissButton: UIButton!
     
     //MARK: TextField
     @IBOutlet private weak var photoNameTextField: UITextField!
@@ -103,7 +82,8 @@ class ProductCustomizeViewController: UIViewController {
     @IBOutlet private weak var stockConditionLabel: UILabel!
     
     //MARK: PickerView
-    @IBOutlet private weak var photoCategoryPickerView: UIPickerView!
+    @IBOutlet private weak var productCategoryPickerView: UIPickerView!
+    @IBOutlet private weak var productSubCategoryPickerView: UIPickerView!
     
     //MARK: Switch
     @IBOutlet private weak var stockSwitch: UISwitch!
@@ -116,7 +96,6 @@ class ProductCustomizeViewController: UIViewController {
     
     //MARK: Constraints
     @IBOutlet private weak var scrollViewBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var transitionViewLeftConstraint: NSLayoutConstraint!
 }
 
 
@@ -129,49 +108,69 @@ class ProductCustomizeViewController: UIViewController {
 
 //MARK: - Extension:
 
-//MARK: - For Overrides
-private extension ProductCustomizeViewController {
-    
-    //MARK: Для ViewDidLoad
-    func forViewDidLoad() {
-        imageActivityIndicator.isHidden = true
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        hideKeyboardWhenTappedAround()
-        
-        setTextViewPlaceholder()
-    }
-    
-}
-
-//MARK: - by PickerView
+//MARK: - PickerView
 extension ProductCustomizeViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        
         return 1
+        
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        
-        if pickerView == photoCategoryPickerView {return  cases[row]}
+        if pickerView == productCategoryPickerView {
+            return  categories[row]
+        }else if pickerView == productSubCategoryPickerView{
+            return subCategories?[row] ?? "Выберите Категорию"
+        }
         return ""
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView == photoCategoryPickerView {return cases.count}
+        if pickerView == productCategoryPickerView {
+            return categories.count
+        }else if pickerView == productSubCategoryPickerView{
+            return subCategories?.count ?? 1
+        }
         return 0
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if pickerView == photoCategoryPickerView {
-            selectedCategory = cases[row]
+        if pickerView == productCategoryPickerView {
+            selectedCategory = categories[row]
+            if selectedCategory == NavigationCases.ProductCategoriesCases.flower.rawValue{
+                NetworkManager.shared.downloadSubCategoriesDict(success: { (array) in
+                    self.subCategories = array.flower
+                    pickerView.reloadAllComponents()
+                }) { (error) in
+                    self.present(UIAlertController.alertAppearanceForTwoSec(title: "", message: ""), animated: true)
+                }
+            }else if selectedCategory == NavigationCases.ProductCategoriesCases.bouquet.rawValue{
+                NetworkManager.shared.downloadSubCategoriesDict(success: { (array) in
+                    self.subCategories = array.flower
+                    pickerView.reloadAllComponents()
+                }) { (error) in
+                    self.present(UIAlertController.alertAppearanceForTwoSec(title: "", message: ""), animated: true)
+                }
+            }else if selectedCategory == NavigationCases.ProductCategoriesCases.gift.rawValue{
+                NetworkManager.shared.downloadSubCategoriesDict(success: { (array) in
+                    self.subCategories = array.flower
+                    pickerView.reloadAllComponents()
+                }) { (error) in
+                    self.present(UIAlertController.alertAppearanceForTwoSec(title: "", message: ""), animated: true)
+                }
+            }else{
+                self.subCategories = nil
+                pickerView.reloadAllComponents()
+            }
+        }else{
+            selectedsubCategories = subCategories?[row]
         }
     }
     
 }
 
-//MARK: - by TextView-Delegate + Custom-for-placeholder
+//MARK: - Text View Delegate
 extension ProductCustomizeViewController: UITextViewDelegate {
     
     func setTextViewPlaceholder() {
@@ -204,9 +203,25 @@ extension ProductCustomizeViewController: UITextViewDelegate {
 
 //MARK: -
 
-//MARK: - Создание изображение для товара с помощью камеры телефона + с помощью галлереи телефона
+//MARK: - Image picker dalegate
 
 extension ProductCustomizeViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        self.imageActivityIndicator.isHidden = false
+        imageActivityIndicator.startAnimating()
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
+            self.addedPhotoImageView.image = image
+            self.imageActivityIndicator.isHidden = true
+            self.imageActivityIndicator.stopAnimating()
+        }
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+}
+
+//MARK: - For product creation
+private extension ProductCustomizeViewController {
     
     func makePhoto() {
         if UIImagePickerController.isSourceTypeAvailable(.camera){
@@ -226,18 +241,7 @@ extension ProductCustomizeViewController: UINavigationControllerDelegate, UIImag
         }
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        self.imageActivityIndicator.isHidden = false
-        imageActivityIndicator.startAnimating()
-        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
-            self.addedPhotoImageView.image = image
-            self.imageActivityIndicator.isHidden = true
-            self.imageActivityIndicator.stopAnimating()
-        }
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    func downLoadPhoto() {
+    func downLoadPhotoFromLibrary() {
         self.imageActivityIndicator.isHidden = false
         self.imageActivityIndicator.startAnimating()
         let image = UIImagePickerController()
@@ -251,13 +255,8 @@ extension ProductCustomizeViewController: UINavigationControllerDelegate, UIImag
         }
     }
     
-}
-
-//MARK: - Поиск фотографии по ссылке из сети
-private extension ProductCustomizeViewController {
-    
     func downloadByURL() {
-        self.present(UIAlertController.setNewString(message: "Введите ссылку от куда возможно загрузить изображение", confirm: { url in
+        self.present(UIAlertController.setNewString(message: "Введите ссылку от куда возможно загрузить изображение", placeholder: "Введите ссылку", confirm: { url in
             self.imageActivityIndicator.isHidden = false
             self.imageActivityIndicator.startAnimating()
             NetworkManager.shared.downloadImageByURL(url: url) { image in
@@ -267,11 +266,6 @@ private extension ProductCustomizeViewController {
             }
         }), animated: true)
     }
-    
-}
-
-//MARK: - Загрузка продукта в сеть
-private extension ProductCustomizeViewController {
     
     func productCreationConfirms() {
         let price = Int(photoPriceTextField.text!),
@@ -307,10 +301,9 @@ private extension ProductCustomizeViewController {
     
 }
 
-//MARK: - Keyboard
+//MARK: - Hide Un Hide Any
 private extension ProductCustomizeViewController {
     
-    //Movement constrains for keyboard
     @objc private func keyboardWillShow(notification: Notification) {
         guard let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber, let keyboardFrameValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {return}
         
