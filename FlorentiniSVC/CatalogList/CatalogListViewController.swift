@@ -415,12 +415,20 @@ private extension CatalogListViewController {
         return constraint ?? 0
     }
     
-    @objc func keyboardWillShow(notification: Notification) {
+    @objc private func keyboardWillShow(notification: Notification) {
+        guard let keyboardFrameValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+        let tabBarHeight = tabBarController?.tabBar.frame.height else {return}
+        tableViewBottomConstraint.constant = keyboardFrameValue.cgRectValue.height - tabBarHeight
         
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
     }
-    
-    @objc func keyboardWillHide(notification: Notification) {
-        
+    @objc private func keyboardWillHide(notification: Notification) {
+        tableViewBottomConstraint.constant = 14
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
     }
     
 }

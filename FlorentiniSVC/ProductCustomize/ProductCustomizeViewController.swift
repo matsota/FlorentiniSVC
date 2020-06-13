@@ -16,7 +16,7 @@ class ProductCustomizeViewController: UIViewController {
         super.viewDidLoad()
         // - activity indicator
         imageActivityIndicator.isHidden = true
-        self.view.backgroundColor = .black
+    
         // - network
         NetworkManager.shared.downloadCategoriesDict(success: { (categories) in
             self.categories = categories.allCategories
@@ -37,7 +37,8 @@ class ProductCustomizeViewController: UIViewController {
         hideKeyboardWhenTappedAround()
         
         // - text view
-        setTextViewPlaceholder()
+        cutomTextView(for: descriptionTextView, placeholder: "Введите Описание Продукта")
+        descriptionTextView.delegate = self
         
     }
     
@@ -99,7 +100,7 @@ class ProductCustomizeViewController: UIViewController {
     @IBOutlet private weak var subCategoryTextField: UITextField!
     
     //MARK: TextView
-    @IBOutlet private weak var photoDescriptionTextView: UITextView!
+    @IBOutlet private weak var descriptionTextView: UITextView!
     
     //MARK: Label
     @IBOutlet private weak var stockConditionLabel: UILabel!
@@ -115,6 +116,8 @@ class ProductCustomizeViewController: UIViewController {
     
     //MARK: Constraints
     @IBOutlet private weak var scrollViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var textViewHeightConstraint: NSLayoutConstraint!
+    
 }
 
 
@@ -206,31 +209,33 @@ extension ProductCustomizeViewController: UITextFieldDelegate {
 //MARK: - Text View Delegate
 extension ProductCustomizeViewController: UITextViewDelegate {
     
-    func setTextViewPlaceholder() {
-        photoDescriptionTextView.text = "Введите текст"
-        photoDescriptionTextView.textColor = .systemGray4
-        photoDescriptionTextView.font = UIFont(name: "System", size: 13)
-        
-        photoDescriptionTextView.layer.borderWidth = 1
-        photoDescriptionTextView.layer.borderColor = UIColor.systemGray4.cgColor
-        photoDescriptionTextView.layer.cornerRadius = 5
-        photoDescriptionTextView.returnKeyType = .done
-        photoDescriptionTextView.delegate = self
+   func textViewDidBeginEditing(_ textView: UITextView) {
+    if textView.text == "Введите Описание Продукта" {
+        textView.text = ""
+        textView.textColor = UIColor.purpleColorOfEnterprise
     }
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if photoDescriptionTextView.text == "Введите текст" {
-            photoDescriptionTextView.text = ""
-            photoDescriptionTextView.textColor = .black
-        }
+}
+
+func textViewDidEndEditing(_ textView: UITextView) {
+    if textView.text == "" {
+        textView.text = "Введите Описание Продукта"
+        textView.textColor = .systemGray4
+        textViewHeightConstraint.constant = 34
     }
-    
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n" {
-            textView.resignFirstResponder()
-        }
-        return true
+}
+
+func textViewDidChange(_ textView: UITextView) {
+    let width = textView.frame.size.width,
+    height = textViewHeightConstraint.constant
+    textView.sizeThatFits(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude))
+    if height < 34 * 2.5 {
+        let newSize = textView.sizeThatFits(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude))
+        var newFrame = textView.frame
+        newFrame.size = CGSize(width: max(newSize.width, width), height: newSize.height)
+        textViewHeightConstraint.constant = newFrame.height
+        textView.frame = newFrame
     }
+}
     
 }
 
@@ -304,7 +309,7 @@ private extension ProductCustomizeViewController {
         let price = Int(photoPriceTextField.text!),
         image = addedPhotoImageView,
         name = self.photoNameTextField.text!,
-        description = self.photoDescriptionTextView.text!,
+        description = self.descriptionTextView.text!,
         stock = self.stock
         
         if price == nil || name == "" || description == "" {
@@ -318,7 +323,7 @@ private extension ProductCustomizeViewController {
                 NetworkManager.shared.uploadProductDescriptionToBackEnd(name: name, price: price ?? 0, description: description, category: category, subCategory: subCategory, stock: stock, searchArray: [name]) {
                     self.present(UIAlertController.alertAppearanceForHalfSec(title: "Готово!", message: "Новый товар добавлен"), animated: true)
                     self.photoNameTextField.text = ""
-                    self.photoDescriptionTextView.text = ""
+                    self.descriptionTextView.text = ""
                     self.photoPriceTextField.text = ""
                     self.stockSwitch.isOn = false
                     self.stock = false
@@ -337,8 +342,9 @@ private extension ProductCustomizeViewController {
 private extension ProductCustomizeViewController {
     
     @objc private func keyboardWillShow(notification: Notification) {
-        guard let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber, let keyboardFrameValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {return}
-        scrollViewBottomConstraint.constant = keyboardFrameValue.cgRectValue.height * 0.75
+        guard let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber, let keyboardFrameValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+        let tabBarHeight = tabBarController?.tabBar.frame.height else {return}
+        scrollViewBottomConstraint.constant = keyboardFrameValue.cgRectValue.height - tabBarHeight + 14
         UIView.animate(withDuration: duration.doubleValue) {
             self.view.layoutIfNeeded()
             self.scrollView.setContentOffset(CGPoint(x: 0, y: 200), animated: false)
@@ -352,4 +358,5 @@ private extension ProductCustomizeViewController {
             self.view.layoutIfNeeded()
         }
     }
+    
 }

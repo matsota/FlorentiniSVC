@@ -44,7 +44,8 @@ class ChatViewController: UIViewController {
         hideKeyboardWhenTappedAround()
         
         // - textview
-        setTextViewPlaceholder(for: chatTextView)
+        cutomTextView(for: chatTextView, placeholder: "Введите Сообщение")
+        chatTextView.delegate = self
         
     }
     
@@ -117,6 +118,39 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
+//MARK: - TextView Delegate + Custom
+extension ChatViewController: UITextViewDelegate {
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == "Введите Сообщение" {
+            textView.text = ""
+            textView.textColor = UIColor.purpleColorOfEnterprise
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text == "" {
+            textView.text = "Введите Сообщение"
+            textView.textColor = .systemGray4
+            textViewHeightConstraint.constant = 34
+        }
+    }
+
+    func textViewDidChange(_ textView: UITextView) {
+        let width = textView.frame.size.width,
+        height = textViewHeightConstraint.constant
+        textView.sizeThatFits(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude))
+        if height < 34 * 2.5 {
+            let newSize = textView.sizeThatFits(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude))
+            var newFrame = textView.frame
+            newFrame.size = CGSize(width: max(newSize.width, width), height: newSize.height)
+            textViewHeightConstraint.constant = newFrame.height
+            textView.frame = newFrame
+        }
+    }
+    
+}
+
 //MARK: - Hide Unhide Any
 extension ChatViewController {
     
@@ -140,51 +174,6 @@ extension ChatViewController {
             self.view.layoutIfNeeded()
         }
     }
-}
-
-//MARK: - TextView Delegate + Custom
-extension ChatViewController: UITextViewDelegate {
-    
-    private func setTextViewPlaceholder(for textView: UITextView) {
-        textView.delegate = self
-        textView.text = "Введите текст"
-        textView.textColor = .systemGray4
-        textView.font = UIFont(name: "System", size: 15)
-        
-        textView.layer.borderWidth = 1
-        textView.layer.borderColor = UIColor.systemGray4.cgColor
-        textView.layer.cornerRadius = 5
-        textView.returnKeyType = .done
-    }
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == "Введите текст" {
-            textView.text = ""
-            textView.textColor = UIColor.purpleColorOfEnterprise
-        }
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text == "" {
-            textView.text = "Введите текст"
-            textView.textColor = .systemGray4
-            textViewHeightConstraint.constant = 34
-        }
-    }
-
-    func textViewDidChange(_ textView: UITextView) {
-        let width = textView.frame.size.width,
-        height = textViewHeightConstraint.constant
-        textView.sizeThatFits(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude))
-        if height < 34 * 2.5 {
-            let newSize = textView.sizeThatFits(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude))
-            var newFrame = textView.frame
-            newFrame.size = CGSize(width: max(newSize.width, width), height: newSize.height)
-            textViewHeightConstraint.constant = newFrame.height
-            textView.frame = newFrame
-        }
-    }
-    
 }
 
 

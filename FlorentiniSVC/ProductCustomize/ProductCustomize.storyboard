@@ -25,7 +25,7 @@
                                 <rect key="frame" x="0.0" y="105.66666666666669" width="375" height="658.33333333333326"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AbT-sa-HcV">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="649"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="598"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZiH-n0-Fdb">
                                                 <rect key="frame" x="14" y="14" width="347" height="258"/>
@@ -109,7 +109,7 @@
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="58l-Cn-lCQ">
-                                                <rect key="frame" x="14" y="286" width="347" height="349"/>
+                                                <rect key="frame" x="14" y="286" width="347" height="298"/>
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Название" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PJA-Ke-D9f">
                                                         <rect key="frame" x="0.0" y="0.0" width="347" height="34"/>
@@ -141,19 +141,20 @@
                                                         </connections>
                                                     </textField>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cs5-yG-bxb">
-                                                        <rect key="frame" x="0.0" y="175.99999999999994" width="347" height="85"/>
+                                                        <rect key="frame" x="0.0" y="175.99999999999994" width="347" height="34"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="34" id="QyO-h1-W72"/>
+                                                        </constraints>
                                                         <viewLayoutGuide key="contentLayoutGuide" id="SRe-8b-ekk"/>
                                                         <viewLayoutGuide key="frameLayoutGuide" id="zi7-s8-ZmQ"/>
-                                                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" returnKeyType="done"/>
                                                         <connections>
                                                             <outlet property="delegate" destination="FX5-Ph-kHJ" id="Gya-mg-WWn"/>
                                                         </connections>
                                                     </textView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Imd-eH-Q2L">
-                                                        <rect key="frame" x="0.0" y="270.99999999999994" width="347" height="34"/>
+                                                        <rect key="frame" x="0.0" y="219.99999999999994" width="347" height="34"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Без акции" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1WX-xh-hin">
                                                                 <rect key="frame" x="0.0" y="0.0" width="298" height="34"/>
@@ -170,14 +171,13 @@
                                                         </subviews>
                                                     </stackView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Не забудьте проверить информацию, которую Вы ввели" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="egE-UT-8N8">
-                                                        <rect key="frame" x="0.0" y="314.99999999999994" width="347" height="34"/>
+                                                        <rect key="frame" x="0.0" y="263.99999999999994" width="347" height="34"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstItem="cs5-yG-bxb" firstAttribute="height" secondItem="PJA-Ke-D9f" secondAttribute="height" multiplier="2.5" id="AI6-6H-xSB"/>
                                                     <constraint firstItem="1WX-xh-hin" firstAttribute="height" secondItem="PJA-Ke-D9f" secondAttribute="height" id="Qgd-X6-PbV"/>
                                                     <constraint firstItem="egE-UT-8N8" firstAttribute="height" relation="greaterThanOrEqual" secondItem="PJA-Ke-D9f" secondAttribute="height" id="hcX-7Z-kWz"/>
                                                     <constraint firstItem="lLh-UH-ctq" firstAttribute="height" secondItem="PJA-Ke-D9f" secondAttribute="height" id="vTT-as-PC2"/>
@@ -223,8 +223,8 @@
                     <connections>
                         <outlet property="addedPhotoImageView" destination="Mxf-mv-8EF" id="idN-Vl-OKB"/>
                         <outlet property="categoryTextField" destination="NCg-f9-zxl" id="OOp-Wl-5Xe"/>
+                        <outlet property="descriptionTextView" destination="cs5-yG-bxb" id="nks-ah-bWP"/>
                         <outlet property="imageActivityIndicator" destination="lKF-cB-uoQ" id="mcO-aM-6x2"/>
-                        <outlet property="photoDescriptionTextView" destination="cs5-yG-bxb" id="nks-ah-bWP"/>
                         <outlet property="photoNameTextField" destination="PJA-Ke-D9f" id="kwm-LX-B90"/>
                         <outlet property="photoPriceTextField" destination="lLh-UH-ctq" id="mH7-eO-1Y6"/>
                         <outlet property="progressView" destination="RpP-nb-z3U" id="ds0-5x-Epl"/>
@@ -233,6 +233,7 @@
                         <outlet property="stockConditionLabel" destination="1WX-xh-hin" id="2CT-aW-qhW"/>
                         <outlet property="stockSwitch" destination="cnQ-Wy-ilX" id="xWW-On-wGb"/>
                         <outlet property="subCategoryTextField" destination="Wc3-ue-szr" id="fhD-Iq-dfe"/>
+                        <outlet property="textViewHeightConstraint" destination="QyO-h1-W72" id="ytU-Gt-LbU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="np4-Uf-OaJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

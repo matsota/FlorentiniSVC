@@ -27,6 +27,19 @@ extension UIViewController {
         self.view.endEditing(true)
     }
     
+    //MARK: Set Text View
+    func cutomTextView(for textView: UITextView, placeholder: String) {
+//        textView.delegate = self
+        textView.text = placeholder
+        textView.textColor = .systemGray4
+        textView.font = UIFont(name: "System", size: 15)
+        
+        textView.layer.borderWidth = 1
+        textView.layer.borderColor = UIColor.systemGray4.cgColor
+        textView.layer.cornerRadius = 5
+        textView.returnKeyType = .done
+    }
+    
     //MARK: Exit
     func transitionToExit(title: String, message: String) {
         CoreDataManager.shared.deleteCertainEntity(for: "EmployeeData", success: {
