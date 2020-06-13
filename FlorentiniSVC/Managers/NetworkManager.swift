@@ -191,6 +191,19 @@ extension NetworkManager {
             }
         })
     }
+    func downloadCertainProduct(id: String, success: @escaping(DatabaseManager.ProductInfo) -> Void, failure: @escaping(Error) -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).whereField(NavigationCases.ProductCases.productID.rawValue, isEqualTo: id).getDocuments(completion: { (querySnapshot, error)in
+            if let error = error {
+                failure(error)
+            }else{
+                if let productInfo = querySnapshot!.documents.compactMap({DatabaseManager.ProductInfo(dictionary: $0.data())}).first {
+                     success(productInfo)
+                }else{
+                    failure(NetworkManagerError.productUIDDoesNotExist)
+                }
+            }
+        })
+    }
     
     //MARK: - For EMPLOYEE & EMPLOYER
     func downloadEmployeeData(success: @escaping([DatabaseManager.EmployeeDataStruct]) -> Void, failure: @escaping(Error) -> Void) {
@@ -453,6 +466,7 @@ extension NetworkManager {
     enum NetworkManagerError: Error {
         case employeeNotSignedIn
         case employeeUIDDoesNotExist
+        case productUIDDoesNotExist
     }
     
 }

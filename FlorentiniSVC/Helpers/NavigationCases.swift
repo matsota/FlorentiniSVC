@@ -15,10 +15,11 @@ class NavigationCases {
     //MARK: - For VCs
     enum Transition: String, CaseIterable {
     
-        // - VCs
+        /// ID of View Controllers in Stroryboards
         case LoginVC
         case TabBarVC
         case CatalogListVC
+        case ProductManagerVC
         case OrderInProcessVC
         case OrderListVC
         case ChatVC
@@ -26,7 +27,7 @@ class NavigationCases {
         case FAQVC
         case EmployeeListVC
         
-        // - Cells
+        /// Cells identifiers
         case OrdersListTVCell
         case OrdersDetailListTVCell
         case CatalogListTVCell
@@ -35,8 +36,25 @@ class NavigationCases {
         case FilterTVCell
         case CategoryListTVCell
         
-        // - Segues
+        /// Storyboards
+        case Login
+        case TabBar
+        case CatalogList
+        case ProductManager
+        case OrderInProcess
+        case OrderList
+        case orderDetailList
+        case Chat
+        case Profile
+        case StoreStatistics
+        case CategoryList
+        case EmployeeList
+        case FAQ
+        case ProductCustomize
+        
+        /// Segues
         case orderList_OrderDetail
+        case catalog_ProductManager
         
     }
     

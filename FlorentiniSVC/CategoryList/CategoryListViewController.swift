@@ -16,9 +16,9 @@ class CategoryListViewController: UIViewController {
         
         // - network
         NetworkManager.shared.downloadSubCategoriesDict(success: { (data) in
-            self.categoryData = [CatalogListForTViewStruct(opened: false, title: NavigationCases.ProductCategoriesCases.flower.rawValue, sectionData: data.flower),
-                                 CatalogListForTViewStruct(opened: false, title: NavigationCases.ProductCategoriesCases.bouquet.rawValue, sectionData: data.bouquet),
-                                 CatalogListForTViewStruct(opened: false, title: NavigationCases.ProductCategoriesCases.gift.rawValue, sectionData: data.gift)]
+            self.categoryData = [CatalogFilterListStruct(opened: false, title: NavigationCases.ProductCategoriesCases.flower.rawValue, sectionData: data.flower),
+                                 CatalogFilterListStruct(opened: false, title: NavigationCases.ProductCategoriesCases.bouquet.rawValue, sectionData: data.bouquet),
+                                 CatalogFilterListStruct(opened: false, title: NavigationCases.ProductCategoriesCases.gift.rawValue, sectionData: data.gift)]
             self.tableView.reloadData()
         }) { (error) in
             self.alertAboutConnectionLost(method: "downloadSubCategoriesDict", error: error)
@@ -42,9 +42,9 @@ class CategoryListViewController: UIViewController {
                         array.sort(by: {$0.lowercased() < $1.lowercased()})
                         array.insert("Все", at: 0)
                         NetworkManager.shared.updateSubCategory(category: category, subCategory: array)
-                        self.categoryData = [CatalogListForTViewStruct(opened: true, title: NavigationCases.ProductCategoriesCases.flower.rawValue, sectionData: array),
-                                             CatalogListForTViewStruct(opened: false, title: NavigationCases.ProductCategoriesCases.bouquet.rawValue, sectionData: categoryArray.bouquet),
-                                             CatalogListForTViewStruct(opened: false, title: NavigationCases.ProductCategoriesCases.gift.rawValue, sectionData: categoryArray.gift)]
+                        self.categoryData = [CatalogFilterListStruct(opened: true, title: NavigationCases.ProductCategoriesCases.flower.rawValue, sectionData: array),
+                                             CatalogFilterListStruct(opened: false, title: NavigationCases.ProductCategoriesCases.bouquet.rawValue, sectionData: categoryArray.bouquet),
+                                             CatalogFilterListStruct(opened: false, title: NavigationCases.ProductCategoriesCases.gift.rawValue, sectionData: categoryArray.gift)]
                         self.tableView.reloadData()
                     }) { (error) in
                         self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Скорее всего произошла потеря соединения"), animated: true)
@@ -60,9 +60,9 @@ class CategoryListViewController: UIViewController {
                         array.sort(by: {$0.lowercased() < $1.lowercased()})
                         array.insert("Все", at: 0)
                         NetworkManager.shared.updateSubCategory(category: category, subCategory: array)
-                        self.categoryData = [CatalogListForTViewStruct(opened: false, title: NavigationCases.ProductCategoriesCases.flower.rawValue, sectionData: categoryArray.flower),
-                                             CatalogListForTViewStruct(opened: true, title: NavigationCases.ProductCategoriesCases.bouquet.rawValue, sectionData: array),
-                                             CatalogListForTViewStruct(opened: false, title: NavigationCases.ProductCategoriesCases.gift.rawValue, sectionData: categoryArray.gift)]
+                        self.categoryData = [CatalogFilterListStruct(opened: false, title: NavigationCases.ProductCategoriesCases.flower.rawValue, sectionData: categoryArray.flower),
+                                             CatalogFilterListStruct(opened: true, title: NavigationCases.ProductCategoriesCases.bouquet.rawValue, sectionData: array),
+                                             CatalogFilterListStruct(opened: false, title: NavigationCases.ProductCategoriesCases.gift.rawValue, sectionData: categoryArray.gift)]
                         self.tableView.reloadData()
                     }) { (error) in
                         self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Скорее всего произошла потеря соединения"), animated: true)
@@ -78,9 +78,9 @@ class CategoryListViewController: UIViewController {
                         array.sort(by: {$0.lowercased() < $1.lowercased()})
                         array.insert("Все", at: 0)
                         NetworkManager.shared.updateSubCategory(category: category, subCategory: array)
-                        self.categoryData = [CatalogListForTViewStruct(opened: false, title: NavigationCases.ProductCategoriesCases.flower.rawValue, sectionData: categoryArray.flower),
-                                             CatalogListForTViewStruct(opened: false, title: NavigationCases.ProductCategoriesCases.bouquet.rawValue, sectionData: categoryArray.bouquet),
-                                             CatalogListForTViewStruct(opened: true, title: NavigationCases.ProductCategoriesCases.gift.rawValue, sectionData: array)]
+                        self.categoryData = [CatalogFilterListStruct(opened: false, title: NavigationCases.ProductCategoriesCases.flower.rawValue, sectionData: categoryArray.flower),
+                                             CatalogFilterListStruct(opened: false, title: NavigationCases.ProductCategoriesCases.bouquet.rawValue, sectionData: categoryArray.bouquet),
+                                             CatalogFilterListStruct(opened: true, title: NavigationCases.ProductCategoriesCases.gift.rawValue, sectionData: array)]
                         self.tableView.reloadData()
                     }) { (error) in
                         self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Скорее всего произошла потеря соединения"), animated: true)
@@ -93,7 +93,7 @@ class CategoryListViewController: UIViewController {
     
     
     //MARK: - Implementation
-    private var categoryData = [CatalogListForTViewStruct]()
+    private var categoryData = [CatalogFilterListStruct]()
     
     private var employeePosition: String?,
     userUID: String?

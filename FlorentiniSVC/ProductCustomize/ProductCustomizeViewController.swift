@@ -16,7 +16,7 @@ class ProductCustomizeViewController: UIViewController {
         super.viewDidLoad()
         // - activity indicator
         imageActivityIndicator.isHidden = true
-    
+        
         // - network
         NetworkManager.shared.downloadCategoriesDict(success: { (categories) in
             self.categories = categories.allCategories
@@ -148,7 +148,7 @@ extension ProductCustomizeViewController: UIPickerViewDelegate, UIPickerViewData
             }else if selectedCategory == NavigationCases.ProductCategoriesCases.gift.rawValue {
                 selectedSubCategories = giftCategories
             }
-           return selectedSubCategories.count
+            return selectedSubCategories.count
         }else{
             return 0
         }
@@ -159,12 +159,12 @@ extension ProductCustomizeViewController: UIPickerViewDelegate, UIPickerViewData
             return categories[row]
         }else if currentTextField == subCategoryTextField {
             if selectedCategory == NavigationCases.ProductCategoriesCases.flower.rawValue {
-                 selectedSubCategories = flowerCategories
-             }else  if selectedCategory == NavigationCases.ProductCategoriesCases.bouquet.rawValue {
-                 selectedSubCategories = bouquetCategories
-             }else  if selectedCategory == NavigationCases.ProductCategoriesCases.gift.rawValue {
-                 selectedSubCategories = giftCategories
-             }
+                selectedSubCategories = flowerCategories
+            }else  if selectedCategory == NavigationCases.ProductCategoriesCases.bouquet.rawValue {
+                selectedSubCategories = bouquetCategories
+            }else  if selectedCategory == NavigationCases.ProductCategoriesCases.gift.rawValue {
+                selectedSubCategories = giftCategories
+            }
             return selectedSubCategories[row]
         }else{
             return ""
@@ -209,33 +209,33 @@ extension ProductCustomizeViewController: UITextFieldDelegate {
 //MARK: - Text View Delegate
 extension ProductCustomizeViewController: UITextViewDelegate {
     
-   func textViewDidBeginEditing(_ textView: UITextView) {
-    if textView.text == "Введите Описание Продукта" {
-        textView.text = ""
-        textView.textColor = UIColor.purpleColorOfEnterprise
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == "Введите Описание Продукта" {
+            textView.text = ""
+            textView.textColor = UIColor.purpleColorOfEnterprise
+        }
     }
-}
-
-func textViewDidEndEditing(_ textView: UITextView) {
-    if textView.text == "" {
-        textView.text = "Введите Описание Продукта"
-        textView.textColor = .systemGray4
-        textViewHeightConstraint.constant = 34
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text == "" {
+            textView.text = "Введите Описание Продукта"
+            textView.textColor = .systemGray4
+            textViewHeightConstraint.constant = 34
+        }
     }
-}
-
-func textViewDidChange(_ textView: UITextView) {
-    let width = textView.frame.size.width,
-    height = textViewHeightConstraint.constant
-    textView.sizeThatFits(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude))
-    if height < 34 * 2.5 {
-        let newSize = textView.sizeThatFits(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude))
-        var newFrame = textView.frame
-        newFrame.size = CGSize(width: max(newSize.width, width), height: newSize.height)
-        textViewHeightConstraint.constant = newFrame.height
-        textView.frame = newFrame
+    
+    func textViewDidChange(_ textView: UITextView) {
+        let width = textView.frame.size.width,
+        height = textViewHeightConstraint.constant
+        textView.sizeThatFits(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude))
+        if height < 34 * 2.5 {
+            let newSize = textView.sizeThatFits(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude))
+            var newFrame = textView.frame
+            newFrame.size = CGSize(width: max(newSize.width, width), height: newSize.height)
+            textViewHeightConstraint.constant = newFrame.height
+            textView.frame = newFrame
+        }
     }
-}
     
 }
 
@@ -343,7 +343,7 @@ private extension ProductCustomizeViewController {
     
     @objc private func keyboardWillShow(notification: Notification) {
         guard let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber, let keyboardFrameValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
-        let tabBarHeight = tabBarController?.tabBar.frame.height else {return}
+            let tabBarHeight = tabBarController?.tabBar.frame.height else {return}
         scrollViewBottomConstraint.constant = keyboardFrameValue.cgRectValue.height - tabBarHeight + 14
         UIView.animate(withDuration: duration.doubleValue) {
             self.view.layoutIfNeeded()

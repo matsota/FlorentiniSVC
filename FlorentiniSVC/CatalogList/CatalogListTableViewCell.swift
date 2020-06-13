@@ -17,6 +17,8 @@ protocol CatalogListTableViewCellDelegate: class {
     
     func editStockCondition(_ cell: CatalogListTableViewCell, _ text: UILabel, _ switcher: UISwitch)
     
+    func transitionToProductManager(_ cell: CatalogListTableViewCell)
+    
 }
 
 
@@ -24,6 +26,7 @@ protocol CatalogListTableViewCellDelegate: class {
 class CatalogListTableViewCell: UITableViewCell {
     
     //MARK: - Implementation
+    var id: String?
     var name: String?
     var price: Int?
     var category: String?
@@ -52,6 +55,10 @@ class CatalogListTableViewCell: UITableViewCell {
     //MARK: - Overrides
     override func awakeFromNib() {
         super.awakeFromNib()
+        let transitionPerform = UISwipeGestureRecognizer()
+        transitionPerform.direction = .right
+        transitionPerform.addTarget(self, action: #selector(self.transitionPerform(sender:)))
+        self.contentView.addGestureRecognizer(transitionPerform)
     }
     
     override func prepareForReuse() {
@@ -65,20 +72,26 @@ class CatalogListTableViewCell: UITableViewCell {
         
     }
     
-    //MARK: - Price Editor
+    //MARK: - Methods
+    /// Transition to certain cell with data about certain product
+    @objc private func transitionPerform(sender: UISwipeGestureRecognizer) {
+        delegate?.transitionToProductManager(self)
+    }
+    
+    /// Price edit Method
     @IBAction func priceTapped(_ sender: UIButton) {
         delegate?.editPrice(self)
     }
     
+    /// Edit stock condition Method
     @IBAction func stockCondition(_ sender: UISwitch) {
         delegate?.editStockCondition(self, stockConditionLabel, stockSwitch)
     }
     
-    
-    //MARK: - Заполнение Таблицы
-    func fill(name: String, price: Int, category: String, description: String, stock: Bool, employeePosition: String, failure: @escaping(Error) -> Void) {
+    /// Fill
+    func fill(id: String, name: String, price: Int, category: String, description: String, stock: Bool, employeePosition: String, failure: @escaping(Error) -> Void) {
         
-        self.price = price ; self.category = category ;  self.name = name
+        self.price = price ; self.category = category ;  self.name = name ; self.id = id
         
         imageActivityIndicator.startAnimating()
         

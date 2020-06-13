@@ -24,7 +24,7 @@
                                 </connections>
                             </button>
                             <searchBar contentMode="redraw" placeholder="Начните поиск" translatesAutoresizingMaskIntoConstraints="NO" id="DTB-Fq-8Nj">
-                                <rect key="frame" x="56" y="58" width="305" height="56"/>
+                                <rect key="frame" x="56.333333333333343" y="58" width="304.66666666666663" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="ilt-bP-f8l" id="SoH-OM-b01"/>
@@ -155,6 +155,7 @@
                                                     </constraints>
                                                 </view>
                                             </subviews>
+                                            <gestureRecognizers/>
                                             <constraints>
                                                 <constraint firstItem="8oM-3i-VOc" firstAttribute="centerX" secondItem="ehA-Ef-rxg" secondAttribute="centerX" id="0Zf-4K-VE6"/>
                                                 <constraint firstItem="fMR-CS-hGd" firstAttribute="leading" secondItem="klC-w1-0bo" secondAttribute="leading" constant="7" id="7ln-n3-oSQ"/>
@@ -167,6 +168,9 @@
                                                 <constraint firstAttribute="trailing" secondItem="fMR-CS-hGd" secondAttribute="trailing" constant="7" id="hMP-f9-u2O"/>
                                                 <constraint firstItem="ehA-Ef-rxg" firstAttribute="leading" secondItem="klC-w1-0bo" secondAttribute="leading" constant="7" id="mJ4-Eg-oPB"/>
                                             </constraints>
+                                            <connections>
+                                                <outletCollection property="gestureRecognizers" destination="e6l-YS-YON" appends="YES" id="Don-oo-eet"/>
+                                            </connections>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="descriptionView" destination="fMR-CS-hGd" id="DIH-nI-4Gf"/>
@@ -261,23 +265,36 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vsG-RJ-RJx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="right" id="e6l-YS-YON"/>
             </objects>
             <point key="canvasLocation" x="-7911" y="3497"/>
+        </scene>
+        <!--Storyboard Reference-->
+        <scene sceneID="7qf-AU-wsG">
+            <objects>
+                <viewControllerPlaceholder id="U6v-vK-jgI" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="0Rl-2c-S9Y"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1Jm-3J-1WV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-7911" y="3905"/>
         </scene>
         <!--Каталог-->
         <scene sceneID="7xm-dP-gBL">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="Exa-pd-ahr" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Exa-pd-ahr" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Каталог" image="rectangle.grid.1x2" catalog="system" selectedImage="rectangle.grid.1x2.fill" id="D7Q-SY-Mqm"/>
                     <toolbarItems/>
                     <nil key="simulatedTopBarMetrics"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="P8x-0x-H0X">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
                         <segue destination="ilt-bP-f8l" kind="relationship" relationship="rootViewController" id="jPN-ue-Vdh"/>
+                        <segue destination="U6v-vK-jgI" kind="show" identifier="catalog_ProductManager" id="w6Y-uD-klS"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xsQ-hB-FLY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

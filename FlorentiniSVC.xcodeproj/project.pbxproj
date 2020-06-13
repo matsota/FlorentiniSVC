@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4863C28BE4F48D800A12021F /* Pods_FlorentiniSVC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A543C8EC053833A3F8FAB90 /* Pods_FlorentiniSVC.framework */; };
+		8F1C21352494DB4200A0A9A3 /* ProductManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1C21342494DB4200A0A9A3 /* ProductManagerViewController.swift */; };
+		8F1C21372494DB4E00A0A9A3 /* ProductManager.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F1C21362494DB4E00A0A9A3 /* ProductManager.storyboard */; };
 		8F368AB624434FAD00BF9EBF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98FA4424434731003C8759 /* LoginViewController.swift */; };
 		8F368AB82443502600BF9EBF /* OrderListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98FA462443473D003C8759 /* OrderListTableViewCell.swift */; };
 		8F368AB92443512600BF9EBF /* OrderListDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98FA482443474C003C8759 /* OrderListDetailTableViewController.swift */; };
@@ -65,6 +67,8 @@
 /* Begin PBXFileReference section */
 		2A543C8EC053833A3F8FAB90 /* Pods_FlorentiniSVC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FlorentiniSVC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		318B3323E78942C1E9FA91F7 /* Pods-FlorentiniSVC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlorentiniSVC.debug.xcconfig"; path = "Target Support Files/Pods-FlorentiniSVC/Pods-FlorentiniSVC.debug.xcconfig"; sourceTree = "<group>"; };
+		8F1C21342494DB4200A0A9A3 /* ProductManagerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductManagerViewController.swift; sourceTree = "<group>"; };
+		8F1C21362494DB4E00A0A9A3 /* ProductManager.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ProductManager.storyboard; sourceTree = "<group>"; };
 		8F368AC42443739100BF9EBF /* OrderListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderListViewController.swift; sourceTree = "<group>"; };
 		8F3B52F1244C822500D13DB6 /* Date + Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date + Custom.swift"; sourceTree = "<group>"; };
 		8F3B52F3244DCD4700D13DB6 /* View + IBDesignable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View + IBDesignable.swift"; sourceTree = "<group>"; };
@@ -134,11 +138,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8F1C21332494DAB400A0A9A3 /* New Group */ = {
+		8F1C21332494DAB400A0A9A3 /* Product Manager */ = {
 			isa = PBXGroup;
 			children = (
+				8F1C21342494DB4200A0A9A3 /* ProductManagerViewController.swift */,
+				8F1C21362494DB4E00A0A9A3 /* ProductManager.storyboard */,
 			);
-			path = "New Group";
+			path = "Product Manager";
 			sourceTree = "<group>";
 		};
 		8F77678C2449FF7300745A22 /* Employees */ = {
@@ -275,7 +281,6 @@
 		8FC00BAE244328A400C80B45 /* FlorentiniSVC */ = {
 			isa = PBXGroup;
 			children = (
-				8F1C21332494DAB400A0A9A3 /* New Group */,
 				8FC11D1F24477C2D00607347 /* CoreData Models */,
 				8FC00BAF244328A400C80B45 /* AppDelegate.swift */,
 				8FC00BB1244328A400C80B45 /* SceneDelegate.swift */,
@@ -286,6 +291,7 @@
 				8F98FA2124434119003C8759 /* Login */,
 				8F792D97248FA282008ADF77 /* TabBar */,
 				8F98FA2424434168003C8759 /* CatalogList */,
+				8F1C21332494DAB400A0A9A3 /* Product Manager */,
 				8F792D92248F9BB2008ADF77 /* OrdersInProcess */,
 				8F98FA2224434130003C8759 /* OrderList */,
 				8F98FA2324434158003C8759 /* OrdersDetailList */,
@@ -428,6 +434,7 @@
 				8FC00BBF244328A700C80B45 /* LaunchScreen.storyboard in Resources */,
 				8F98FA5C244348C5003C8759 /* StoreStatistics.storyboard in Resources */,
 				8F792D94248F9BEB008ADF77 /* OrderInProcess.storyboard in Resources */,
+				8F1C21372494DB4E00A0A9A3 /* ProductManager.storyboard in Resources */,
 				8F77678E2449FF8600745A22 /* EmployeeList.storyboard in Resources */,
 				8FC00BC924432C6600C80B45 /* GoogleService-Info.plist in Resources */,
 				8F98FA582443489B003C8759 /* Profile.storyboard in Resources */,
@@ -497,6 +504,7 @@
 				8F368ABA2443513D00BF9EBF /* OrderDetailListViewCell.swift in Sources */,
 				8F368AB624434FAD00BF9EBF /* LoginViewController.swift in Sources */,
 				8F368AC52443739100BF9EBF /* OrderListViewController.swift in Sources */,
+				8F1C21352494DB4200A0A9A3 /* ProductManagerViewController.swift in Sources */,
 				8F98FA3D24434266003C8759 /* DatabaseManager.swift in Sources */,
 				8F98FA3724434213003C8759 /* Notifications.swift in Sources */,
 				8F792D96248F9BFE008ADF77 /* OrderInProcessViewController.swift in Sources */,
