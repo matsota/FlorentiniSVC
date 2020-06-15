@@ -44,7 +44,7 @@ class ChatViewController: UIViewController {
         hideKeyboardWhenTappedAround()
         
         // - textview
-        cutomTextView(for: chatTextView, placeholder: "Введите Сообщение")
+        cutomsTextView(for: chatTextView, placeholder: "Введите Сообщение")
         chatTextView.delegate = self
         
     }

@@ -250,7 +250,7 @@ private extension StoreStaticticViewController{
         }
         
         for i in uniqueCustomers {
-            if allCustomers.countCertainString(string: i.lowercased()) > self.receiptsCountOfRegularCustomers {
+            if allCustomers.countQuantityForCertainPartOfString(string: i.lowercased()) > self.receiptsCountOfRegularCustomers {
                 regularCustomersQuantity += 1
             }
         }

@@ -67,7 +67,6 @@ class CatalogListViewController: UIViewController {
         addOrSubtractPriceByCategory(sender)
     }
     
-    
     //MARK: - Private Implementation
     private var productInfo: [DatabaseManager.ProductInfo]?
     private var filteredProductInfoBySearchBar: [DatabaseManager.ProductInfo]?
@@ -76,7 +75,6 @@ class CatalogListViewController: UIViewController {
     private var employeePosition: String?
     private var selectedCategory: String?
     private var selectedSubCategory: String?
-    
     
     //MARK: Searchbar
     @IBOutlet private weak var searchBar: UISearchBar!
@@ -97,7 +95,6 @@ class CatalogListViewController: UIViewController {
     
     //MARK: Constraint
     @IBOutlet private weak var tableViewBottomConstraint: NSLayoutConstraint!
-    
     @IBOutlet private weak var filterTableViewAppearceConstraint: NSLayoutConstraint!
     
 }
@@ -293,10 +290,11 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource 
         let action = UIContextualAction(style: .destructive, title: "Удалить") { (action, view, complition) in
             guard let fetch = self.productInfo?[indexPath.row] else {return}
             let name = fetch.productName,
+            productID = fetch.productID,
             uid = CoreDataManager.shared.fetchEmployeeUID()
             if uid == AuthenticationManager.shared.uidAdmin {
                 self.present(UIAlertController.confirmAnyStyleActionSheet(message: "Подтвердите, что вы хотите удалить продукт под названием '\(name)'", confirm: {
-                    NetworkManager.shared.deleteProduct(name: name)
+                    NetworkManager.shared.deleteProduct(productID: productID, name: name)
                     self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Продукт удачно Удалён"), animated: true)
                     self.productInfo?.remove(at: indexPath.row)
                     self.catalogTableView.deleteRows(at: [indexPath], with: .automatic)

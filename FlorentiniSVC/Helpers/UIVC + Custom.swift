@@ -28,16 +28,29 @@ extension UIViewController {
     }
     
     //MARK: Set Text View
-    func cutomTextView(for textView: UITextView, placeholder: String) {
-//        textView.delegate = self
-        textView.text = placeholder
-        textView.textColor = .systemGray4
+    func cutomsTextView(for textView: UITextView, placeholder: String) {
         textView.font = UIFont(name: "System", size: 15)
-        
+        if textView.text == "" {
+            textView.text = placeholder
+            textView.textColor = .systemGray4
+            
+        }
         textView.layer.borderWidth = 1
         textView.layer.borderColor = UIColor.systemGray4.cgColor
         textView.layer.cornerRadius = 5
         textView.returnKeyType = .done
+    }
+    func changeTextViewHeightDependsOnTextLength(_ textView: UITextView, for constaint: NSLayoutConstraint) {
+        let width = textView.frame.size.width,
+        height = constaint.constant
+        textView.sizeThatFits(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude))
+        if height < 34 * 2.5 {
+            let newSize = textView.sizeThatFits(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude))
+            var newFrame = textView.frame
+            newFrame.size = CGSize(width: max(newSize.width, width), height: newSize.height)
+            constaint.constant = newFrame.height
+            textView.frame = newFrame
+        }
     }
     
     //MARK: Exit

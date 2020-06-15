@@ -37,33 +37,35 @@ class ProductCustomizeViewController: UIViewController {
         hideKeyboardWhenTappedAround()
         
         // - text view
-        cutomTextView(for: descriptionTextView, placeholder: "Введите Описание Продукта")
         descriptionTextView.delegate = self
+        cutomsTextView(for: descriptionTextView, placeholder: "Введите Описание Продукта")
+        
+        changeTextViewHeightDependsOnTextLength(descriptionTextView, for: textViewHeightConstraint)
         
     }
     
     //MARK: - Download image by URL
-    @IBAction func downLoadByURLTapped(_ sender: UIButton) {
+    @IBAction private func downLoadByURLTapped(_ sender: UIButton) {
         downloadByURL()
     }
     
     //MARK: - Download from gallery
-    @IBAction func galleryTapped(_ sender: UIButton) {
+    @IBAction private func galleryTapped(_ sender: UIButton) {
         downLoadPhotoFromLibrary()
     }
     
     //MARK: - Download by picture shot
-    @IBAction func cameraTapped(_ sender: UIButton) {
+    @IBAction private func cameraTapped(_ sender: UIButton) {
         makePhoto()
     }
     
     //MARK: - Upload to Firebase
-    @IBAction func uploadTapped(_ sender: UIButton) {
+    @IBAction private func uploadTapped(_ sender: UIButton) {
         productCreationConfirms()
     }
     
     //MARK: - Stock condition
-    @IBAction func stockCondition(_ sender: UISwitch) {
+    @IBAction private func stockCondition(_ sender: UISwitch) {
         if stockSwitch.isOn == true {
             stock = true
             stockConditionLabel.text = "Акционный товар"
@@ -116,7 +118,7 @@ class ProductCustomizeViewController: UIViewController {
     
     //MARK: Constraints
     @IBOutlet private weak var scrollViewBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var textViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var textViewHeightConstraint: NSLayoutConstraint!
     
 }
 
@@ -344,7 +346,7 @@ private extension ProductCustomizeViewController {
     @objc private func keyboardWillShow(notification: Notification) {
         guard let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber, let keyboardFrameValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
             let tabBarHeight = tabBarController?.tabBar.frame.height else {return}
-        scrollViewBottomConstraint.constant = keyboardFrameValue.cgRectValue.height - tabBarHeight + 14
+        scrollViewBottomConstraint.constant = keyboardFrameValue.cgRectValue.height - tabBarHeight
         UIView.animate(withDuration: duration.doubleValue) {
             self.view.layoutIfNeeded()
             self.scrollView.setContentOffset(CGPoint(x: 0, y: 200), animated: false)

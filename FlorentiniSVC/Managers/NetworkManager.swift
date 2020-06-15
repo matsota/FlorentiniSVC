@@ -11,10 +11,8 @@ import FirebaseFirestore
 import FirebaseUI
 
 class NetworkManager {
-    
     static let shared = NetworkManager()
     let db = Firestore.firestore()
-    
 }
 
 
@@ -52,16 +50,31 @@ extension NetworkManager {
     }
     
     //MARK: - For PRODUCTS 
-    func uploadProductDescriptionToBackEnd(name: String, price: Int, description: String, category: String, subCategory: String, stock: Bool, searchArray: [String], success: @escaping() -> Void) {
+    func uploadProductDescriptionToBackEnd(name: String, price: Int, description: String, category: String, subCategory: String, stock: Bool, searchArray: [String],
+                                           success: @escaping() -> Void) {
         let ref = db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).document(),
-        dataModel = DatabaseManager.ProductInfo(productName: name, productPrice: price, productDescription: description, productCategory: category, productSubCategory: subCategory, stock: stock, productID: ref.documentID, searchArray: searchArray, voteCount: 0, voteAmount: 0)
+        dataModel = DatabaseManager.ProductInfo(productName: name,
+                                                productPrice: price,
+                                                productDescription: description,
+                                                productCategory: category,
+                                                productSubCategory: subCategory,
+                                                stock: stock,
+                                                productID: ref.documentID,
+                                                searchArray: searchArray,
+                                                voteCount: 0,
+                                                voteAmount: 0)
+        
         ref.setData(dataModel.dictionary)
         success()
     }
     
-    func uploadProductToBackEnd(image: UIImageView, productName: String, progressIndicator: UIProgressView, success: @escaping() -> Void, failure: @escaping(Error) -> Void) {
+    func uploadProductToBackEnd(image: UIImageView, productName: String, progressIndicator: UIProgressView,
+                                success: @escaping() -> Void,
+                                failure: @escaping(Error) -> Void) {
         progressIndicator.isHidden = false
-        guard AuthenticationManager.shared.uidAdmin == AuthenticationManager.shared.currentUser?.uid, let imageData = image.image?.jpegData(compressionQuality: 0.75) else {return}
+        guard AuthenticationManager.shared.uidAdmin == AuthenticationManager.shared.currentUser?.uid,
+            let imageData = image.image?.jpegData(compressionQuality: 0.75) else {return}
+        
         let uploadRef = Storage.storage().reference(withPath: "\(NavigationCases.FirstCollectionRow.imageCollection.rawValue)/\(productName)"),
         uploadMetadata = StorageMetadata.init()
         
@@ -89,13 +102,19 @@ extension NetworkManager {
         }
         
     }
-
+    
     //MARK: - For EMPLOYEE & EMPLOYER
     func createNewEmpoyee(dataModel: DatabaseManager.EmployeeDataStruct, uid: String) {
-        db.collection(NavigationCases.FirstCollectionRow.employee.rawValue).document(uid).setData(dataModel.dictionary)
+        db.collection(NavigationCases.FirstCollectionRow.employee.rawValue)
+            .document(uid)
+            .setData(dataModel.dictionary)
     }
     func newChatMessage(name: String, content: String, position: String) {
-        let newMessage = DatabaseManager.ChatMessages(name: name, content: content, position: position, uid: AuthenticationManager.shared.currentUser!.uid, timeStamp: Date())
+        let newMessage = DatabaseManager.ChatMessages(name: name,
+                                                      content: content,
+                                                      position: position,
+                                                      uid: AuthenticationManager.shared.currentUser!.uid,
+                                                      timeStamp: Date())
         var ref: DocumentReference? = nil
         
         ref = db.collection(NavigationCases.FirstCollectionRow.employeeMessages.rawValue).addDocument(data: newMessage.dictionary) { error in
@@ -117,159 +136,203 @@ extension NetworkManager {
 extension NetworkManager {
     
     //MARK: - For ORDERS
-    func downloadOrders(success: @escaping([DatabaseManager.Order]) -> Void, failure: @escaping(Error) -> Void) {
-        db.collection(NavigationCases.FirstCollectionRow.order.rawValue).getDocuments(completion: {
-            (querySnapshot, _) in
-            let orders = querySnapshot!.documents.compactMap{DatabaseManager.Order(dictionary: $0.data())}
-            success(orders)
-        })
+    func downloadOrders(success: @escaping([DatabaseManager.Order]) -> Void,
+                        failure: @escaping(Error) -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.order.rawValue)
+            .getDocuments(completion: {
+                (querySnapshot, _) in
+                let orders = querySnapshot!.documents.compactMap{DatabaseManager.Order(dictionary: $0.data())}
+                success(orders)
+            })
     }
     
-    func downloadOrderAdditions(orderRef: String, success: @escaping([DatabaseManager.OrderAddition]) -> Void, failure: @escaping(Error) -> Void) {
-        let docRef = db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderRef)
-        docRef.collection(NavigationCases.OrderCases.orderDescription.rawValue).getDocuments(completion: {
-            (querySnapshot, _) in
-            let addition = querySnapshot!.documents.compactMap{DatabaseManager.OrderAddition(dictionary: $0.data())}
-            success(addition)
-        })
+    func downloadOrderAdditions(orderRef: String, success: @escaping([DatabaseManager.OrderAddition]) -> Void,
+                                failure: @escaping(Error) -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.order.rawValue)
+            .document(orderRef)
+            .collection(NavigationCases.OrderCases.orderDescription.rawValue).getDocuments(completion: {
+                (querySnapshot, _) in
+                let addition = querySnapshot!.documents.compactMap{DatabaseManager.OrderAddition(dictionary: $0.data())}
+                success(addition)
+            })
     }
     
     //MARK: - For PRODUCTS
-    func downloadCategoriesDict(success: @escaping(DatabaseManager.CategoriesDataStruct) -> Void, failure: @escaping(Error) -> Void) {
-        db.collection(NavigationCases.FirstCollectionRow.searchProduct.rawValue).document(NavigationCases.ProductCases.productCategory.rawValue).getDocument { (documentSnapshot, error) in
-            if let error = error {
-                failure(error)
-            }else{
-                guard let data = DatabaseManager.CategoriesDataStruct(dictionary: documentSnapshot!.data()!) else {return}
-                success(data)
-            }
-        }
-    }
-    func downloadSubCategoriesDict(success: @escaping(DatabaseManager.SubCategoriesDataStruct) -> Void, failure: @escaping(Error) -> Void) {
-        db.collection(NavigationCases.FirstCollectionRow.searchProduct.rawValue).document(NavigationCases.ProductCases.productSubCategory.rawValue).getDocument { (documentSnapshot, error) in
-            if let error = error {
-                failure(error)
-            }else{
-                guard let data = DatabaseManager.SubCategoriesDataStruct(dictionary: documentSnapshot!.data()!) else {return}
-                success(data)
-            }
-        }
-    }
-    func downloadProducts(success: @escaping([DatabaseManager.ProductInfo]) -> Void, failure: @escaping(Error) -> Void) {
-        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).getDocuments(completion: {
-            (querySnapshot, _) in
-            let productInfo = querySnapshot!.documents.compactMap{DatabaseManager.ProductInfo(dictionary: $0.data())}
-            success(productInfo)
-        })
-    }
-    func downloadProductsWithStock(success: @escaping([DatabaseManager.ProductInfo]) -> Void, failure: @escaping(Error) -> Void) {
-        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).whereField(NavigationCases.ProductCases.stock.rawValue, isEqualTo: true).getDocuments(completion: {
-            (querySnapshot, _) in
-            let productInfo = querySnapshot!.documents.compactMap{DatabaseManager.ProductInfo(dictionary: $0.data())}
-            success(productInfo)
-        })
-    }
-    func downloadProductsByCategory(category: String, success: @escaping([DatabaseManager.ProductInfo]) -> Void, failure: @escaping(Error) -> Void) {
-        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).whereField(NavigationCases.ProductCases.productCategory.rawValue, isEqualTo: category).getDocuments(completion: {
-            (querySnapshot, error) in
-            if let error = error {
-                failure(error)
-            }else{
+    func downloadProducts(success: @escaping([DatabaseManager.ProductInfo]) -> Void,
+                          failure: @escaping(Error) -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue)
+            .getDocuments(completion: {
+                (querySnapshot, _) in
                 let productInfo = querySnapshot!.documents.compactMap{DatabaseManager.ProductInfo(dictionary: $0.data())}
                 success(productInfo)
-            }
-        })
+            })
     }
-    func downloadProductsBySubCategory(subCategory: String, success: @escaping([DatabaseManager.ProductInfo]) -> Void, failure: @escaping(Error) -> Void) {
-        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).whereField(NavigationCases.ProductCases.productSubCategory.rawValue, isEqualTo: subCategory).getDocuments(completion: {
-            (querySnapshot, error) in
-            if let error = error {
-                failure(error)
-            }else{
+    func downloadProductsWithStock(success: @escaping([DatabaseManager.ProductInfo]) -> Void,
+                                   failure: @escaping(Error) -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue)
+            .whereField(NavigationCases.ProductCases.stock.rawValue, isEqualTo: true)
+            .getDocuments(completion: {
+                (querySnapshot, _) in
                 let productInfo = querySnapshot!.documents.compactMap{DatabaseManager.ProductInfo(dictionary: $0.data())}
                 success(productInfo)
-            }
-        })
+            })
     }
-    func downloadCertainProduct(id: String, success: @escaping(DatabaseManager.ProductInfo) -> Void, failure: @escaping(Error) -> Void) {
-        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).whereField(NavigationCases.ProductCases.productID.rawValue, isEqualTo: id).getDocuments(completion: { (querySnapshot, error)in
-            if let error = error {
-                failure(error)
-            }else{
-                if let productInfo = querySnapshot!.documents.compactMap({DatabaseManager.ProductInfo(dictionary: $0.data())}).first {
-                     success(productInfo)
+    func downloadProductsByCategory(category: String,
+                                    success: @escaping([DatabaseManager.ProductInfo]) -> Void,
+                                    failure: @escaping(Error) -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue)
+            .whereField(NavigationCases.ProductCases.productCategory.rawValue, isEqualTo: category)
+            .getDocuments(completion: {
+                (querySnapshot, error) in
+                if let error = error {
+                    failure(error)
                 }else{
-                    failure(NetworkManagerError.productUIDDoesNotExist)
+                    let productInfo = querySnapshot!.documents.compactMap{DatabaseManager.ProductInfo(dictionary: $0.data())}
+                    success(productInfo)
                 }
-            }
-        })
+            })
+    }
+    func downloadProductsBySubCategory(subCategory: String,
+                                       success: @escaping([DatabaseManager.ProductInfo]) -> Void,
+                                       failure: @escaping(Error) -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue)
+            .whereField(NavigationCases.ProductCases.productSubCategory.rawValue, isEqualTo: subCategory)
+            .getDocuments(completion: {
+                (querySnapshot, error) in
+                if let error = error {
+                    failure(error)
+                }else{
+                    let productInfo = querySnapshot!.documents.compactMap{DatabaseManager.ProductInfo(dictionary: $0.data())}
+                    success(productInfo)
+                }
+            })
+    }
+    func downloadCertainProduct(id: String,
+                                success: @escaping(DatabaseManager.ProductInfo) -> Void,
+                                failure: @escaping(Error) -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue)
+            .whereField(NavigationCases.ProductCases.productID.rawValue, isEqualTo: id)
+            .getDocuments(completion: { (querySnapshot, error)in
+                if let error = error {
+                    failure(error)
+                }else{
+                    if let productInfo = querySnapshot!.documents.compactMap({DatabaseManager.ProductInfo(dictionary: $0.data())}).first {
+                        success(productInfo)
+                    }else{
+                        failure(NetworkManagerError.productUIDDoesNotExist)
+                    }
+                }
+            })
+    }
+    func downloadCategoriesDict(success: @escaping(DatabaseManager.CategoriesDataStruct) -> Void,
+                                failure: @escaping(Error) -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.searchProduct.rawValue)
+            .document(NavigationCases.ProductCases.productCategory.rawValue)
+            .getDocument { (documentSnapshot, error) in
+                if let error = error {
+                    failure(error)
+                }else{
+                    guard let data = DatabaseManager.CategoriesDataStruct(dictionary: documentSnapshot!.data()!) else {return}
+                    success(data)
+                }
+        }
+    }
+    func downloadSubCategoriesDict(success: @escaping(DatabaseManager.SubCategoriesDataStruct) -> Void,
+                                   failure: @escaping(Error) -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.searchProduct.rawValue)
+            .document(NavigationCases.ProductCases.productSubCategory.rawValue)
+            .getDocument { (documentSnapshot, error) in
+                if let error = error {
+                    failure(error)
+                }else{
+                    guard let data = DatabaseManager.SubCategoriesDataStruct(dictionary: documentSnapshot!.data()!) else {return}
+                    success(data)
+                }
+        }
     }
     
     //MARK: - For EMPLOYEE & EMPLOYER
-    func downloadEmployeeData(success: @escaping([DatabaseManager.EmployeeDataStruct]) -> Void, failure: @escaping(Error) -> Void) {
-        db.collection(NavigationCases.FirstCollectionRow.employee.rawValue).getDocuments { (querySnapshot, error) in
-            if let error = error {
-                failure(error)
-            }else{
-                let employeeData = querySnapshot!.documents.compactMap{DatabaseManager.EmployeeDataStruct(dictionary: $0.data())}
-                success(employeeData)
-            }
+    func downloadEmployeeData(success: @escaping([DatabaseManager.EmployeeDataStruct]) -> Void,
+                              failure: @escaping(Error) -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.employee.rawValue)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    failure(error)
+                }else{
+                    let employeeData = querySnapshot!.documents.compactMap{DatabaseManager.EmployeeDataStruct(dictionary: $0.data())}
+                    success(employeeData)
+                }
         }
     }
-    func downloadDataOfCertainEmployee(uid: String, success: @escaping([DatabaseManager.EmployeeDataStruct]) -> Void, failure: @escaping(Error) -> Void) {
+    func downloadDataOfCertainEmployee(uid: String,
+                                       success: @escaping([DatabaseManager.EmployeeDataStruct]) -> Void,
+                                       failure: @escaping(Error) -> Void) {
         if uid == "" {
             let error = NetworkManagerError.employeeUIDDoesNotExist
             failure(error)
         }else{
-            db.collection(NavigationCases.FirstCollectionRow.employee.rawValue).document(uid).getDocument { (documentSnapshot, _) in
-                guard let employeeData = DatabaseManager.EmployeeDataStruct(dictionary: documentSnapshot!.data()!) else {return}
-                success([employeeData])
+            db.collection(NavigationCases.FirstCollectionRow.employee.rawValue)
+                .document(uid)
+                .getDocument { (documentSnapshot, _) in
+                    guard let employeeData = DatabaseManager.EmployeeDataStruct(dictionary: documentSnapshot!.data()!) else {return}
+                    success([employeeData])
             }
         }
     }
-    func downloadEmployeeChat(success: @escaping([DatabaseManager.ChatMessages]) -> Void, failure: @escaping(Error) -> Void) {
+    func downloadEmployeeChat(success: @escaping([DatabaseManager.ChatMessages]) -> Void,
+                              failure: @escaping(Error) -> Void) {
         if AuthenticationManager.shared.currentUser?.uid == nil {
             failure(NetworkManagerError.employeeNotSignedIn)
         }else{
-            db.collection(NavigationCases.FirstCollectionRow.employeeMessages.rawValue).whereField(NavigationCases.MessagesCases.timeStamp.rawValue, isLessThan: Date()).getDocuments(completion: {
-                (querySnapshot, _) in
-                let messages = querySnapshot!.documents.compactMap{DatabaseManager.ChatMessages(dictionary: $0.data())}
-                success(messages)
-            })
+            db.collection(NavigationCases.FirstCollectionRow.employeeMessages.rawValue)
+                .whereField(NavigationCases.MessagesCases.timeStamp.rawValue, isLessThan: Date())
+                .getDocuments(completion: {
+                    (querySnapshot, _) in
+                    let messages = querySnapshot!.documents.compactMap{DatabaseManager.ChatMessages(dictionary: $0.data())}
+                    success(messages)
+                })
         }
     }
     
     //MARK: - For STATISTICS
-    func downloadArchivedOrders(time: Date, success: @escaping(_ receipts: [DatabaseManager.Order],_ additions: [DatabaseManager.OrderAddition], _ deleted: [DatabaseManager.Order]) -> Void, failure: @escaping(Error) -> Void) {
+    func downloadArchivedOrders(time: Date,
+                                success: @escaping(_ receipts: [DatabaseManager.Order], _ additions: [DatabaseManager.OrderAddition],
+        _ deleted: [DatabaseManager.Order]) -> Void,
+                                failure: @escaping(Error) -> Void) {
         //  - first fetch
-        db.collection(NavigationCases.FirstCollectionRow.archivedOrder.rawValue).getDocuments {
-            (querySnapshot, error) in
-            if let error = error {
-                failure(error)
-            }else{
-                let receiptsData = querySnapshot!.documents.compactMap{DatabaseManager.Order(dictionary: $0.data())}
-                // - second fetch
-                self.db.collection(NavigationCases.FirstCollectionRow.archivedOrderDescription.rawValue).getDocuments {
-                    (querySnapshot, error) in
-                    if let error = error {
-                        failure(error)
-                    }else{
-                        let additionsData = querySnapshot!.documents.compactMap{DatabaseManager.OrderAddition(dictionary: $0.data())}
-                        //third fetch
-                        self.db.collection(NavigationCases.FirstCollectionRow.deletedOrder.rawValue).getDocuments { (querySnapshot, error) in
+        db.collection(NavigationCases.FirstCollectionRow.archivedOrder.rawValue)
+            .getDocuments {
+                (querySnapshot, error) in
+                if let error = error {
+                    failure(error)
+                }else{
+                    let receiptsData = querySnapshot!.documents.compactMap{DatabaseManager.Order(dictionary: $0.data())}
+                    // - second fetch
+                    self.db.collection(NavigationCases.FirstCollectionRow.archivedOrderDescription.rawValue)
+                        .getDocuments {
+                            (querySnapshot, error) in
                             if let error = error {
                                 failure(error)
                             }else{
-                                let deletedData = querySnapshot!.documents.compactMap{DatabaseManager.Order(dictionary: $0.data())}
-                                success(receiptsData, additionsData, deletedData)
+                                let additionsData = querySnapshot!.documents.compactMap{DatabaseManager.OrderAddition(dictionary: $0.data())}
+                                //third fetch
+                                self.db.collection(NavigationCases.FirstCollectionRow.deletedOrder.rawValue)
+                                    .getDocuments { (querySnapshot, error) in
+                                        if let error = error {
+                                            failure(error)
+                                        }else{
+                                            let deletedData = querySnapshot!.documents.compactMap{DatabaseManager.Order(dictionary: $0.data())}
+                                            success(receiptsData, additionsData, deletedData)
+                                        }
+                                }
                             }
-                        }
                     }
                 }
-            }
         }
     }
-    func downloadArchivedOrdersByCategory(success: @escaping(_ bouquets: [DatabaseManager.OrderAddition],_ apiece: [DatabaseManager.OrderAddition], _ gifts: [DatabaseManager.OrderAddition], _ stocks: [DatabaseManager.OrderAddition]) -> Void, failure: @escaping(Error) -> Void) {
+    func downloadArchivedOrdersByCategory(success: @escaping(_ bouquets: [DatabaseManager.OrderAddition], _ apiece: [DatabaseManager.OrderAddition],
+        _ gifts: [DatabaseManager.OrderAddition], _ stocks: [DatabaseManager.OrderAddition]) -> Void,
+                                          failure: @escaping(Error) -> Void) {
         //  - first fetch
         db.collection(NavigationCases.FirstCollectionRow.archivedOrderDescription.rawValue).whereField(NavigationCases.ProductCases.productCategory.rawValue, isEqualTo: NavigationCases.ProductCategoriesCases.bouquet.rawValue).getDocuments { (querySnapshot, _) in
             let bouquetsData = querySnapshot!.documents.compactMap{DatabaseManager.OrderAddition(dictionary: $0.data())}
@@ -290,22 +353,26 @@ extension NetworkManager {
             }
         }
     }
-    func downloadArchivedOrdersByReceipts(overThan: Int, lessThan: Int, success: @escaping(_ bigger: [DatabaseManager.Order], _ smaller: [DatabaseManager.Order]) -> Void, failure: @escaping(Error) -> Void) {
+    func downloadArchivedOrdersByReceipts(overThan: Int, lessThan: Int,
+                                          success: @escaping(_ bigger: [DatabaseManager.Order],_ smaller: [DatabaseManager.Order]) -> Void,
+                                          failure: @escaping(Error) -> Void) {
         //  - first fetch
-        db.collection(NavigationCases.FirstCollectionRow.archivedOrder.rawValue).whereField(NavigationCases.OrderCases.totalPrice.rawValue, isGreaterThan: overThan).getDocuments {
-            (querySnapshot, _) in
-            let biggerReceiptsData = querySnapshot!.documents.compactMap{DatabaseManager.Order(dictionary: $0.data())}
-            
-            // - second fetch
-            self.db.collection(NavigationCases.FirstCollectionRow.archivedOrder.rawValue).whereField(NavigationCases.OrderCases.totalPrice.rawValue, isLessThan: lessThan).getDocuments {
+        db.collection(NavigationCases.FirstCollectionRow.archivedOrder.rawValue)
+            .whereField(NavigationCases.OrderCases.totalPrice.rawValue, isGreaterThan: overThan)
+            .getDocuments {
                 (querySnapshot, _) in
-                let smallerReceiptsData = querySnapshot!.documents.compactMap{DatabaseManager.Order(dictionary: $0.data())}
+                let biggerReceiptsData = querySnapshot!.documents.compactMap{DatabaseManager.Order(dictionary: $0.data())}
                 
-                success(biggerReceiptsData, smallerReceiptsData)
-            }
+                // - second fetch
+                self.db.collection(NavigationCases.FirstCollectionRow.archivedOrder.rawValue).whereField(NavigationCases.OrderCases.totalPrice.rawValue, isLessThan: lessThan).getDocuments {
+                    (querySnapshot, _) in
+                    let smallerReceiptsData = querySnapshot!.documents.compactMap{DatabaseManager.Order(dictionary: $0.data())}
+                    
+                    success(biggerReceiptsData, smallerReceiptsData)
+                }
         }
     }
-
+    
     //MARK: - For PRODUCT CUSTOMIZE
     func downloadImageByURL(url: String, success: @escaping(UIImage) -> Void) {
         if let url = URL(string: url){
@@ -328,67 +395,88 @@ extension NetworkManager {
     
     //MARK: - For ORDERS
     func orderListener(success: @escaping(DatabaseManager.Order) -> Void) {
-        db.collection(NavigationCases.FirstCollectionRow.order.rawValue).whereField(NavigationCases.MessagesCases.timeStamp.rawValue, isGreaterThan: Date()).addSnapshotListener { (querySnapshot, error) in
-            guard let snapshot = querySnapshot else {return}
-            
-            snapshot.documentChanges.forEach { diff in
-                if diff.type == .added {
-                    guard let newOrder = DatabaseManager.Order(dictionary: diff.document.data()) else {return}
-                    success(newOrder)
+        db.collection(NavigationCases.FirstCollectionRow.order.rawValue)
+            .whereField(NavigationCases.MessagesCases.timeStamp.rawValue, isGreaterThan: Date())
+            .addSnapshotListener { (querySnapshot, error) in
+                guard let snapshot = querySnapshot else {return}
+                
+                snapshot.documentChanges.forEach { diff in
+                    if diff.type == .added {
+                        guard let newOrder = DatabaseManager.Order(dictionary: diff.document.data()) else {return}
+                        success(newOrder)
+                    }
                 }
-            }
         }
     }
     
     //MARK: - For PRODUCTS
     func updateAllPricesByCategory(for category: String, by price: Int, success: @escaping() -> Void, failure: @escaping(Error) -> Void) {
-        let path = db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).whereField(NavigationCases.ProductCases.productCategory.rawValue, isEqualTo: category)
-        path.getDocuments { (querySnapshot, error) in
-            if let error = error {
-                failure(error)
-            }else{
-                let products = querySnapshot!.documents.compactMap{DatabaseManager.ProductInfo(dictionary: $0.data())}
-                
-                for i in products {
-                    let ref = self.db.collection(NavigationCases.FirstCollectionRow
-                        .productInfo.rawValue).document(i.productName)
+        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue)
+            .whereField(NavigationCases.ProductCases.productCategory.rawValue, isEqualTo: category)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    failure(error)
+                }else{
+                    let products = querySnapshot!.documents.compactMap{DatabaseManager.ProductInfo(dictionary: $0.data())}
                     
-                    ref.updateData([NavigationCases.ProductCases.productPrice.rawValue : i.productPrice + price])
+                    for i in products {
+                        let ref = self.db.collection(NavigationCases.FirstCollectionRow
+                            .productInfo.rawValue).document(i.productName)
+                        
+                        ref.updateData([NavigationCases.ProductCases.productPrice.rawValue : i.productPrice + price])
+                    }
+                    success()
                 }
-                success()
-            }
         }
     }
     func updatePriceOfCertainProduct(name: String, newPrice: Int) {
-        let path = db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).document(name)
-        path.updateData([NavigationCases.ProductCases.productPrice.rawValue : newPrice])
+        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue)
+            .document(name)
+            .updateData([NavigationCases.ProductCases.productPrice.rawValue : newPrice])
     }
     func updateStockCondition(name: String, stock: Bool) {
-        let path = db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).document(name)
-        path.updateData([NavigationCases.ProductCases.stock.rawValue : stock])
+        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue)
+            .document(name)
+            .updateData([NavigationCases.ProductCases.stock.rawValue : stock])
     }
     func updateDeliveryPerson(orderID: String, deliveryPerson: String) {
-        let path = db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderID)
-        path.updateData([NavigationCases.OrderCases.deliveryPerson.rawValue : deliveryPerson])
+        db.collection(NavigationCases.FirstCollectionRow.order.rawValue)
+            .document(orderID)
+            .updateData([NavigationCases.OrderCases.deliveryPerson.rawValue : deliveryPerson])
     }
     func updateSubCategory(category: String, subCategory: [String]) {
-        let ref = db.collection(NavigationCases.FirstCollectionRow.searchProduct.rawValue).document(NavigationCases.ProductCases.productSubCategory.rawValue)
-        
-        ref.updateData([category : subCategory], completion: nil)
-        
+        db.collection(NavigationCases.FirstCollectionRow.searchProduct.rawValue)
+            .document(NavigationCases.ProductCases.productSubCategory.rawValue)
+            .updateData([category : subCategory], completion: nil)
+    }
+    func updateAllProductProperties(docID: String, name: String, price: Int, category:String,
+                                    subCategory: String, description: String, searchArray: [String], stock: Bool,
+                                    success: @escaping() -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue)
+            .document(docID)
+            .updateData([NavigationCases.ProductCases.productName.rawValue : name,
+                         NavigationCases.ProductCases.productPrice.rawValue : price,
+                         NavigationCases.ProductCases.productCategory.rawValue : category,
+                         NavigationCases.ProductCases.productSubCategory.rawValue : subCategory,
+                         NavigationCases.ProductCases.productDescription.rawValue : description,
+                         NavigationCases.ProductCases.searchArray.rawValue : searchArray,
+                         NavigationCases.ProductCases.stock.rawValue : stock])
+        success()
     }
     
     //MARK: - For EMPLOYEE & EMPLOYER
     func chatListener(success: @escaping(DatabaseManager.ChatMessages) -> Void) {
-        db.collection(NavigationCases.FirstCollectionRow.employeeMessages.rawValue).whereField(NavigationCases.MessagesCases.timeStamp.rawValue, isGreaterThan: Date()).addSnapshotListener { (querySnapshot, error) in
-            guard let snapshot = querySnapshot else {return}
-            
-            snapshot.documentChanges.forEach { diff in
-                if diff.type == .added {
-                    guard let newMessage = DatabaseManager.ChatMessages(dictionary: diff.document.data()) else {return}
-                    success(newMessage)
+        db.collection(NavigationCases.FirstCollectionRow.employeeMessages.rawValue)
+            .whereField(NavigationCases.MessagesCases.timeStamp.rawValue, isGreaterThan: Date())
+            .addSnapshotListener { (querySnapshot, error) in
+                guard let snapshot = querySnapshot else {return}
+                
+                snapshot.documentChanges.forEach { diff in
+                    if diff.type == .added {
+                        guard let newMessage = DatabaseManager.ChatMessages(dictionary: diff.document.data()) else {return}
+                        success(newMessage)
+                    }
                 }
-            }
         }
     }
     
@@ -415,46 +503,53 @@ extension NetworkManager {
         }
     }
     func deleteOrderAddition(collection: CollectionReference, batchSize: Int = 100) {
-        collection.limit(to: batchSize).getDocuments { (docs, error) in
-            let docs = docs,
-            batch = collection.firestore.batch()
-            
-            docs?.documents.forEach { batch.deleteDocument($0.reference) }
-            
-            batch.commit { _ in
-                self.deleteOrderAddition(collection: collection, batchSize: batchSize)
-            }
+        collection.limit(to: batchSize)
+            .getDocuments { (docs, error) in
+                let docs = docs,
+                batch = collection.firestore.batch()
+                
+                docs?.documents.forEach { batch.deleteDocument($0.reference) }
+                
+                batch.commit { _ in
+                    self.deleteOrderAddition(collection: collection, batchSize: batchSize)
+                }
         }
     }
     
     //MARK: - For PRODUCTS
-    func deleteProduct(name: String){
-        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).document(name).delete() { err in
-            if let err = err {
-                print("Error removing document: \(err.localizedDescription)")
-            } else {
-                let imageRef = Storage.storage().reference().child("\(NavigationCases.FirstCollectionRow.imageCollection.rawValue)/\(name)")
-                imageRef.delete { error in
-                    if let error = error {
-                        print("error ocured: \(error.localizedDescription)")
-                    } else {
-                        print("Delete succeed")
+    func deleteProduct(productID: String, name: String){
+        db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue)
+            .document(productID)
+            .delete() { err in
+                if let err = err {
+                    print("Error removing document: \(err.localizedDescription)")
+                } else {
+                    let imageRef = Storage.storage().reference().child("\(NavigationCases.FirstCollectionRow.imageCollection.rawValue)/\(name)")
+                    imageRef.delete { error in
+                        if let error = error {
+                            print("error ocured: \(error.localizedDescription)")
+                        } else {
+                            print("Delete succeed")
+                        }
                     }
                 }
-            }
         }
     }
     
     //MARK: - For EMPLOYEE & EMPLOYER
-    func deleteEmployeeData(uid: String, name: String, phone: String, position: String, successed: Int, fails: Int, _ success: @escaping() -> Void, _ failure: @escaping(Error) -> Void) {
-        db.collection(NavigationCases.FirstCollectionRow.employee.rawValue).document(uid).delete { (error) in
-            if let error = error{
-                failure(error)
-            }else{
-                let deletedData: [String: Any] = ["uid": uid, "name": name, "phone": phone, "position": position, "success": successed, "failure": fails]
-                self.db.collection("deletedEmployees").addDocument(data: deletedData)
-                success()
-            }
+    func deleteEmployeeData(uid: String, name: String, phone: String, position: String, successed: Int, fails: Int,
+                            _ success: @escaping() -> Void,
+                            _ failure: @escaping(Error) -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.employee.rawValue)
+            .document(uid)
+            .delete { (error) in
+                if let error = error{
+                    failure(error)
+                }else{
+                    let deletedData: [String: Any] = ["uid": uid, "name": name, "phone": phone, "position": position, "success": successed, "failure": fails]
+                    self.db.collection("deletedEmployees").addDocument(data: deletedData)
+                    success()
+                }
         }
     }
     

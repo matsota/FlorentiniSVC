@@ -33,6 +33,7 @@ class OrderListViewController: UIViewController {
         
         // - coredata
         self.employeePosition = CoreDataManager.shared.fetchEmployeePosition()
+        
     }
     
     //MARK: - Prepare for Order Detail
