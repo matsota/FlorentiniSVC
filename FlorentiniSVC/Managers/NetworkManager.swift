@@ -450,17 +450,23 @@ extension NetworkManager {
     }
     func updateAllProductProperties(docID: String, name: String, price: Int, category:String,
                                     subCategory: String, description: String, searchArray: [String], stock: Bool,
-                                    success: @escaping() -> Void) {
+                                    success: @escaping() -> Void,
+                                    failure: @escaping(Error) -> Void) {
         db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue)
             .document(docID)
             .updateData([NavigationCases.ProductCases.productName.rawValue : name,
-                         NavigationCases.ProductCases.productPrice.rawValue : price,
-                         NavigationCases.ProductCases.productCategory.rawValue : category,
-                         NavigationCases.ProductCases.productSubCategory.rawValue : subCategory,
-                         NavigationCases.ProductCases.productDescription.rawValue : description,
-                         NavigationCases.ProductCases.searchArray.rawValue : searchArray,
-                         NavigationCases.ProductCases.stock.rawValue : stock])
-        success()
+            NavigationCases.ProductCases.productPrice.rawValue : price,
+            NavigationCases.ProductCases.productCategory.rawValue : category,
+            NavigationCases.ProductCases.productSubCategory.rawValue : subCategory,
+            NavigationCases.ProductCases.productDescription.rawValue : description,
+            NavigationCases.ProductCases.searchArray.rawValue : searchArray,
+            NavigationCases.ProductCases.stock.rawValue : stock]) { (error) in
+                if let error = error {
+                    failure(error)
+                }else{
+                    success()
+                }
+        }
     }
     
     //MARK: - For EMPLOYEE & EMPLOYER

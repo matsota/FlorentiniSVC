@@ -17,9 +17,10 @@ class ProductManagerViewController: UIViewController {
     //MARK: - Override
     override func viewDidLoad() {
         super.viewDidLoad()
+        /// Activity Indicator
+        activityIndicator.stopAnimating()
         /// ID
         productIDLabel.text = id
-        
         /// Network data
         if let id = id {
             NetworkManager.shared.downloadCertainProduct(id: id, success: { (data) in
@@ -296,6 +297,7 @@ private extension ProductManagerViewController {
     }
     
     @objc private func save() {
+        activityIndicator.startAnimating()
         self.setEditing(false, animated: true)
         guard let id = id,
             let name = productNameTextField.text,
@@ -312,9 +314,12 @@ private extension ProductManagerViewController {
         }
         
         NetworkManager.shared.updateAllProductProperties(docID: id, name: name, price: price, category: category,
-                                                         subCategory: subCategory, description: description, searchArray: searchArray, stock: stock) {
-                                                            self.present(UIAlertController
-                                                                .alertAppearanceForHalfSec(title: "Внимание", message: "Продукт Удачно Изменён"), animated: true)
+        subCategory: subCategory, description: description, searchArray: searchArray, stock: stock, success: {
+            self.present(UIAlertController.alertAppearanceForHalfSec(title: "Успех", message: "Продукт изменён"), animated: true)
+            self.activityIndicator.stopAnimating()
+        }) { (error) in
+            self.alertAboutConnectionLost(method: "updateAllProductProperties", error: error)
+            self.activityIndicator.stopAnimating()
         }
     }
     
