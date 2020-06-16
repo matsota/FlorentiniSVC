@@ -27,9 +27,12 @@ class CatalogListTableViewCell: UITableViewCell {
     
     //MARK: - Implementation
     var id: String?
-    var name: String?
-    var price: Int?
-    var category: String?
+    
+    private var name: String?,
+    price: Int?,
+    category: String?,
+    emloyeePosition: String?
+    
     weak var delegate: CatalogListTableViewCellDelegate?
     
     //MARK: - Label
@@ -55,10 +58,18 @@ class CatalogListTableViewCell: UITableViewCell {
     //MARK: - Overrides
     override func awakeFromNib() {
         super.awakeFromNib()
-        let transitionPerform = UISwipeGestureRecognizer()
-        transitionPerform.direction = .right
-        transitionPerform.addTarget(self, action: #selector(self.transitionPerform(sender:)))
-        self.contentView.addGestureRecognizer(transitionPerform)
+//        if emloyeePosition == NavigationCases.EmployeeCases.admin.rawValue, emloyeePosition == NavigationCases.EmployeeCases.operator.rawValue{
+            let transitionPerform = UISwipeGestureRecognizer()
+            transitionPerform.direction = .right
+            transitionPerform.addTarget(self, action: #selector(self.transitionPerform(sender:)))
+            self.contentView.addGestureRecognizer(transitionPerform)
+//        }
+        
+        if emloyeePosition != NavigationCases.EmployeeCases.admin.rawValue {
+            self.stockSwitch.isEnabled = false
+            self.productPriceButton.isUserInteractionEnabled = false
+            
+        }
     }
     
     override func prepareForReuse() {
@@ -75,7 +86,7 @@ class CatalogListTableViewCell: UITableViewCell {
     //MARK: - Methods
     /// Transition to certain cell with data about certain product
     @objc private func transitionPerform(sender: UISwipeGestureRecognizer) {
-        delegate?.transitionToProductManager(self)
+            delegate?.transitionToProductManager(self)
     }
     
     /// Price edit Method
@@ -109,7 +120,7 @@ class CatalogListTableViewCell: UITableViewCell {
             stockConditionLabel.textColor = .black
         }
         
-        let storagePath = "\(NavigationCases.FirstCollectionRow.imageCollection.rawValue)/\(name)",
+        let storagePath = "\(NavigationCases.FirstCollectionRow.productImages.rawValue)/\(id)",
         storageRef = Storage.storage().reference(withPath: storagePath)
         productImageView.sd_setImage(with: storageRef, placeholderImage: .none) { (image, error, _, _) in
             if let error = error{

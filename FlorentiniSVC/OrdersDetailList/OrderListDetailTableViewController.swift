@@ -50,7 +50,7 @@ class OrderDetailListTableViewController: UITableViewController {
         category = fetch.productCategory,
         price = Int(fetch.productPrice),
         stock = fetch.stock,
-        storagePath = "\(NavigationCases.FirstCollectionRow.imageCollection.rawValue)/\(name)",
+        storagePath = "\(NavigationCases.FirstCollectionRow.productImages.rawValue)/\(name)",
         storageRef = Storage.storage().reference(withPath: storagePath)
         
         cell.imageActivityIndicator.isHidden = false

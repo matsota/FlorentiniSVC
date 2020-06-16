@@ -51,7 +51,7 @@ extension NetworkManager {
     
     //MARK: - For PRODUCTS 
     func uploadProductDescriptionToBackEnd(name: String, price: Int, description: String, category: String, subCategory: String, stock: Bool, searchArray: [String],
-                                           success: @escaping() -> Void) {
+                                           success: @escaping(String) -> Void) {
         let ref = db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue).document(),
         dataModel = DatabaseManager.ProductInfo(productName: name,
                                                 productPrice: price,
@@ -65,17 +65,16 @@ extension NetworkManager {
                                                 voteAmount: 0)
         
         ref.setData(dataModel.dictionary)
-        success()
+        success(ref.documentID)
     }
     
-    func uploadProductToBackEnd(image: UIImageView, productName: String, progressIndicator: UIProgressView,
-                                success: @escaping() -> Void,
+    func uploadProductToBackEnd(image: UIImageView, productID: String, progressIndicator: UIProgressView,
                                 failure: @escaping(Error) -> Void) {
         progressIndicator.isHidden = false
         guard AuthenticationManager.shared.uidAdmin == AuthenticationManager.shared.currentUser?.uid,
             let imageData = image.image?.jpegData(compressionQuality: 0.75) else {return}
         
-        let uploadRef = Storage.storage().reference(withPath: "\(NavigationCases.FirstCollectionRow.imageCollection.rawValue)/\(productName)"),
+        let uploadRef = Storage.storage().reference(withPath: "\(NavigationCases.FirstCollectionRow.productImages.rawValue)/\(productID)"),
         uploadMetadata = StorageMetadata.init()
         
         uploadMetadata.contentType = "image/jpg"
@@ -95,9 +94,9 @@ extension NetworkManager {
         taskRef.observe(.success) { i in
             if let error = i.error {
                 failure(error)
+                progressIndicator.isHidden = true
             }else{
                 progressIndicator.isHidden = true
-                success()
             }
         }
         
@@ -524,7 +523,7 @@ extension NetworkManager {
                 if let err = err {
                     print("Error removing document: \(err.localizedDescription)")
                 } else {
-                    let imageRef = Storage.storage().reference().child("\(NavigationCases.FirstCollectionRow.imageCollection.rawValue)/\(name)")
+                    let imageRef = Storage.storage().reference().child("\(NavigationCases.FirstCollectionRow.productImages.rawValue)/\(name)")
                     imageRef.delete { error in
                         if let error = error {
                             print("error ocured: \(error.localizedDescription)")

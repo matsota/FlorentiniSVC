@@ -64,7 +64,7 @@ class NavigationCases {
         case employee
         case employeeMessages
         case productInfo
-        case imageCollection
+        case productImages
         case order
         case archivedOrderDescription
         case archivedOrder

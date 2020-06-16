@@ -25,43 +25,9 @@ class ProductManagerViewController: UIViewController {
             NetworkManager.shared.downloadCertainProduct(id: id, success: { (data) in
                 self.productData = data
                 /// set image
-                let name = data.productName,
-                storagePath = "\(NavigationCases.FirstCollectionRow.imageCollection.rawValue)/\(name)",
+                let storagePath = "\(NavigationCases.FirstCollectionRow.productImages.rawValue)/\(id)",
                 storageRef = Storage.storage().reference(withPath: storagePath)
-//                self.productImageView.sd_setImage(with: storageRef, placeholderImage: .none)
-                
-                
-                self.productImageView.sd_setImage(with: storageRef, placeholderImage: .none) { (image, _, _, _) in
-                    
-                    let imageData = image?.pngData()
-                    let uploadRef = Storage.storage().reference(withPath: "\(NavigationCases.FirstCollectionRow.imageCollection.rawValue)/\(id)"),
-                    uploadMetadata = StorageMetadata.init()
-                    
-                    uploadMetadata.contentType = "productImage/png"
-                    
-                    let task = uploadRef.putData(imageData!, metadata: uploadMetadata) { (_, error) in
-                        if let error = error {
-                            print("Oh no! \(error.localizedDescription)")
-                            return
-                        }
-                    }
-                    
-                    task.observe(.progress){ (snapshot) in
-//                        guard let pctThere = snapshot.progress?.fractionCompleted else {return}
-//                        progressIndicator.progress = Float(pctThere)
-                        self.activityIndicator.startAnimating()
-                    }
-                    
-                    task.observe(.success) { i in
-                        if let error = i.error {
-                            self.present(UIAlertController.alertAppearanceForTwoSec(title: "STOP", message: "Re-Entry"), animated: true)
-                        }else{
-                            self.activityIndicator.stopAnimating()
-                        }
-                    }
-                    
-                }
-                
+                self.productImageView.sd_setImage(with: storageRef, placeholderImage: .none)
                 /// set price
                 self.productPriceTextField.text = "\(data.productPrice)"
                 /// set name

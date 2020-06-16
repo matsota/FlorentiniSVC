@@ -319,21 +319,20 @@ private extension ProductCustomizeViewController {
         }else if image == nil{
             self.present(UIAlertController.classic(title: "Эттеншн", message: "Вы забыли фотографию"), animated: true)
         }else{
-            NetworkManager.shared.uploadProductToBackEnd(image: image!, productName: name, progressIndicator: progressView, success: {
-                let category = self.selectedCategory,
-                subCategory = self.selectedSubCategory
-                NetworkManager.shared.uploadProductDescriptionToBackEnd(name: name, price: price ?? 0, description: description, category: category, subCategory: subCategory, stock: stock, searchArray: [name]) {
-                    self.present(UIAlertController.alertAppearanceForHalfSec(title: "Готово!", message: "Новый товар добавлен"), animated: true)
-                    self.photoNameTextField.text = ""
-                    self.descriptionTextView.text = ""
-                    self.photoPriceTextField.text = ""
-                    self.stockSwitch.isOn = false
-                    self.stock = false
-                    self.stockConditionLabel.text = "Без акции"
+            let category = self.selectedCategory,
+            subCategory = self.selectedSubCategory
+            NetworkManager.shared.uploadProductDescriptionToBackEnd(name: name, price: price ?? 0, description: description, category: category, subCategory: subCategory, stock: stock, searchArray: [name]) { id in
+                self.present(UIAlertController.alertAppearanceForHalfSec(title: "Готово!", message: "Новый товар добавлен"), animated: true)
+                self.photoNameTextField.text = ""
+                self.descriptionTextView.text = ""
+                self.photoPriceTextField.text = ""
+                self.stockSwitch.isOn = false
+                self.stock = false
+                self.stockConditionLabel.text = "Без акции"
+                NetworkManager.shared.uploadProductToBackEnd(image: image!, productID: id, progressIndicator: self.progressView) { error in
+                    print("ERROR: NetworkManager.shared.setupProduct: ", error.localizedDescription)
+                    self.present(UIAlertController.classic(title: "Внимание", message: "Произошла ошибка: \(error.localizedDescription)"), animated: true)
                 }
-            }) { error in
-                print("ERROR: NetworkManager.shared.setupProduct: ", error.localizedDescription)
-                self.present(UIAlertController.classic(title: "Внимание", message: "Произошла ошибка: \(error.localizedDescription)"), animated: true)
             }
         }
     }
