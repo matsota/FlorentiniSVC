@@ -231,7 +231,7 @@ extension ProductManagerViewController: UITextFieldDelegate {
         currentTextField = textField
         if currentTextField == productCategoryTextField {
             currentTextField.inputView = pickerView
-        }else if textField == productSubCategoryTextField {
+        }else if currentTextField == productSubCategoryTextField {
             if selectedCategory == "" {
                 self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Вы не выбрали категорию"), animated: true)
             }else{

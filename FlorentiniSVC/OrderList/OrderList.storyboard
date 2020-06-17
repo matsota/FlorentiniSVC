@@ -151,25 +151,14 @@
                                                                 </label>
                                                             </subviews>
                                                         </stackView>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aOc-o1-MDA" customClass="DesignButton" customModule="FlorentiniSVC" customModuleProvider="target">
+                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Курьер НЕ назначен" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d12-o2-yGl">
                                                             <rect key="frame" x="0.0" y="130" width="358" height="44"/>
-                                                            <color key="backgroundColor" red="0.81185215710000003" green="0.71545660499999997" blue="0.82354193929999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="height" constant="44" id="MMZ-j3-olQ"/>
+                                                                <constraint firstAttribute="height" constant="44" id="Haa-37-DEB"/>
                                                             </constraints>
-                                                            <color key="tintColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                            <state key="normal" image="person" catalog="system">
-                                                                <color key="titleColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                            </state>
-                                                            <userDefinedRuntimeAttributes>
-                                                                <userDefinedRuntimeAttribute type="number" keyPath="rounding">
-                                                                    <real key="value" value="5"/>
-                                                                </userDefinedRuntimeAttribute>
-                                                            </userDefinedRuntimeAttributes>
-                                                            <connections>
-                                                                <action selector="deliveryPersonTapped:" destination="Oeg-Ax-T4u" eventType="touchUpInside" id="lkq-sX-tOR"/>
-                                                            </connections>
-                                                        </button>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <textInputTraits key="textInputTraits"/>
+                                                        </textField>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="4V4-My-3MO" firstAttribute="width" secondItem="t6o-Hv-ojM" secondAttribute="width" id="2Hf-Bk-tgd"/>
@@ -198,7 +187,7 @@
                                         <connections>
                                             <outlet property="adressLabel" destination="AbX-nR-A1y" id="j54-uO-oj7"/>
                                             <outlet property="billLabel" destination="Hwj-B2-pft" id="wQg-Lo-wVJ"/>
-                                            <outlet property="deliveryPersonButton" destination="aOc-o1-MDA" id="eei-I3-Hlv"/>
+                                            <outlet property="deliveryPersonTextField" destination="d12-o2-yGl" id="26r-Qh-fNf"/>
                                             <outlet property="feedbackOptionLabel" destination="oyG-0X-VbJ" id="nFB-EC-JVA"/>
                                             <outlet property="markLabel" destination="5Up-4W-VKP" id="e2V-gV-cVJ"/>
                                             <outlet property="nameLabel" destination="M3o-Ef-95C" id="hGv-Fr-hoc"/>
@@ -226,6 +215,7 @@
                     <navigationItem key="navigationItem" title="Заказы" id="5ok-f1-O9o"/>
                     <connections>
                         <outlet property="tableView" destination="WgL-WN-5QT" id="3xI-xJ-AI5"/>
+                        <outlet property="tableViewBottomConstraint" destination="5Qm-oA-3mV" id="sMe-h4-Dqy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7In-Jq-MYx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -266,6 +256,5 @@
     <resources>
         <image name="bookmark" catalog="system" width="112" height="128"/>
         <image name="bookmark.fill" catalog="system" width="112" height="128"/>
-        <image name="person" catalog="system" width="128" height="117"/>
     </resources>
 </document>

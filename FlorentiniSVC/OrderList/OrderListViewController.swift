@@ -9,14 +9,14 @@
 import UIKit
 
 
-class OrderListViewController: UIViewController {
+class OrderListViewController: UIViewController{
     
     //MARK: - Override
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // - network
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        /// Network
         NetworkManager.shared.downloadOrders(success: { (orders) in
-            self.order = orders
+            self.newOrder = orders
             self.orderCount = orders.count
             self.navigationController?.navigationBar.topItem?.title = "Заказы: \(self.orderCount)"
             self.tableView.reloadData()
@@ -24,33 +24,58 @@ class OrderListViewController: UIViewController {
         }) { error in
             self.present(UIAlertController.classic(title: "Attention", message: error.localizedDescription), animated: true)
         }
+        
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        /// Network
         NetworkManager.shared.orderListener { newOrder in
-            self.order.insert(newOrder, at: 0)
+            self.newOrder.insert(newOrder, at: 0)
             self.orderCount += 1
             self.navigationController?.navigationBar.topItem?.title = "Заказы: \(self.orderCount)"
             self.tableView.reloadData()
         }
+        NetworkManager.shared.downloadEmployeesByTheirPosition(position: NavigationCases.EmployeeCases.delivery.rawValue, success: { (data) in
+            let names = data.compactMap({$0.name})
+            self.arrayOfDeliveryPersons = names
+        }) { (error) in
+            self.alertAboutConnectionLost(method: "downloadEmployeesByTheirPosition", error: error)
+        }
         
-        // - coredata
+        /// CoreData
         self.employeePosition = CoreDataManager.shared.fetchEmployeePosition()
         
+        
+        /// Keyboard
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardDidShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        hideKeyboardWhenTappedAround()
     }
     
     //MARK: - Prepare for Order Detail
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == NavigationCases.Transition.orderList_OrderDetail.rawValue, let orderDetailVC = segue.destination as? OrderDetailListTableViewController, let index = tableView.indexPathsForSelectedRows?.first {
-            orderDetailVC.order = order[index.row]
+            orderDetailVC.order = newOrder[index.row]
             tableView.reloadData()
         }
     }
     
     //MARK: - Private Implementation
-    private var order = [DatabaseManager.Order]()
-    private var employeePosition: String?
-    private var orderCount = Int()
+    private var newOrder = [DatabaseManager.Order](),
+    orderCount = Int(),
+    
+    employeePosition: String?,
+    
+    currentTextField = UITextField(),
+    arrayOfDeliveryPersons: [String]?,
+    selectedDeliveryPerson: String?,
+    indexRowOfCertainCell: Int?
     
     //MARK: TableView
     @IBOutlet private weak var tableView: UITableView!
+    
+    //MARK: Constaint
+    @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
     
 }
 
@@ -68,14 +93,19 @@ class OrderListViewController: UIViewController {
 extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return order.count
+        return newOrder.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.Transition.OrdersListTVCell.rawValue, for: indexPath) as! OrderListTableViewCell,
-        fetch = order[indexPath.row],
+        let cell = tableView.dequeueReusableCell(withIdentifier: NavigationCases.Transition.OrdersListTVCell.rawValue, for: indexPath) as! OrderListTableViewCell
+        
+        cell.delegate = self
+        cell.tag = indexPath.row
+        print(indexPath.row)
+        print(cell.tag)
+        
+        let fetch = newOrder[cell.tag],
         bill = Int(fetch.totalPrice),
-        orderKey = fetch.currentDeviceID,
         phoneNumber = fetch.cellphone,
         adress = fetch.adress,
         name = fetch.name,
@@ -84,9 +114,9 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
         orderTime = Date.asString(fetch.timeStamp)(),
         orderID = fetch.orderID,
         deliveryPerson = fetch.deliveryPerson
-        cell.delegate = self
         
-        cell.fill(bill: bill, orderKey: orderKey, phoneNumber: phoneNumber, adress: adress, name: name, feedbackOption: feedbackOption, orderTime: orderTime, mark: mark, deliveryPerson: deliveryPerson, orderID: orderID)
+        
+        cell.fill(bill: bill, phoneNumber: phoneNumber, adress: adress, name: name, feedbackOption: feedbackOption, orderTime: orderTime, mark: mark, deliveryPerson: deliveryPerson, orderID: orderID, indexRow: indexPath.row)
         
         return cell
     }
@@ -102,7 +132,7 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func archiveAction(at indexPath: IndexPath) -> UIContextualAction {
-        let fetch = order[indexPath.row],
+        let fetch = newOrder[indexPath.row],
         totalPrice = fetch.totalPrice,
         name = fetch.name,
         adress = fetch.adress,
@@ -119,14 +149,14 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
                 let dataModel =  DatabaseManager.Order(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, currentDeviceID: currentDeviceID, deliveryPerson: deliveryPerson, orderID: orderID)
                 NetworkManager.shared.archiveOrder(dataModel: dataModel, orderKey: orderID)
                 self.orderCount -= 1
-                self.order.remove(at: indexPath.row)
+                self.newOrder.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)
                 self.viewDidLoad()
                 self.present(UIAlertController.alertAppearanceForTwoSec(title: "Эттеншн", message: "Заказ успершно архивирован"), animated: true)
                 complition(true)
             }), animated: true)
         }
-
+        
         return action
     }
     
@@ -142,24 +172,13 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
-        let fetch = order[indexPath.row],
-        totalPrice = fetch.totalPrice,
-        name = fetch.name,
-        adress = fetch.adress,
-        cellphone = fetch.cellphone,
-        feedbackOption = fetch.feedbackOption,
-        mark = fetch.mark,
-        timeStamp = fetch.timeStamp,
-        currentDeviceID = fetch.currentDeviceID,
-        deliveryPerson = fetch.deliveryPerson,
-        orderID = fetch.orderID,
+        let fetch = newOrder[indexPath.row],
         
         action = UIContextualAction(style: .destructive, title: "Удалить") { (action, view, complition) in
             self.present(UIAlertController.confirmAnyStyleActionSheet(message: "", confirm: {
-                let dataModel =  DatabaseManager.Order(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, currentDeviceID: currentDeviceID, deliveryPerson: deliveryPerson, orderID: orderID)
-                NetworkManager.shared.deleteOrder(dataModel: dataModel, orderID: dataModel.orderID)
+                NetworkManager.shared.deleteOrder(dataModel: self.newOrder[indexPath.row], orderID: fetch.orderID)
                 self.orderCount -= 1
-                self.order.remove(at: indexPath.row)
+                self.newOrder.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)
                 self.viewDidLoad()
                 self.present(UIAlertController.alertAppearanceForTwoSec(title: "Эттеншн", message: "Заказ успершно удален"), animated: true)
@@ -175,22 +194,83 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
 //MARK: - Cell delegate
 extension OrderListViewController: OrdersListTableViewCellDelegate {
     
-    func deliveryPerson(_ cell: OrderListTableViewCell) {
-        if employeePosition == NavigationCases.EmployeeCases.admin.rawValue || employeePosition == NavigationCases.EmployeeCases.operator.rawValue {
+    func textFieldDidBeginEditing(_ cell: OrderListTableViewCell, _ textField: UITextField, _ pickerView: UIPickerView) {
+        hideKeyboardWhenTappedAround()
+        currentTextField = textField
+        if currentTextField == cell.deliveryPersonTextField{
+            let doneButton = UIBarButtonItem(title: "Сохранить", style: .done, target: self, action: #selector(self.deliveryPersonConfirmed)),
+            toolbar = UIToolbar()
+            toolbar.sizeToFit()
+            toolbar.setItems([doneButton], animated: true)
             
-            self.present(UIAlertController.setNewString(message: "Введите Имя человека, который будет доставлять этот заказ", placeholder: "Введите Имя курьера", confirm: { (deliveryPerson) in
-                guard let id = cell.orderID else {
-                    self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "Ссылка не найдена"), animated: true)
-                    return
-                }
-                NetworkManager.shared.updateDeliveryPerson(orderID: id, deliveryPerson: deliveryPerson)
-                cell.deliveryPersonButton.setTitle(deliveryPerson, for: .normal)
-            }), animated:  true)
-            self.tableView.reloadData()
+            currentTextField.inputAccessoryView = toolbar
+            currentTextField.inputView = pickerView
+        }
+    }
+    
+    @objc func deliveryPersonConfirmed() {
+        guard let person = selectedDeliveryPerson, let index = indexRowOfCertainCell else {
+            return
+        }
+        let fetch = newOrder[index],
+        id = fetch.orderID
+
+        NetworkManager.shared.updateDeliveryPerson(orderID: id, deliveryPerson: person)
+        NetworkManager.shared.deleteOrder(dataModel: fetch, orderID: fetch.orderID)
+        self.newOrder.remove(at: index)
+        self.tableView.reloadData()
+        view.endEditing(true)
+    }
+    
+    func returnRowsInPickerView(_ cell: OrderListTableViewCell) -> Int {
+        if currentTextField == cell.deliveryPersonTextField{
+            return arrayOfDeliveryPersons?.count ?? 1
         }else{
-            self.present(UIAlertController.alertAppearanceForTwoSec(title: "Внимание", message: "У Вас недостаточно пользовательсих прав для назначения Курьера"), animated: true)
+            return 0
+        }
+    }
+    
+    func returnNamesInPickerView(_ cell: OrderListTableViewCell, _ row: Int) -> String? {
+        if currentTextField == cell.deliveryPersonTextField{
+            return arrayOfDeliveryPersons?[row] ?? "В Базе нет Курьеров"
+        }else{
+            return ""
+        }
+    }
+    
+    func setDeliveryPerson(_ cell: OrderListTableViewCell, _ row: Int) {
+        if currentTextField == cell.deliveryPersonTextField{
+            self.selectedDeliveryPerson = arrayOfDeliveryPersons?[row]
+            self.indexRowOfCertainCell = cell.indexRow
+            cell.deliveryPersonTextField.text = arrayOfDeliveryPersons?[row]  ?? "В Базе нет Курьеров"
         }
     }
     
 }
+
+
+//MARK: Hide / Unhide Any
+private extension OrderListViewController {
+    
+    /// When keyboard is going to show
+    @objc private func keyboardWillShow(notification: Notification) {
+        guard let keyboardFrameValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+            let tabBarHeight = tabBarController?.tabBar.frame.height else {return}
+        tableViewBottomConstraint.constant = keyboardFrameValue.cgRectValue.height - tabBarHeight
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    /// When keyboard is going to hide
+    @objc private func keyboardWillHide(notification: Notification) {
+        tableViewBottomConstraint.constant = 14
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+}
+
+
 

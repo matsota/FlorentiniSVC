@@ -28,14 +28,17 @@ extension NetworkManager {
         db.collection(NavigationCases.FirstCollectionRow.archivedOrder.rawValue).addDocument(data: dataModel.dictionary)
         archiveOrderAddition(orderID: orderKey)
     }
+    
     func archiveOrderAddition(orderID: String) {
         var addition = [DatabaseManager.OrderAddition](),
         jsonArray: [[String: Any]] = []
         
-        let docRef = db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderID)
+        let docRef = db.collection(NavigationCases.FirstCollectionRow.newOrders.rawValue).document(orderID)
+        
         docRef.collection(NavigationCases.OrderCases.orderDescription.rawValue).getDocuments(completion: {
             (querySnapshot, _) in
             addition = querySnapshot!.documents.compactMap{DatabaseManager.OrderAddition(dictionary: $0.data())}
+            
             for i in addition {
                 jsonArray.append(i.dictionary)
             }
@@ -45,8 +48,13 @@ extension NetworkManager {
             }
         })
         
-        db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderID).delete()
-        deleteOrderAddition(collection: docRef.collection(NavigationCases.OrderCases.orderDescription.rawValue))
+        docRef.delete()
+        deleteOrderAddition(collection: docRef.collection(NavigationCases.OrderCases.orderDescription.rawValue), success: {
+            
+        }) { _ in
+            
+        }
+        
     }
     
     //MARK: - For PRODUCTS 
@@ -137,7 +145,7 @@ extension NetworkManager {
     //MARK: - For ORDERS
     func downloadOrders(success: @escaping([DatabaseManager.Order]) -> Void,
                         failure: @escaping(Error) -> Void) {
-        db.collection(NavigationCases.FirstCollectionRow.order.rawValue)
+        db.collection(NavigationCases.FirstCollectionRow.newOrders.rawValue)
             .getDocuments(completion: {
                 (querySnapshot, _) in
                 let orders = querySnapshot!.documents.compactMap{DatabaseManager.Order(dictionary: $0.data())}
@@ -147,7 +155,7 @@ extension NetworkManager {
     
     func downloadOrderAdditions(orderRef: String, success: @escaping([DatabaseManager.OrderAddition]) -> Void,
                                 failure: @escaping(Error) -> Void) {
-        db.collection(NavigationCases.FirstCollectionRow.order.rawValue)
+        db.collection(NavigationCases.FirstCollectionRow.newOrders.rawValue)
             .document(orderRef)
             .collection(NavigationCases.OrderCases.orderDescription.rawValue).getDocuments(completion: {
                 (querySnapshot, _) in
@@ -254,6 +262,20 @@ extension NetworkManager {
     func downloadEmployeeData(success: @escaping([DatabaseManager.EmployeeDataStruct]) -> Void,
                               failure: @escaping(Error) -> Void) {
         db.collection(NavigationCases.FirstCollectionRow.employee.rawValue)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    failure(error)
+                }else{
+                    let employeeData = querySnapshot!.documents.compactMap{DatabaseManager.EmployeeDataStruct(dictionary: $0.data())}
+                    success(employeeData)
+                }
+        }
+    }
+    func downloadEmployeesByTheirPosition(position: String,
+                                          success: @escaping([DatabaseManager.EmployeeDataStruct]) -> Void,
+                                          failure: @escaping(Error) -> Void) {
+        db.collection(NavigationCases.FirstCollectionRow.employee.rawValue)
+            .whereField(NavigationCases.EmployeeCases.position.rawValue, isEqualTo: position)
             .getDocuments { (querySnapshot, error) in
                 if let error = error {
                     failure(error)
@@ -394,7 +416,7 @@ extension NetworkManager {
     
     //MARK: - For ORDERS
     func orderListener(success: @escaping(DatabaseManager.Order) -> Void) {
-        db.collection(NavigationCases.FirstCollectionRow.order.rawValue)
+        db.collection(NavigationCases.FirstCollectionRow.newOrders.rawValue)
             .whereField(NavigationCases.MessagesCases.timeStamp.rawValue, isGreaterThan: Date())
             .addSnapshotListener { (querySnapshot, error) in
                 guard let snapshot = querySnapshot else {return}
@@ -406,6 +428,42 @@ extension NetworkManager {
                     }
                 }
         }
+    }
+    
+    func sentToProcessingOrders(dataModel: DatabaseManager.Order, orderKey: String){
+        db.collection(NavigationCases.FirstCollectionRow.inProcessingOrders.rawValue)
+            .document(orderKey)
+            .setData(dataModel.dictionary)
+        sentToProcessingOrders(orderID: orderKey) { _ in
+            
+        }
+    }
+    
+    func sentToProcessingOrders(orderID: String, failure: @escaping(Error) -> Void) {
+        var addition = [DatabaseManager.OrderAddition](),
+        jsonArray: [[String: Any]] = []
+        
+        let docRef = db.collection(NavigationCases.FirstCollectionRow.newOrders.rawValue).document(orderID)
+        docRef.collection(NavigationCases.OrderCases.orderDescription.rawValue).getDocuments(completion: {
+            (querySnapshot, _) in
+            addition = querySnapshot!.documents.compactMap{DatabaseManager.OrderAddition(dictionary: $0.data())}
+            
+            for i in addition {
+                jsonArray.append(i.dictionary)
+            }
+            
+            for _ in jsonArray {
+                self.db.collection(NavigationCases.FirstCollectionRow.archivedOrderDescription.rawValue).addDocument(data: jsonArray.remove(at: 0))
+            }
+            
+        })
+        deleteOrderAddition(collection: docRef.collection(NavigationCases.OrderCases.orderDescription.rawValue), success: {
+            
+        }) { _ in
+            
+        }
+        docRef.delete()
+        
     }
     
     //MARK: - For PRODUCTS
@@ -439,7 +497,7 @@ extension NetworkManager {
             .updateData([NavigationCases.ProductCases.stock.rawValue : stock])
     }
     func updateDeliveryPerson(orderID: String, deliveryPerson: String) {
-        db.collection(NavigationCases.FirstCollectionRow.order.rawValue)
+        db.collection(NavigationCases.FirstCollectionRow.newOrders.rawValue)
             .document(orderID)
             .updateData([NavigationCases.OrderCases.deliveryPerson.rawValue : deliveryPerson])
     }
@@ -455,17 +513,17 @@ extension NetworkManager {
         db.collection(NavigationCases.FirstCollectionRow.productInfo.rawValue)
             .document(docID)
             .updateData([NavigationCases.ProductCases.productName.rawValue : name,
-            NavigationCases.ProductCases.productPrice.rawValue : price,
-            NavigationCases.ProductCases.productCategory.rawValue : category,
-            NavigationCases.ProductCases.productSubCategory.rawValue : subCategory,
-            NavigationCases.ProductCases.productDescription.rawValue : description,
-            NavigationCases.ProductCases.searchArray.rawValue : searchArray,
-            NavigationCases.ProductCases.stock.rawValue : stock]) { (error) in
-                if let error = error {
-                    failure(error)
-                }else{
-                    success()
-                }
+                         NavigationCases.ProductCases.productPrice.rawValue : price,
+                         NavigationCases.ProductCases.productCategory.rawValue : category,
+                         NavigationCases.ProductCases.productSubCategory.rawValue : subCategory,
+                         NavigationCases.ProductCases.productDescription.rawValue : description,
+                         NavigationCases.ProductCases.searchArray.rawValue : searchArray,
+                         NavigationCases.ProductCases.stock.rawValue : stock]) { (error) in
+                            if let error = error {
+                                failure(error)
+                            }else{
+                                success()
+                            }
         }
     }
     
@@ -497,26 +555,38 @@ extension NetworkManager {
         
         var docRef: DocumentReference?
         
-        docRef = db.collection(NavigationCases.FirstCollectionRow.order.rawValue).document(orderID)
+        docRef = db.collection(NavigationCases.FirstCollectionRow.newOrders.rawValue).document(orderID)
         docRef?.delete { (error) in
             if let error = error {
                 print(error.localizedDescription)
             }else{
                 self.db.collection(NavigationCases.FirstCollectionRow.deletedOrder.rawValue).addDocument(data: dataModel.dictionary)
-                self.deleteOrderAddition(collection: docRef!.collection(NavigationCases.OrderCases.orderDescription.rawValue))
+                self.deleteOrderAddition(collection: docRef!.collection(NavigationCases.OrderCases.orderDescription.rawValue), success: {
+                    
+                }) { _ in
+                    
+                }
             }
         }
     }
-    func deleteOrderAddition(collection: CollectionReference, batchSize: Int = 100) {
+    func deleteOrderAddition(collection: CollectionReference, batchSize: Int = 100, success: @escaping() -> Void, failure: @escaping(Error) -> Void) {
         collection.limit(to: batchSize)
             .getDocuments { (docs, error) in
-                let docs = docs,
-                batch = collection.firestore.batch()
-                
-                docs?.documents.forEach { batch.deleteDocument($0.reference) }
-                
-                batch.commit { _ in
-                    self.deleteOrderAddition(collection: collection, batchSize: batchSize)
+                if let error = error {
+                    failure(error)
+                }else{
+                    let docs = docs,
+                    batch = collection.firestore.batch()
+                    
+                    docs?.documents.forEach { batch.deleteDocument($0.reference) }
+                    
+                    batch.commit { _ in
+                        self.deleteOrderAddition(collection: collection, batchSize: batchSize, success: {
+                        }) { error in
+                            failure(error)
+                        }
+                    }
+                    success()
                 }
         }
     }
