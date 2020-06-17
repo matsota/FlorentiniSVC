@@ -49,11 +49,7 @@ extension NetworkManager {
         })
         
         docRef.delete()
-        deleteOrderAddition(collection: docRef.collection(NavigationCases.OrderCases.orderDescription.rawValue), success: {
-            
-        }) { _ in
-            
-        }
+        deleteOrderAddition(collection: docRef.collection(NavigationCases.OrderCases.orderDescription.rawValue))
         
     }
     
@@ -457,12 +453,7 @@ extension NetworkManager {
             }
             
         })
-        deleteOrderAddition(collection: docRef.collection(NavigationCases.OrderCases.orderDescription.rawValue), success: {
-            
-        }) { _ in
-            
-        }
-        docRef.delete()
+        deleteOrderAddition(collection: docRef.collection(NavigationCases.OrderCases.orderDescription.rawValue))
         
     }
     
@@ -560,33 +551,26 @@ extension NetworkManager {
             if let error = error {
                 print(error.localizedDescription)
             }else{
-                self.db.collection(NavigationCases.FirstCollectionRow.deletedOrder.rawValue).addDocument(data: dataModel.dictionary)
-                self.deleteOrderAddition(collection: docRef!.collection(NavigationCases.OrderCases.orderDescription.rawValue), success: {
-                    
-                }) { _ in
-                    
+                self.db.collection(NavigationCases.FirstCollectionRow.deletedOrder.rawValue).addDocument(data: dataModel.dictionary) { (error) in
+                    if let error = error {
+                        
+                    }else{
+                        
+                    }
                 }
+                self.deleteOrderAddition(collection: docRef!.collection(NavigationCases.OrderCases.orderDescription.rawValue))
             }
         }
     }
-    func deleteOrderAddition(collection: CollectionReference, batchSize: Int = 100, success: @escaping() -> Void, failure: @escaping(Error) -> Void) {
+    func deleteOrderAddition(collection: CollectionReference, batchSize: Int = 100) {
         collection.limit(to: batchSize)
-            .getDocuments { (docs, error) in
-                if let error = error {
-                    failure(error)
-                }else{
-                    let docs = docs,
-                    batch = collection.firestore.batch()
-                    
-                    docs?.documents.forEach { batch.deleteDocument($0.reference) }
-                    
-                    batch.commit { _ in
-                        self.deleteOrderAddition(collection: collection, batchSize: batchSize, success: {
-                        }) { error in
-                            failure(error)
-                        }
-                    }
-                    success()
+            .getDocuments { (docs, _) in
+                let docs = docs,
+                batch = collection.firestore.batch()
+                
+                docs?.documents.forEach { batch.deleteDocument($0.reference) }
+                batch.commit { _ in
+                    self.deleteOrderAddition(collection: collection, batchSize: batchSize)
                 }
         }
     }
