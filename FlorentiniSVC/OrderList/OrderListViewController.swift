@@ -122,46 +122,46 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     // - archive
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        if employeePosition == NavigationCases.EmployeeCases.admin.rawValue || employeePosition == NavigationCases.EmployeeCases.operator.rawValue {
-            let archive = archiveAction(at: indexPath)
-            return UISwipeActionsConfiguration(actions: [archive])
-        }else{
-            return nil
-        }
-    }
-    
-    func archiveAction(at indexPath: IndexPath) -> UIContextualAction {
-        let fetch = newOrder[indexPath.row],
-        totalPrice = fetch.totalPrice,
-        name = fetch.name,
-        adress = fetch.adress,
-        cellphone = fetch.cellphone,
-        feedbackOption = fetch.feedbackOption,
-        mark = fetch.mark,
-        timeStamp = fetch.timeStamp,
-        currentDeviceID = fetch.currentDeviceID,
-        deliveryPerson = fetch.deliveryPerson,
-        orderID = fetch.orderID,
-        
-        action = UIContextualAction(style: .destructive, title: "Архив") { (action, view, complition) in
-            self.present(UIAlertController.confirmAnyStyleActionSheet(message: "", confirm: {
-                let dataModel =  DatabaseManager.Order(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, currentDeviceID: currentDeviceID, deliveryPerson: deliveryPerson, orderID: orderID)
-                NetworkManager.shared.archiveOrder(dataModel: dataModel, orderKey: orderID)
-                self.orderCount -= 1
-                self.newOrder.remove(at: indexPath.row)
-                self.tableView.deleteRows(at: [indexPath], with: .automatic)
-                self.viewDidLoad()
-                self.present(UIAlertController.alertAppearanceForTwoSec(title: "Эттеншн", message: "Заказ успершно архивирован"), animated: true)
-                complition(true)
-            }), animated: true)
-        }
-        
-        return action
-    }
+//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        if employeePosition == NavigationCases.EmployeeCases.admin.rawValue || employeePosition == NavigationCases.EmployeeCases.operator.rawValue {
+//            let archive = archiveAction(at: indexPath)
+//            return UISwipeActionsConfiguration(actions: [archive])
+//        }else{
+//            return nil
+//        }
+//    }
+//
+//    func archiveAction(at indexPath: IndexPath) -> UIContextualAction {
+//        let fetch = newOrder[indexPath.row],
+//        totalPrice = fetch.totalPrice,
+//        name = fetch.name,
+//        adress = fetch.adress,
+//        cellphone = fetch.cellphone,
+//        feedbackOption = fetch.feedbackOption,
+//        mark = fetch.mark,
+//        timeStamp = fetch.timeStamp,
+//        currentDeviceID = fetch.currentDeviceID,
+//        deliveryPerson = fetch.deliveryPerson,
+//        orderID = fetch.orderID,
+//
+//        action = UIContextualAction(style: .destructive, title: "Архив") { (action, view, complition) in
+//            self.present(UIAlertController.confirmAnyStyleActionSheet(message: "", confirm: {
+//                let dataModel =  DatabaseManager.Order(totalPrice: totalPrice, name: name, adress: adress, cellphone: cellphone, feedbackOption: feedbackOption, mark: mark, timeStamp: timeStamp, currentDeviceID: currentDeviceID, deliveryPerson: deliveryPerson, orderID: orderID)
+//                NetworkManager.shared.archiveOrder(dataModel: dataModel, orderKey: orderID)
+//                self.orderCount -= 1
+//                self.newOrder.remove(at: indexPath.row)
+//                self.tableView.deleteRows(at: [indexPath], with: .automatic)
+//                self.viewDidLoad()
+//                self.present(UIAlertController.alertAppearanceForTwoSec(title: "Эттеншн", message: "Заказ успершно архивирован"), animated: true)
+//                complition(true)
+//            }), animated: true)
+//        }
+//
+//        return action
+//    }
     
     // - delete
-    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         if employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
             let delete = deleteAction(at: indexPath)
             return UISwipeActionsConfiguration(actions: [delete])
@@ -175,8 +175,10 @@ extension OrderListViewController: UITableViewDelegate, UITableViewDataSource {
         let fetch = newOrder[indexPath.row],
         
         action = UIContextualAction(style: .destructive, title: "Удалить") { (action, view, complition) in
-            self.present(UIAlertController.confirmAnyStyleActionSheet(message: "", confirm: {
-                NetworkManager.shared.deleteOrder(dataModel: self.newOrder[indexPath.row], orderID: fetch.orderID)
+            self.present(UIAlertController.confirmAnyStyleActionSheet(message: "Подтвердите намерение Удалить этот заказ", confirm: {
+                NetworkManager.shared.deleteOrder(dataModel: self.newOrder[indexPath.row], orderID: fetch.orderID) { _ in
+                    
+                }
                 self.orderCount -= 1
                 self.newOrder.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -213,13 +215,16 @@ extension OrderListViewController: OrdersListTableViewCellDelegate {
             return
         }
         let fetch = newOrder[index],
+        
         id = fetch.orderID
-
-        NetworkManager.shared.updateDeliveryPerson(orderID: id, deliveryPerson: person)
-        NetworkManager.shared.deleteOrder(dataModel: fetch, orderID: fetch.orderID)
-        self.newOrder.remove(at: index)
-        self.tableView.reloadData()
-        view.endEditing(true)
+        NetworkManager.shared.sentToProcessingOrders(dataModel: fetch, orderID: id, success: {
+            NetworkManager.shared.updateDeliveryPerson(orderID: id, deliveryPerson: person)
+            self.newOrder.remove(at: index)
+            self.tableView.reloadData()
+            }) { (error) in
+                self.alertAboutConnectionLost(method: "deliveryPersonConfirmed: deleteOrder: sentToProcessingOrders", error: error)
+            }
+        
     }
     
     func returnRowsInPickerView(_ cell: OrderListTableViewCell) -> Int {

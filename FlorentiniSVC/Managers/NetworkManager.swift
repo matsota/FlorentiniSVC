@@ -426,34 +426,44 @@ extension NetworkManager {
         }
     }
     
-    func sentToProcessingOrders(dataModel: DatabaseManager.Order, orderKey: String){
-        db.collection(NavigationCases.FirstCollectionRow.inProcessingOrders.rawValue)
-            .document(orderKey)
-            .setData(dataModel.dictionary)
-        sentToProcessingOrders(orderID: orderKey) { _ in
-            
-        }
-    }
-    
-    func sentToProcessingOrders(orderID: String, failure: @escaping(Error) -> Void) {
+    func sentToProcessingOrders(dataModel: DatabaseManager.Order, orderID: String,
+                                success: @escaping() -> Void,
+                                failure: @escaping(Error) -> Void){
+        
+        let inProcessRef = db.collection(NavigationCases.FirstCollectionRow.inProcessingOrders.rawValue)
+        inProcessRef.document(orderID).setData(dataModel.dictionary)
+        
         var addition = [DatabaseManager.OrderAddition](),
         jsonArray: [[String: Any]] = []
         
         let docRef = db.collection(NavigationCases.FirstCollectionRow.newOrders.rawValue).document(orderID)
         docRef.collection(NavigationCases.OrderCases.orderDescription.rawValue).getDocuments(completion: {
-            (querySnapshot, _) in
-            addition = querySnapshot!.documents.compactMap{DatabaseManager.OrderAddition(dictionary: $0.data())}
-            
-            for i in addition {
-                jsonArray.append(i.dictionary)
+            (querySnapshot, error) in
+            if let error = error {
+                failure(error)
+            }else{
+                addition = querySnapshot!.documents.compactMap{DatabaseManager.OrderAddition(dictionary: $0.data())}
+                
+                for i in addition {
+                    jsonArray.append(i.dictionary)
+                }
+                
+                for _ in jsonArray {
+                    inProcessRef.document(orderID)
+                        .collection(NavigationCases.OrderCases.orderDescription.rawValue)
+                        .addDocument(data: jsonArray.remove(at: 0))
+                }
+                
+                docRef.delete { (error) in
+                    if let error = error {
+                        failure(error)
+                    }else{
+                        self.deleteOrderAddition(collection: docRef.collection(NavigationCases.OrderCases.orderDescription.rawValue))
+                    }
+                }
+                success()
             }
-            
-            for _ in jsonArray {
-                self.db.collection(NavigationCases.FirstCollectionRow.archivedOrderDescription.rawValue).addDocument(data: jsonArray.remove(at: 0))
-            }
-            
         })
-        deleteOrderAddition(collection: docRef.collection(NavigationCases.OrderCases.orderDescription.rawValue))
         
     }
     
@@ -488,7 +498,7 @@ extension NetworkManager {
             .updateData([NavigationCases.ProductCases.stock.rawValue : stock])
     }
     func updateDeliveryPerson(orderID: String, deliveryPerson: String) {
-        db.collection(NavigationCases.FirstCollectionRow.newOrders.rawValue)
+        db.collection(NavigationCases.FirstCollectionRow.inProcessingOrders.rawValue)
             .document(orderID)
             .updateData([NavigationCases.OrderCases.deliveryPerson.rawValue : deliveryPerson])
     }
@@ -542,8 +552,7 @@ extension NetworkManager {
 extension NetworkManager {
     
     //MARK: - For ORDERS
-    func deleteOrder(dataModel: DatabaseManager.Order, orderID: String) {
-        
+    func deleteOrder(dataModel: DatabaseManager.Order, orderID: String, failure: @escaping(Error) -> Void) {
         var docRef: DocumentReference?
         
         docRef = db.collection(NavigationCases.FirstCollectionRow.newOrders.rawValue).document(orderID)
@@ -553,21 +562,20 @@ extension NetworkManager {
             }else{
                 self.db.collection(NavigationCases.FirstCollectionRow.deletedOrder.rawValue).addDocument(data: dataModel.dictionary) { (error) in
                     if let error = error {
-                        
+                        failure(error)
                     }else{
-                        
+                        self.deleteOrderAddition(collection: docRef!.collection(NavigationCases.OrderCases.orderDescription.rawValue))
                     }
                 }
-                self.deleteOrderAddition(collection: docRef!.collection(NavigationCases.OrderCases.orderDescription.rawValue))
             }
         }
     }
+    
     func deleteOrderAddition(collection: CollectionReference, batchSize: Int = 100) {
         collection.limit(to: batchSize)
             .getDocuments { (docs, _) in
                 let docs = docs,
                 batch = collection.firestore.batch()
-                
                 docs?.documents.forEach { batch.deleteDocument($0.reference) }
                 batch.commit { _ in
                     self.deleteOrderAddition(collection: collection, batchSize: batchSize)

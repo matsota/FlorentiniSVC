@@ -29,7 +29,6 @@ class OrderListTableViewCell: UITableViewCell {
     deliveryPerson: String?,
     indexRow = Int()
     
-    
     weak var delegate: OrdersListTableViewCellDelegate?
     
     //MARK: Label

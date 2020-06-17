@@ -79,6 +79,7 @@ extension DatabaseManager {
         var stock: Bool
         var productPrice: Int
         var productQuantity: Int
+        var productID: String
         
         var dictionary: [String: Any]{
             return [
@@ -86,7 +87,8 @@ extension DatabaseManager {
                 NavigationCases.ProductCases.productName.rawValue: productName,
                 NavigationCases.ProductCases.stock.rawValue: stock,
                 NavigationCases.ProductCases.productPrice.rawValue: productPrice,
-                NavigationCases.ProductCases.productQuantity.rawValue: productQuantity
+                NavigationCases.ProductCases.productQuantity.rawValue: productQuantity,
+                NavigationCases.ProductCases.productID.rawValue: productID
             ]
         }
     }
@@ -99,8 +101,9 @@ extension DatabaseManager.OrderAddition: DocumentSerializable {
             let productName = dictionary[NavigationCases.ProductCases.productName.rawValue] as? String,
             let stock = dictionary[NavigationCases.ProductCases.stock.rawValue] as? Bool,
             let productPrice = dictionary[NavigationCases.ProductCases.productPrice.rawValue] as? Int,
-            let productQuantity = dictionary[NavigationCases.ProductCases.productQuantity.rawValue] as? Int else {return nil}
-        self.init(productCategory: productCategory, productName: productName, stock: stock, productPrice: productPrice, productQuantity: productQuantity)
+            let productQuantity = dictionary[NavigationCases.ProductCases.productQuantity.rawValue] as? Int,
+            let productID = dictionary[NavigationCases.ProductCases.productID.rawValue] as? String else {return nil}
+        self.init(productCategory: productCategory, productName: productName, stock: stock, productPrice: productPrice, productQuantity: productQuantity, productID: productID)
     }
     
 }

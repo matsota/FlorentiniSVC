@@ -26,7 +26,7 @@ class OrderDetailListTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if let orderID = order?.orderID {
-            NetworkManager.shared.downloadOrderAdditions(orderRef: orderID,success: { (orders) in
+            NetworkManager.shared.downloadOrderAdditions(orderRef: orderID, success: { (orders) in
                 self.orderAddition = orders
                 self.orderDetailTableView.reloadData()
             }) { error in
@@ -50,7 +50,8 @@ class OrderDetailListTableViewController: UITableViewController {
         category = fetch.productCategory,
         price = Int(fetch.productPrice),
         stock = fetch.stock,
-        storagePath = "\(NavigationCases.FirstCollectionRow.productImages.rawValue)/\(name)",
+        productID = fetch.productID,
+        storagePath = "\(NavigationCases.FirstCollectionRow.productImages.rawValue)/\(productID)",
         storageRef = Storage.storage().reference(withPath: storagePath)
         
         cell.imageActivityIndicator.isHidden = false
