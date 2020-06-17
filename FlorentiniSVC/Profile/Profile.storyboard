@@ -306,18 +306,15 @@
         <!--Профиль-->
         <scene sceneID="MAO-GP-fsx">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="Toj-kH-lzE" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Профиль" image="person" catalog="system" selectedImage="person.fill" id="bUz-CD-JGS"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Toj-kH-lzE" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Профиль" image="person" catalog="system" selectedImage="person.fill" id="qPL-dx-w3H"/>
                     <toolbarItems/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5ck-W2-BME">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
-                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="6V2-jJ-abW">
-                        <rect key="frame" x="0.0" y="729" width="375" height="49"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </toolbar>
                     <connections>
                         <segue destination="k99-WO-kUx" kind="relationship" relationship="rootViewController" id="pPo-bQ-iQ2"/>
                     </connections>

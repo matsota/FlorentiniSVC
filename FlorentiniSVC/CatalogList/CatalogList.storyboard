@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Catalog List View Controller-->
+        <!--Каталог-->
         <scene sceneID="zJ9-rW-4BD">
             <objects>
                 <viewController storyboardIdentifier="CatalogListVC" id="ilt-bP-f8l" customClass="CatalogListViewController" customModule="FlorentiniSVC" customModuleProvider="target" sceneMemberID="viewController">
@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zRk-q9-iHR">
-                                <rect key="frame" x="0.0" y="58" width="56.333333333333336" height="56"/>
+                                <rect key="frame" x="0.0" y="102" width="56.333333333333336" height="56"/>
                                 <color key="tintColor" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <state key="normal" image="slider.horizontal.3" catalog="system"/>
                                 <connections>
@@ -24,14 +24,14 @@
                                 </connections>
                             </button>
                             <searchBar contentMode="redraw" placeholder="Начните поиск" translatesAutoresizingMaskIntoConstraints="NO" id="DTB-Fq-8Nj">
-                                <rect key="frame" x="56.333333333333343" y="58" width="304.66666666666663" height="56"/>
+                                <rect key="frame" x="56.333333333333343" y="102" width="304.66666666666663" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="ilt-bP-f8l" id="SoH-OM-b01"/>
                                 </connections>
                             </searchBar>
                             <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e12-QK-40f">
-                                <rect key="frame" x="14" y="114" width="347" height="30"/>
+                                <rect key="frame" x="14" y="158" width="347" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ZY-sL-8jR">
                                         <rect key="frame" x="0.0" y="0.0" width="52" height="30"/>
@@ -62,7 +62,7 @@
                                 </constraints>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsMultipleSelection="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="d3o-eX-kPe">
-                                <rect key="frame" x="14" y="144" width="347" height="571"/>
+                                <rect key="frame" x="14" y="188" width="347" height="527"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CatalogListTVCell" rowHeight="260" id="AOL-V6-38Y" customClass="CatalogListTableViewCell" customModule="FlorentiniSVC" customModuleProvider="target">
@@ -190,7 +190,7 @@
                                 </connections>
                             </tableView>
                             <tableView clipsSubviews="YES" alpha="0.69999999999999996" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="7A2-ha-Fw8">
-                                <rect key="frame" x="-243.66666666666666" y="44" width="243.66666666666666" height="685"/>
+                                <rect key="frame" x="-243.66666666666666" y="88" width="243.66666666666666" height="641"/>
                                 <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <gestureRecognizers/>
                                 <prototypes>
@@ -209,14 +209,14 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h7a-hK-nWn">
-                                <rect key="frame" x="0.0" y="44" width="375" height="685"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="641"/>
                                 <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <action selector="filterTapped:" destination="ilt-bP-f8l" eventType="touchUpInside" id="70X-Ry-8og"/>
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="9mW-VD-LtF">
-                                <rect key="frame" x="169" y="368" width="37" height="37"/>
+                                <rect key="frame" x="169" y="390" width="37" height="37"/>
                                 <color key="color" red="0.17789673810000001" green="0.1103161201" blue="0.31374308470000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </activityIndicatorView>
                         </subviews>
@@ -250,8 +250,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="7Vu-bp-Ho6"/>
                     </view>
-                    <navigationItem key="navigationItem" id="1Z8-M7-hfB"/>
-                    <nil key="simulatedTopBarMetrics"/>
+                    <navigationItem key="navigationItem" title="Каталог" id="1Z8-M7-hfB"/>
                     <connections>
                         <outlet property="catalogTableView" destination="d3o-eX-kPe" id="YUO-Ko-Bbo"/>
                         <outlet property="categoryChangesActivityIndicator" destination="9mW-VD-LtF" id="GRW-el-hVW"/>
@@ -285,7 +284,6 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Exa-pd-ahr" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Каталог" image="rectangle.grid.1x2" catalog="system" selectedImage="rectangle.grid.1x2.fill" id="D7Q-SY-Mqm"/>
                     <toolbarItems/>
-                    <nil key="simulatedTopBarMetrics"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="P8x-0x-H0X">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>

@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Chat View Controller-->
+        <!--Чат-->
         <scene sceneID="db2-ib-eRE">
             <objects>
                 <viewController storyboardIdentifier="EmployerChatVC" modalTransitionStyle="flipHorizontal" modalPresentationStyle="fullScreen" id="eIh-AE-y3t" customClass="ChatViewController" customModule="FlorentiniSVC" customModuleProvider="target" sceneMemberID="viewController">
@@ -15,15 +15,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="florentiniLogoImage" translatesAutoresizingMaskIntoConstraints="NO" id="bhr-Kh-vjx">
-                                <rect key="frame" x="56.333333333333343" y="44" width="262.33333333333326" height="100"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="3hs-KH-bLf"/>
-                                </constraints>
-                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
-                            </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1oy-ac-mCc">
-                                <rect key="frame" x="14" y="148" width="347" height="521"/>
+                                <rect key="frame" x="14" y="102" width="347" height="567"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ChatTVCell" rowHeight="100" id="r9Q-KR-E5y" customClass="ChatTableViewCell" customModule="FlorentiniSVC" customModuleProvider="target">
@@ -176,13 +169,10 @@
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="1oy-ac-mCc" firstAttribute="leading" secondItem="kSw-ZL-YCh" secondAttribute="leading" constant="14" id="4Zn-Xd-WQX"/>
-                            <constraint firstItem="bhr-Kh-vjx" firstAttribute="top" secondItem="kSw-ZL-YCh" secondAttribute="top" id="Jc0-M7-Vos"/>
+                            <constraint firstItem="1oy-ac-mCc" firstAttribute="top" secondItem="kSw-ZL-YCh" secondAttribute="top" constant="14" id="HqN-7f-XKz"/>
                             <constraint firstItem="QwV-kM-boo" firstAttribute="top" secondItem="1oy-ac-mCc" secondAttribute="bottom" constant="4" id="KPL-7f-v4c"/>
-                            <constraint firstItem="bhr-Kh-vjx" firstAttribute="centerX" secondItem="kSw-ZL-YCh" secondAttribute="centerX" id="M1A-M3-s69"/>
                             <constraint firstItem="kSw-ZL-YCh" firstAttribute="trailing" secondItem="1oy-ac-mCc" secondAttribute="trailing" constant="14" id="Nw5-YG-f9A"/>
-                            <constraint firstItem="1oy-ac-mCc" firstAttribute="top" secondItem="bhr-Kh-vjx" secondAttribute="bottom" constant="4" id="Oce-aI-3n8"/>
                             <constraint firstItem="kSw-ZL-YCh" firstAttribute="trailing" secondItem="QwV-kM-boo" secondAttribute="trailing" constant="14" id="ktB-nT-ain"/>
-                            <constraint firstItem="bhr-Kh-vjx" firstAttribute="width" secondItem="kSw-ZL-YCh" secondAttribute="width" multiplier="0.7" id="nlF-9B-qtF"/>
                             <constraint firstItem="kSw-ZL-YCh" firstAttribute="bottom" secondItem="QwV-kM-boo" secondAttribute="bottom" constant="14" id="wIL-3Z-whD"/>
                             <constraint firstItem="QwV-kM-boo" firstAttribute="leading" secondItem="kSw-ZL-YCh" secondAttribute="leading" constant="14" id="xVM-zN-aT9"/>
                         </constraints>
@@ -191,8 +181,7 @@
                             <outletCollection property="gestureRecognizers" destination="seR-Hv-Pr8" appends="YES" id="xOD-kU-1mt"/>
                         </connections>
                     </view>
-                    <navigationItem key="navigationItem" id="1Dr-ao-hVq"/>
-                    <nil key="simulatedTopBarMetrics"/>
+                    <navigationItem key="navigationItem" title="Чат" id="1Dr-ao-hVq"/>
                     <connections>
                         <outlet property="chatTextView" destination="GaL-Jc-iii" id="NSH-zG-nrj"/>
                         <outlet property="forKeyboardBottomConstraint" destination="wIL-3Z-whD" id="zjB-ny-CBN"/>
@@ -208,12 +197,12 @@
         <!--Чат-->
         <scene sceneID="eEm-Dp-ZhW">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalTransitionStyle="flipHorizontal" modalPresentationStyle="fullScreen" navigationBarHidden="YES" id="hxO-7C-UWm" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalTransitionStyle="flipHorizontal" modalPresentationStyle="fullScreen" id="hxO-7C-UWm" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Чат" image="message" catalog="system" selectedImage="message.fill" id="fWA-i7-y5S"/>
                     <toolbarItems/>
-                    <nil key="simulatedTopBarMetrics"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Ihb-Tr-n5G">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -227,7 +216,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="florentiniLogoImage" width="1280" height="714"/>
         <image name="message" catalog="system" width="128" height="113"/>
         <image name="message.fill" catalog="system" width="128" height="113"/>
         <image name="paperplane.fill" catalog="system" width="128" height="121"/>

@@ -245,18 +245,15 @@
         <!--В ожидании-->
         <scene sceneID="VTW-dN-xLo">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="Oyf-QK-dd1" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="В ожидании" image="bookmark" catalog="system" selectedImage="bookmark.fill" id="dkS-mT-LLJ"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Oyf-QK-dd1" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="В ожидании" image="bookmark" catalog="system" selectedImage="bookmark.fill" id="2yr-5R-8Gg"/>
                     <toolbarItems/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="aHn-bK-VQi">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
-                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="NgH-1t-juw">
-                        <rect key="frame" x="0.0" y="813" width="414" height="49"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </toolbar>
                     <connections>
                         <segue destination="XQO-Nm-Ti2" kind="relationship" relationship="rootViewController" id="XwS-ug-uns"/>
                     </connections>

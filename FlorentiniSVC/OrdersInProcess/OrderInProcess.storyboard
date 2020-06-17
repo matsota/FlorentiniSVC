@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Order In Process View Controller-->
+        <!--В работе-->
         <scene sceneID="2H2-fA-3lX">
             <objects>
                 <viewController storyboardIdentifier="OrderInProcessVC" id="wo1-VD-PDX" customClass="OrderInProcessViewController" customModule="FlorentiniSVC" customModuleProvider="target" sceneMemberID="viewController">
@@ -17,7 +17,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="U8U-PX-tKW"/>
                     </view>
-                    <navigationItem key="navigationItem" id="5iY-3K-qah"/>
+                    <navigationItem key="navigationItem" title="В работе" id="5iY-3K-qah"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X6T-2T-kW0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
