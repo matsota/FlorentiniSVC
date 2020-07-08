@@ -30,8 +30,9 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZiH-n0-Fdb">
                                                 <rect key="frame" x="14" y="14" width="347" height="258"/>
                                                 <subviews>
-                                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="lKF-cB-uoQ">
-                                                        <rect key="frame" x="163.66666666666666" y="89.999999999999986" width="20" height="20"/>
+                                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="lKF-cB-uoQ">
+                                                        <rect key="frame" x="155" y="81.666666666666671" width="37" height="37"/>
+                                                        <color key="color" red="0.1140191332" green="0.1048917696" blue="0.149024725" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     </activityIndicatorView>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Mxf-mv-8EF">
                                                         <rect key="frame" x="0.0" y="0.0" width="347" height="200"/>
@@ -148,6 +149,7 @@
                                                         </constraints>
                                                         <viewLayoutGuide key="contentLayoutGuide" id="SRe-8b-ekk"/>
                                                         <viewLayoutGuide key="frameLayoutGuide" id="zi7-s8-ZmQ"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" returnKeyType="done"/>
                                                         <connections>
                                                             <outlet property="delegate" destination="FX5-Ph-kHJ" id="Gya-mg-WWn"/>

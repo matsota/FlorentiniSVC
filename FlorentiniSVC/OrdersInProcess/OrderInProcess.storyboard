@@ -14,7 +14,19 @@
                     <view key="view" contentMode="scaleToFill" id="NKF-iG-YgJ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="P0i-RA-rzG">
+                                <rect key="frame" x="14" y="102" width="386" height="697"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="P0i-RA-rzG" firstAttribute="top" secondItem="U8U-PX-tKW" secondAttribute="top" constant="14" id="QUk-di-mse"/>
+                            <constraint firstItem="U8U-PX-tKW" firstAttribute="bottom" secondItem="P0i-RA-rzG" secondAttribute="bottom" constant="14" id="aUV-Y8-0Zc"/>
+                            <constraint firstItem="P0i-RA-rzG" firstAttribute="leading" secondItem="U8U-PX-tKW" secondAttribute="leading" constant="14" id="gQ7-E7-uXu"/>
+                            <constraint firstItem="U8U-PX-tKW" firstAttribute="trailing" secondItem="P0i-RA-rzG" secondAttribute="trailing" constant="14" id="kKx-Hz-7jl"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="U8U-PX-tKW"/>
                     </view>
                     <navigationItem key="navigationItem" title="В работе" id="5iY-3K-qah"/>

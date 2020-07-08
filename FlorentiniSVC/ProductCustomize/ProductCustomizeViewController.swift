@@ -15,7 +15,7 @@ class ProductCustomizeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // - activity indicator
-        imageActivityIndicator.isHidden = true
+        self.imageActivityIndicator.stopAnimating()
         
         // - network
         NetworkManager.shared.downloadCategoriesDict(success: { (categories) in
@@ -265,7 +265,6 @@ private extension ProductCustomizeViewController {
     
     func makePhoto() {
         if UIImagePickerController.isSourceTypeAvailable(.camera){
-            self.imageActivityIndicator.isHidden = false
             self.imageActivityIndicator.startAnimating()
             let image = UIImagePickerController()
             image.delegate = self
@@ -273,7 +272,6 @@ private extension ProductCustomizeViewController {
             image.allowsEditing = false
             
             self.present(image, animated: true){
-                self.imageActivityIndicator.isHidden = true
                 self.imageActivityIndicator.stopAnimating()
             }
         }else{
@@ -282,7 +280,6 @@ private extension ProductCustomizeViewController {
     }
     
     func downLoadPhotoFromLibrary() {
-        self.imageActivityIndicator.isHidden = false
         self.imageActivityIndicator.startAnimating()
         let image = UIImagePickerController()
         image.delegate = self
@@ -290,18 +287,15 @@ private extension ProductCustomizeViewController {
         image.allowsEditing = false
         
         self.present(image, animated: true){
-            self.imageActivityIndicator.isHidden = true
             self.imageActivityIndicator.stopAnimating()
         }
     }
     
     func downloadByURL() {
         self.present(UIAlertController.setNewString(message: "Введите ссылку от куда возможно загрузить изображение", placeholder: "Введите ссылку", confirm: { url in
-            self.imageActivityIndicator.isHidden = false
             self.imageActivityIndicator.startAnimating()
             NetworkManager.shared.downloadImageByURL(url: url) { image in
                 self.addedPhotoImageView.image = image
-                self.imageActivityIndicator.isHidden = true
                 self.imageActivityIndicator.stopAnimating()
             }
         }), animated: true)

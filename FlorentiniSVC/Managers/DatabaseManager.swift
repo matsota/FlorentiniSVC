@@ -53,7 +53,6 @@ extension DatabaseManager {
     
 }
 extension DatabaseManager.Order: DocumentSerializable {
-    
     init?(dictionary: [String: Any]) {
         guard let totalPrice = dictionary[NavigationCases.OrderCases.totalPrice.rawValue] as? Int64,
             let userName = dictionary[NavigationCases.OrderCases.name.rawValue] as? String,

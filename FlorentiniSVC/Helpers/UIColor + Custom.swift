@@ -11,9 +11,9 @@ import UIKit
 extension UIColor {
     
     //MARK: - Pink color from company logo
-    static var pinkColorOfEnterprise = UIColor(red: 0.831494, green: 0.711081, blue: 0.831399, alpha: 1)
+    static let pinkColorOfEnterprise = UIColor(red: 0.831494, green: 0.711081, blue: 0.831399, alpha: 1)
     
     //MARK: - Purple color from company logo
-    static var purpleColorOfEnterprise = UIColor(red: 0.189703, green: 0.106587, blue: 0.32576, alpha: 1)
+    static let purpleColorOfEnterprise = UIColor(red: 0.189703, green: 0.106587, blue: 0.32576, alpha: 1)
     
 }

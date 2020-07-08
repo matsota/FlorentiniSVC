@@ -207,9 +207,9 @@
 		8F98FA2424434168003C8759 /* CatalogList */ = {
 			isa = PBXGroup;
 			children = (
+				8F98FA552443488D003C8759 /* CatalogList.storyboard */,
 				8F98FA4924434760003C8759 /* CatalogListViewController.swift */,
 				8F98FA4A2443476D003C8759 /* CatalogListTableViewCell.swift */,
-				8F98FA552443488D003C8759 /* CatalogList.storyboard */,
 			);
 			path = CatalogList;
 			sourceTree = "<group>";
@@ -291,12 +291,12 @@
 				8F98FA2124434119003C8759 /* Login */,
 				8F792D97248FA282008ADF77 /* TabBar */,
 				8F98FA2424434168003C8759 /* CatalogList */,
-				8F1C21332494DAB400A0A9A3 /* Product Manager */,
 				8F792D92248F9BB2008ADF77 /* OrdersInProcess */,
 				8F98FA2224434130003C8759 /* OrderList */,
 				8F98FA2324434158003C8759 /* OrdersDetailList */,
 				8F98FA29244341C3003C8759 /* Chat */,
 				8F98FA252443417A003C8759 /* Profile */,
+				8F1C21332494DAB400A0A9A3 /* Product Manager */,
 				8F98FA272443419D003C8759 /* StoreStatistics */,
 				8FE0D2F4248FC3B900652499 /* CategoryList */,
 				8F77678C2449FF7300745A22 /* Employees */,

@@ -8,7 +8,7 @@
 
 import UIKit
 
-//MARK: - Hide Keyboard
+
 extension UIViewController {
     //MARK: Connection lost
     func alertAboutConnectionLost(method name: String, error: Error) {
