@@ -10,14 +10,14 @@ import Foundation
 
 extension String {
     func countQuantityForCertainPartOfString(string: String) -> Int{
-        var deviceIDArray = [String]()
+        var array = [String]()
         let separateSymbols = "(), "
         for i in self.lowercased()
             .components(separatedBy: CharacterSet(charactersIn: separateSymbols))
             .filter({x in x != ""}) {
-                deviceIDArray.append(i)
+                array.append(i)
         }
-        return deviceIDArray.filter{$0 == string}.count
+        return array.filter{$0 == string}.count
     }
     
     func convertStringIntoArray() -> [String]{

@@ -241,10 +241,7 @@ extension ProductCustomizeViewController: UITextViewDelegate {
     
 }
 
-//MARK: -
-
 //MARK: - Image picker dalegate
-
 extension ProductCustomizeViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {

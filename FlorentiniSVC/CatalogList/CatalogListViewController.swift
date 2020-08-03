@@ -273,7 +273,7 @@ extension CatalogListViewController: UITableViewDelegate, UITableViewDataSource 
     
     /// - Trailing swipe action
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        if tableView == self.catalogTableView {
+        if tableView == catalogTableView {
             if self.employeePosition == NavigationCases.EmployeeCases.admin.rawValue {
                 let delete = deleteAction(at: indexPath)
                 return UISwipeActionsConfiguration(actions: [delete])
