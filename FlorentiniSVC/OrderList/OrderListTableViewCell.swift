@@ -43,15 +43,13 @@ class OrderListTableViewCell: UITableViewCell {
     //MARK: TextField
     @IBOutlet weak var deliveryPersonTextField: UITextField!
 
-    //MARK: - Overrides
+    //MARK: - Override
     override func awakeFromNib() {
         super.awakeFromNib()
         pickerView.delegate = self
         pickerView.dataSource = self
         deliveryPersonTextField.delegate = self
     }
-    
-    //MARK: Override
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
@@ -100,16 +98,16 @@ extension OrderListTableViewCell: UIPickerViewDataSource, UIPickerViewDelegate {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
+    
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        
         delegate?.returnRowsInPickerView(self) ?? 0
     }
+    
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        
         delegate?.returnNamesInPickerView(self, row) ?? ""
     }
+    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
         delegate?.setDeliveryPerson(self, row)
     }
     

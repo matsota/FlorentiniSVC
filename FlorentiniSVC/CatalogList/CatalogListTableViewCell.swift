@@ -46,7 +46,7 @@ class CatalogListTableViewCell: UITableViewCell {
     //MARK: - View
     @IBOutlet weak var descriptionView: UIView!
     
-    //MARK: - Buttons
+    //MARK: - Button
     @IBOutlet weak var productPriceButton: UIButton!
     
     //MARK: - Switch
@@ -68,7 +68,6 @@ class CatalogListTableViewCell: UITableViewCell {
         if emloyeePosition != NavigationCases.EmployeeCases.admin.rawValue {
             self.stockSwitch.isEnabled = false
             self.productPriceButton.isUserInteractionEnabled = false
-            
         }
     }
     

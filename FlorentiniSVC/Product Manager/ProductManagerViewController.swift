@@ -222,7 +222,7 @@ extension ProductManagerViewController: UIPickerViewDelegate, UIPickerViewDataSo
     
 }
 
-//MARK: - TexField
+//MARK: - TextField Delegate
 extension ProductManagerViewController: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -288,7 +288,6 @@ extension ProductManagerViewController: UITextViewDelegate {
 //MARK: - Private Extention
 private extension ProductManagerViewController {
     
-    ///
     func setUpEditingButtons() {
         self.navigationItem.rightBarButtonItem = self.editButtonItem
         self.saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(save))
@@ -296,7 +295,7 @@ private extension ProductManagerViewController {
         self.cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
     }
     
-    @objc private func save() {
+    @objc func save() {
         activityIndicator.startAnimating()
         self.setEditing(false, animated: true)
         guard let id = id,
@@ -323,7 +322,7 @@ private extension ProductManagerViewController {
         }
     }
     
-    @objc private func cancel() {
+    @objc func cancel() {
         self.setEditing(false, animated: true)
         productNameTextField.text = productData?.productName
         productPriceTextField.text = "\(productData?.productPrice ?? 0)"
@@ -347,7 +346,7 @@ private extension ProductManagerViewController {
     }
     
     /// When keyboard is going to show
-    @objc private func keyboardWillShow(notification: Notification) {
+    @objc func keyboardWillShow(notification: Notification) {
         guard let keyboardFrameValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
             let tabBarHeight = tabBarController?.tabBar.frame.height else {return}
         scrollViewBottomConstraint.constant = keyboardFrameValue.cgRectValue.height - tabBarHeight
@@ -357,7 +356,7 @@ private extension ProductManagerViewController {
     }
     
     /// When keyboard is going to hide
-    @objc private func keyboardWillHide(notification: Notification) {
+    @objc func keyboardWillHide(notification: Notification) {
         //        navigationController?.isNavigationBarHidden = false
         scrollViewBottomConstraint.constant = 14
         UIView.animate(withDuration: 0.3) {
